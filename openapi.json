@@ -38,12 +38,22 @@
     {
       "name": "Orders",
       "description": "Checkout and order management"
+    },
+    {
+      "name": "Admin",
+      "description": "SUPERADMIN-only platform administration"
+    },
+    {
+      "name": "Users",
+      "description": "User management (SUPERADMIN)"
     }
   ],
   "paths": {
     "/api/auth/register": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Register new user",
         "description": "Register a new user as SELLER or BUYER. SELLER must provide koperasi_id.",
         "operationId": "register",
@@ -63,7 +73,28 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AuthResponse"
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User registered successfully"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/AuthResponse"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
                 }
               }
             }
@@ -73,17 +104,70 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "validation_error": {
+                    "summary": "VALIDATION_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Validation error",
+                      "error": {
+                        "code": "VALIDATION_ERROR",
+                        "details": {
+                          "email": [
+                            "Email is required",
+                            "Email must be valid"
+                          ]
+                        }
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        },
+        "x-roles": [
+          "PUBLIC"
+        ]
       }
     },
     "/api/auth/login": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Login user",
         "operationId": "login",
         "requestBody": {
@@ -102,7 +186,28 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AuthResponse"
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Login successful"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/AuthResponse"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
                 }
               }
             }
@@ -112,7 +217,29 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "validation_error": {
+                    "summary": "VALIDATION_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Validation error",
+                      "error": {
+                        "code": "VALIDATION_ERROR",
+                        "details": {
+                          "email": [
+                            "Email is required",
+                            "Email must be valid"
+                          ]
+                        }
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -122,17 +249,64 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "invalid_credentials": {
+                    "summary": "INVALID_CREDENTIALS",
+                    "value": {
+                      "success": false,
+                      "message": "Invalid credentials",
+                      "error": {
+                        "code": "INVALID_CREDENTIALS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        },
+        "x-roles": [
+          "PUBLIC"
+        ]
       }
     },
     "/api/auth/refresh": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Refresh access token",
         "operationId": "refreshToken",
         "requestBody": {
@@ -151,7 +325,28 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AuthResponse"
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Token refreshed"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/AuthResponse"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
                 }
               }
             }
@@ -161,7 +356,29 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "validation_error": {
+                    "summary": "VALIDATION_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Validation error",
+                      "error": {
+                        "code": "VALIDATION_ERROR",
+                        "details": {
+                          "email": [
+                            "Email is required",
+                            "Email must be valid"
+                          ]
+                        }
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -171,22 +388,69 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Invalid refresh token",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        },
+        "x-roles": [
+          "PUBLIC"
+        ]
       }
     },
     "/api/auth/me": {
       "get": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Get current user profile",
         "operationId": "getMe",
         "security": [
           {
-            "BearerAuth": []
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -195,7 +459,28 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Current user"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/User"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
                 }
               }
             }
@@ -205,17 +490,93 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - insufficient role",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden - insufficient role",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        },
+        "x-roles": [
+          "BUYER",
+          "SELLER",
+          "SUPERADMIN"
+        ],
+        "description": "Access: BUYER, SELLER, SUPERADMIN."
       }
     },
     "/api/koperasi": {
       "get": {
-        "tags": ["Koperasi"],
+        "tags": [
+          "Koperasi"
+        ],
         "summary": "List all koperasi",
         "operationId": "listKoperasi",
         "parameters": [
@@ -254,30 +615,86 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "List of koperasi"
+                    },
                     "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Koperasi"
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Koperasi"
+                          }
+                        },
+                        "meta": {
+                          "$ref": "#/components/schemas/PaginationMeta"
+                        }
                       }
                     },
                     "meta": {
-                      "$ref": "#/components/schemas/PaginationMeta"
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
                     }
                   }
                 }
               }
             }
           }
-        }
+        },
+        "x-roles": [
+          "PUBLIC",
+          "BUYER",
+          "SELLER",
+          "SUPERADMIN"
+        ],
+        "description": "Access: PUBLIC (SUPERADMIN also has access)."
       },
       "post": {
-        "tags": ["Koperasi"],
+        "tags": [
+          "Koperasi"
+        ],
         "summary": "Create koperasi",
         "operationId": "createKoperasi",
         "security": [
           {
-            "BearerAuth": []
+            "bearerAuth": []
           }
         ],
         "requestBody": {
@@ -296,7 +713,28 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Koperasi"
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Koperasi created"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Koperasi"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
                 }
               }
             }
@@ -306,7 +744,29 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "validation_error": {
+                    "summary": "VALIDATION_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Validation error",
+                      "error": {
+                        "code": "VALIDATION_ERROR",
+                        "details": {
+                          "email": [
+                            "Email is required",
+                            "Email must be valid"
+                          ]
+                        }
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -316,7 +776,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -326,17 +802,65 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        },
+        "x-roles": [
+          "SUPERADMIN"
+        ],
+        "description": "Access: SUPERADMIN."
       }
     },
     "/api/koperasi/{id}": {
       "get": {
-        "tags": ["Koperasi"],
+        "tags": [
+          "Koperasi"
+        ],
         "summary": "Get koperasi by ID",
         "operationId": "getKoperasiById",
         "parameters": [
@@ -356,7 +880,28 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Koperasi"
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Koperasi detail"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Koperasi"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
                 }
               }
             }
@@ -366,20 +911,71 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "resource_not_found": {
+                    "summary": "RESOURCE_NOT_FOUND",
+                    "value": {
+                      "success": false,
+                      "message": "Koperasi not found",
+                      "error": {
+                        "code": "RESOURCE_NOT_FOUND"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        },
+        "x-roles": [
+          "PUBLIC",
+          "BUYER",
+          "SELLER",
+          "SUPERADMIN"
+        ],
+        "description": "Access: PUBLIC (SUPERADMIN also has access)."
       },
       "put": {
-        "tags": ["Koperasi"],
+        "tags": [
+          "Koperasi"
+        ],
         "summary": "Update koperasi",
         "operationId": "updateKoperasi",
         "security": [
           {
-            "BearerAuth": []
+            "bearerAuth": []
           }
         ],
         "parameters": [
@@ -409,7 +1005,28 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Koperasi"
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Koperasi updated"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Koperasi"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
                 }
               }
             }
@@ -419,7 +1036,29 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "validation_error": {
+                    "summary": "VALIDATION_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Validation error",
+                      "error": {
+                        "code": "VALIDATION_ERROR",
+                        "details": {
+                          "email": [
+                            "Email is required",
+                            "Email must be valid"
+                          ]
+                        }
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -429,7 +1068,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -439,7 +1094,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -449,20 +1120,68 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "resource_not_found": {
+                    "summary": "RESOURCE_NOT_FOUND",
+                    "value": {
+                      "success": false,
+                      "message": "Koperasi not found",
+                      "error": {
+                        "code": "RESOURCE_NOT_FOUND"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        },
+        "x-roles": [
+          "SUPERADMIN"
+        ],
+        "description": "Access: SUPERADMIN."
       },
       "delete": {
-        "tags": ["Koperasi"],
+        "tags": [
+          "Koperasi"
+        ],
         "summary": "Delete koperasi",
         "operationId": "deleteKoperasi",
         "security": [
           {
-            "BearerAuth": []
+            "bearerAuth": []
           }
         ],
         "parameters": [
@@ -483,10 +1202,31 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
                     "message": {
                       "type": "string",
-                      "example": "Koperasi deleted successfully"
+                      "example": "Koperasi deleted"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Koperasi deleted successfully"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
                     }
                   }
                 }
@@ -498,7 +1238,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -508,7 +1264,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -518,17 +1290,65 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "resource_not_found": {
+                    "summary": "RESOURCE_NOT_FOUND",
+                    "value": {
+                      "success": false,
+                      "message": "Koperasi not found",
+                      "error": {
+                        "code": "RESOURCE_NOT_FOUND"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        },
+        "x-roles": [
+          "SUPERADMIN"
+        ],
+        "description": "Access: SUPERADMIN."
       }
     },
     "/api/ecommerce/products": {
       "get": {
-        "tags": ["Products"],
+        "tags": [
+          "Products"
+        ],
         "summary": "Get all products with filters",
         "operationId": "listProducts",
         "parameters": [
@@ -581,7 +1401,11 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "enum": ["created_at", "price", "name"],
+              "enum": [
+                "created_at",
+                "price",
+                "name"
+              ],
               "default": "created_at"
             }
           },
@@ -590,7 +1414,10 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "enum": ["asc", "desc"],
+              "enum": [
+                "asc",
+                "desc"
+              ],
               "default": "desc"
             }
           }
@@ -602,15 +1429,36 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "List of products"
+                    },
                     "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Product"
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Product"
+                          }
+                        },
+                        "meta": {
+                          "$ref": "#/components/schemas/PaginationMeta"
+                        }
                       }
                     },
                     "meta": {
-                      "$ref": "#/components/schemas/PaginationMeta"
+                      "$ref": "#/components/schemas/Meta"
                     }
                   }
                 }
@@ -622,20 +1470,77 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "validation_error": {
+                    "summary": "VALIDATION_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Validation error",
+                      "error": {
+                        "code": "VALIDATION_ERROR",
+                        "details": {
+                          "email": [
+                            "Email is required",
+                            "Email must be valid"
+                          ]
+                        }
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        },
+        "x-roles": [
+          "PUBLIC",
+          "BUYER",
+          "SELLER",
+          "SUPERADMIN"
+        ],
+        "description": "Access: PUBLIC (SUPERADMIN also has access)."
       },
       "post": {
-        "tags": ["Products"],
+        "tags": [
+          "Products"
+        ],
         "summary": "Create product (SELLER only)",
         "operationId": "createProduct",
         "security": [
           {
-            "BearerAuth": []
+            "bearerAuth": []
           }
         ],
         "requestBody": {
@@ -654,7 +1559,28 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Product"
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Product created"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Product"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
                 }
               }
             }
@@ -664,7 +1590,29 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "validation_error": {
+                    "summary": "VALIDATION_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Validation error",
+                      "error": {
+                        "code": "VALIDATION_ERROR",
+                        "details": {
+                          "email": [
+                            "Email is required",
+                            "Email must be valid"
+                          ]
+                        }
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -674,7 +1622,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -684,17 +1648,66 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden - SELLER role required",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        },
+        "x-roles": [
+          "SELLER",
+          "SUPERADMIN"
+        ],
+        "description": "Access: SELLER, SUPERADMIN."
       }
     },
     "/api/ecommerce/products/{id}": {
       "get": {
-        "tags": ["Products"],
+        "tags": [
+          "Products"
+        ],
         "summary": "Get product by ID",
         "operationId": "getProductById",
         "parameters": [
@@ -714,7 +1727,28 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Product"
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Product detail"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Product"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
                 }
               }
             }
@@ -724,20 +1758,71 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "resource_not_found": {
+                    "summary": "RESOURCE_NOT_FOUND",
+                    "value": {
+                      "success": false,
+                      "message": "Product not found",
+                      "error": {
+                        "code": "RESOURCE_NOT_FOUND"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        },
+        "x-roles": [
+          "PUBLIC",
+          "BUYER",
+          "SELLER",
+          "SUPERADMIN"
+        ],
+        "description": "Access: PUBLIC (SUPERADMIN also has access)."
       },
       "put": {
-        "tags": ["Products"],
+        "tags": [
+          "Products"
+        ],
         "summary": "Update own product (SELLER only)",
         "operationId": "updateProduct",
         "security": [
           {
-            "BearerAuth": []
+            "bearerAuth": []
           }
         ],
         "parameters": [
@@ -767,7 +1852,28 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Product"
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Product updated"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Product"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
                 }
               }
             }
@@ -777,7 +1883,29 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "validation_error": {
+                    "summary": "VALIDATION_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Validation error",
+                      "error": {
+                        "code": "VALIDATION_ERROR",
+                        "details": {
+                          "email": [
+                            "Email is required",
+                            "Email must be valid"
+                          ]
+                        }
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -787,7 +1915,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -797,7 +1941,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden - not owner or not SELLER",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -807,20 +1967,69 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "resource_not_found": {
+                    "summary": "RESOURCE_NOT_FOUND",
+                    "value": {
+                      "success": false,
+                      "message": "Product not found",
+                      "error": {
+                        "code": "RESOURCE_NOT_FOUND"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        },
+        "x-roles": [
+          "SELLER",
+          "SUPERADMIN"
+        ],
+        "description": "Access: SELLER, SUPERADMIN."
       },
       "delete": {
-        "tags": ["Products"],
+        "tags": [
+          "Products"
+        ],
         "summary": "Delete own product (SELLER only)",
         "operationId": "deleteProduct",
         "security": [
           {
-            "BearerAuth": []
+            "bearerAuth": []
           }
         ],
         "parameters": [
@@ -841,10 +2050,31 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
                     "message": {
                       "type": "string",
-                      "example": "Product deleted successfully"
+                      "example": "Product deleted"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Product deleted successfully"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
                     }
                   }
                 }
@@ -856,7 +2086,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -866,7 +2112,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden - not owner or not SELLER",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -876,22 +2138,71 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "resource_not_found": {
+                    "summary": "RESOURCE_NOT_FOUND",
+                    "value": {
+                      "success": false,
+                      "message": "Product not found",
+                      "error": {
+                        "code": "RESOURCE_NOT_FOUND"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        },
+        "x-roles": [
+          "SELLER",
+          "SUPERADMIN"
+        ],
+        "description": "Access: SELLER, SUPERADMIN."
       }
     },
     "/api/ecommerce/cart": {
       "get": {
-        "tags": ["Cart"],
+        "tags": [
+          "Cart"
+        ],
         "summary": "Get current buyer cart",
         "operationId": "getCart",
         "security": [
           {
-            "BearerAuth": []
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -900,7 +2211,28 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Cart"
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Current cart"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Cart"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
                 }
               }
             }
@@ -910,7 +2242,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -920,20 +2268,69 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden - BUYER role required",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        },
+        "x-roles": [
+          "BUYER",
+          "SUPERADMIN"
+        ],
+        "description": "Access: BUYER, SUPERADMIN."
       },
       "delete": {
-        "tags": ["Cart"],
+        "tags": [
+          "Cart"
+        ],
         "summary": "Clear cart",
         "operationId": "clearCart",
         "security": [
           {
-            "BearerAuth": []
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -942,7 +2339,28 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Cart"
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cart cleared"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Cart"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
                 }
               }
             }
@@ -952,7 +2370,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -962,22 +2396,71 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        },
+        "x-roles": [
+          "BUYER",
+          "SUPERADMIN"
+        ],
+        "description": "Access: BUYER, SUPERADMIN."
       }
     },
     "/api/ecommerce/cart/items": {
       "post": {
-        "tags": ["Cart"],
+        "tags": [
+          "Cart"
+        ],
         "summary": "Add item to cart",
         "operationId": "addCartItem",
         "security": [
           {
-            "BearerAuth": []
+            "bearerAuth": []
           }
         ],
         "requestBody": {
@@ -996,7 +2479,28 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Cart"
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Item added to cart"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Cart"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
                 }
               }
             }
@@ -1006,7 +2510,28 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Cart"
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Item added to cart (created)"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Cart"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
                 }
               }
             }
@@ -1016,7 +2541,29 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "validation_error": {
+                    "summary": "VALIDATION_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Validation error or insufficient stock",
+                      "error": {
+                        "code": "VALIDATION_ERROR",
+                        "details": {
+                          "email": [
+                            "Email is required",
+                            "Email must be valid"
+                          ]
+                        }
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1026,7 +2573,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1036,7 +2599,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden - BUYER role required",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1046,22 +2625,71 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "resource_not_found": {
+                    "summary": "RESOURCE_NOT_FOUND",
+                    "value": {
+                      "success": false,
+                      "message": "Product not found",
+                      "error": {
+                        "code": "RESOURCE_NOT_FOUND"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        },
+        "x-roles": [
+          "BUYER",
+          "SUPERADMIN"
+        ],
+        "description": "Access: BUYER, SUPERADMIN."
       }
     },
     "/api/ecommerce/cart/items/{productId}": {
       "put": {
-        "tags": ["Cart"],
+        "tags": [
+          "Cart"
+        ],
         "summary": "Update item quantity",
         "operationId": "updateCartItem",
         "security": [
           {
-            "BearerAuth": []
+            "bearerAuth": []
           }
         ],
         "parameters": [
@@ -1091,7 +2719,28 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Cart"
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Cart item updated"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Cart"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
                 }
               }
             }
@@ -1101,7 +2750,29 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "validation_error": {
+                    "summary": "VALIDATION_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Validation error",
+                      "error": {
+                        "code": "VALIDATION_ERROR",
+                        "details": {
+                          "email": [
+                            "Email is required",
+                            "Email must be valid"
+                          ]
+                        }
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1111,7 +2782,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1121,7 +2808,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1131,20 +2834,69 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "resource_not_found": {
+                    "summary": "RESOURCE_NOT_FOUND",
+                    "value": {
+                      "success": false,
+                      "message": "Product or cart item not found",
+                      "error": {
+                        "code": "RESOURCE_NOT_FOUND"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        },
+        "x-roles": [
+          "BUYER",
+          "SUPERADMIN"
+        ],
+        "description": "Access: BUYER, SUPERADMIN."
       },
       "delete": {
-        "tags": ["Cart"],
+        "tags": [
+          "Cart"
+        ],
         "summary": "Remove item from cart",
         "operationId": "removeCartItem",
         "security": [
           {
-            "BearerAuth": []
+            "bearerAuth": []
           }
         ],
         "parameters": [
@@ -1164,7 +2916,28 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Cart"
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Item removed"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Cart"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
                 }
               }
             }
@@ -1174,7 +2947,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1184,7 +2973,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1194,23 +2999,72 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "resource_not_found": {
+                    "summary": "RESOURCE_NOT_FOUND",
+                    "value": {
+                      "success": false,
+                      "message": "Product or cart item not found",
+                      "error": {
+                        "code": "RESOURCE_NOT_FOUND"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        },
+        "x-roles": [
+          "BUYER",
+          "SUPERADMIN"
+        ],
+        "description": "Access: BUYER, SUPERADMIN."
       }
     },
     "/api/ecommerce/orders": {
       "post": {
-        "tags": ["Orders"],
+        "tags": [
+          "Orders"
+        ],
         "summary": "Create order from cart (checkout)",
-        "description": "Checkout current cart. Creates order with simulated payment. Clears cart on success.",
+        "description": "Checkout current cart. Creates order with simulated payment. Clears cart on success. Access: BUYER, SUPERADMIN.",
         "operationId": "checkout",
         "security": [
           {
-            "BearerAuth": []
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -1219,7 +3073,28 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Order"
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Order created"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Order"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
                 }
               }
             }
@@ -1229,7 +3104,29 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "validation_error": {
+                    "summary": "VALIDATION_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Cart empty or insufficient stock",
+                      "error": {
+                        "code": "VALIDATION_ERROR",
+                        "details": {
+                          "email": [
+                            "Email is required",
+                            "Email must be valid"
+                          ]
+                        }
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1239,7 +3136,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1249,20 +3162,68 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden - BUYER role required",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        },
+        "x-roles": [
+          "BUYER",
+          "SUPERADMIN"
+        ]
       },
       "get": {
-        "tags": ["Orders"],
+        "tags": [
+          "Orders"
+        ],
         "summary": "Get order history (buyer)",
         "operationId": "listOrders",
         "security": [
           {
-            "BearerAuth": []
+            "bearerAuth": []
           }
         ],
         "parameters": [
@@ -1300,15 +3261,36 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Order history"
+                    },
                     "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Order"
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Order"
+                          }
+                        },
+                        "meta": {
+                          "$ref": "#/components/schemas/PaginationMeta"
+                        }
                       }
                     },
                     "meta": {
-                      "$ref": "#/components/schemas/PaginationMeta"
+                      "$ref": "#/components/schemas/Meta"
                     }
                   }
                 }
@@ -1320,7 +3302,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1330,22 +3328,71 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        },
+        "x-roles": [
+          "BUYER",
+          "SUPERADMIN"
+        ],
+        "description": "Access: BUYER, SUPERADMIN."
       }
     },
     "/api/ecommerce/orders/{id}": {
       "get": {
-        "tags": ["Orders"],
+        "tags": [
+          "Orders"
+        ],
         "summary": "Get order detail",
         "operationId": "getOrderById",
         "security": [
           {
-            "BearerAuth": []
+            "bearerAuth": []
           }
         ],
         "parameters": [
@@ -1365,7 +3412,28 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Order"
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Order detail"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Order"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
                 }
               }
             }
@@ -1375,7 +3443,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1385,7 +3469,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden - not owner",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1395,23 +3495,72 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "resource_not_found": {
+                    "summary": "RESOURCE_NOT_FOUND",
+                    "value": {
+                      "success": false,
+                      "message": "Order not found",
+                      "error": {
+                        "code": "RESOURCE_NOT_FOUND"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        },
+        "x-roles": [
+          "BUYER",
+          "SUPERADMIN"
+        ],
+        "description": "Access: BUYER, SUPERADMIN."
       }
     },
     "/api/ecommerce/orders/{id}/pay": {
       "post": {
-        "tags": ["Orders"],
+        "tags": [
+          "Orders"
+        ],
         "summary": "Simulate payment for order",
-        "description": "Transitions order from pending to paid or failed (simulated).",
+        "description": "Transitions order from pending to paid or failed (simulated). Access: BUYER, SUPERADMIN.",
         "operationId": "payOrder",
         "security": [
           {
-            "BearerAuth": []
+            "bearerAuth": []
           }
         ],
         "parameters": [
@@ -1434,7 +3583,10 @@
                 "properties": {
                   "simulate": {
                     "type": "string",
-                    "enum": ["success", "failure"],
+                    "enum": [
+                      "success",
+                      "failure"
+                    ],
                     "default": "success",
                     "description": "Simulate payment outcome"
                   }
@@ -1449,7 +3601,28 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Order"
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Payment processed"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Order"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
                 }
               }
             }
@@ -1459,7 +3632,29 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "validation_error": {
+                    "summary": "VALIDATION_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Order not in pending status",
+                      "error": {
+                        "code": "VALIDATION_ERROR",
+                        "details": {
+                          "email": [
+                            "Email is required",
+                            "Email must be valid"
+                          ]
+                        }
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1469,7 +3664,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1479,7 +3690,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1489,7 +3716,1688 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "resource_not_found": {
+                    "summary": "RESOURCE_NOT_FOUND",
+                    "value": {
+                      "success": false,
+                      "message": "Order not found",
+                      "error": {
+                        "code": "RESOURCE_NOT_FOUND"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-roles": [
+          "BUYER",
+          "SUPERADMIN"
+        ]
+      }
+    },
+    "/api/admin/users": {
+      "get": {
+        "tags": [
+          "Admin",
+          "Users"
+        ],
+        "summary": "List all users (SUPERADMIN only)",
+        "description": "Retrieve all users. Access: SUPERADMIN only.",
+        "operationId": "adminListUsers",
+        "x-roles": [
+          "SUPERADMIN"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10
+            }
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/UserRole"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "List of users"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/User"
+                          }
+                        },
+                        "meta": {
+                          "$ref": "#/components/schemas/PaginationMeta"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - SUPERADMIN only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden - SUPERADMIN only",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/users/{id}": {
+      "get": {
+        "tags": [
+          "Admin",
+          "Users"
+        ],
+        "summary": "Get user by ID (SUPERADMIN only)",
+        "description": "View any user profile. Access: SUPERADMIN only.",
+        "operationId": "adminGetUser",
+        "x-roles": [
+          "SUPERADMIN"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User detail"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/User"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - SUPERADMIN only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden - SUPERADMIN only",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "resource_not_found": {
+                    "summary": "RESOURCE_NOT_FOUND",
+                    "value": {
+                      "success": false,
+                      "message": "User not found",
+                      "error": {
+                        "code": "RESOURCE_NOT_FOUND"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Admin",
+          "Users"
+        ],
+        "summary": "Update user role/status (SUPERADMIN only)",
+        "description": "Assign roles (BUYER, SELLER, SUPERADMIN), suspend/deactivate. Access: SUPERADMIN only.",
+        "operationId": "adminUpdateUser",
+        "x-roles": [
+          "SUPERADMIN"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "role": {
+                    "$ref": "#/components/schemas/UserRole"
+                  },
+                  "is_active": {
+                    "type": "boolean"
+                  },
+                  "koperasi_id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User updated"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/User"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "validation_error": {
+                    "summary": "VALIDATION_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Validation error",
+                      "error": {
+                        "code": "VALIDATION_ERROR",
+                        "details": {
+                          "email": [
+                            "Email is required",
+                            "Email must be valid"
+                          ]
+                        }
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - SUPERADMIN only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden - SUPERADMIN only",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "resource_not_found": {
+                    "summary": "RESOURCE_NOT_FOUND",
+                    "value": {
+                      "success": false,
+                      "message": "User not found",
+                      "error": {
+                        "code": "RESOURCE_NOT_FOUND"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Admin",
+          "Users"
+        ],
+        "summary": "Deactivate user (SUPERADMIN only)",
+        "description": "Suspend/deactivate account. Access: SUPERADMIN only.",
+        "operationId": "adminDeleteUser",
+        "x-roles": [
+          "SUPERADMIN"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deactivated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User deactivated"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "User deactivated successfully"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - SUPERADMIN only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden - SUPERADMIN only",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "resource_not_found": {
+                    "summary": "RESOURCE_NOT_FOUND",
+                    "value": {
+                      "success": false,
+                      "message": "User not found",
+                      "error": {
+                        "code": "RESOURCE_NOT_FOUND"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "List users (SUPERADMIN only)",
+        "description": "Alias /api/admin/users. Access: SUPERADMIN only.",
+        "operationId": "listUsers",
+        "x-roles": [
+          "SUPERADMIN"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10
+            }
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/UserRole"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "List of users"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/User"
+                          }
+                        },
+                        "meta": {
+                          "$ref": "#/components/schemas/PaginationMeta"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - SUPERADMIN only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden - SUPERADMIN only",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get user (SUPERADMIN only)",
+        "description": "Alias /api/admin/users/{id}. Access: SUPERADMIN only.",
+        "operationId": "getUserById",
+        "x-roles": [
+          "SUPERADMIN"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User detail"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/User"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - SUPERADMIN only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden - SUPERADMIN only",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "resource_not_found": {
+                    "summary": "RESOURCE_NOT_FOUND",
+                    "value": {
+                      "success": false,
+                      "message": "User not found",
+                      "error": {
+                        "code": "RESOURCE_NOT_FOUND"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/orders": {
+      "get": {
+        "tags": [
+          "Admin",
+          "Orders"
+        ],
+        "summary": "View all orders (SUPERADMIN only)",
+        "description": "View all orders system-wide. Access: SUPERADMIN only.",
+        "operationId": "adminListOrders",
+        "x-roles": [
+          "SUPERADMIN"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/OrderStatus"
+            }
+          },
+          {
+            "name": "buyer_id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All orders",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "All orders"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Order"
+                          }
+                        },
+                        "meta": {
+                          "$ref": "#/components/schemas/PaginationMeta"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - SUPERADMIN only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden - SUPERADMIN only",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/orders/{id}/status": {
+      "patch": {
+        "tags": [
+          "Admin",
+          "Orders"
+        ],
+        "summary": "Override order status (SUPERADMIN only)",
+        "description": "Admin override pending/paid/failed. Access: SUPERADMIN only.",
+        "operationId": "adminOverrideOrderStatus",
+        "x-roles": [
+          "SUPERADMIN"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "status"
+                ],
+                "properties": {
+                  "status": {
+                    "$ref": "#/components/schemas/OrderStatus"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Order updated"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Order"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "validation_error": {
+                    "summary": "VALIDATION_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Validation error",
+                      "error": {
+                        "code": "VALIDATION_ERROR",
+                        "details": {
+                          "email": [
+                            "Email is required",
+                            "Email must be valid"
+                          ]
+                        }
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - SUPERADMIN only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden - SUPERADMIN only",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Order not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "resource_not_found": {
+                    "summary": "RESOURCE_NOT_FOUND",
+                    "value": {
+                      "success": false,
+                      "message": "Order not found",
+                      "error": {
+                        "code": "RESOURCE_NOT_FOUND"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/admin/products/{id}": {
+      "delete": {
+        "tags": [
+          "Admin",
+          "Products"
+        ],
+        "summary": "Delete any product (SUPERADMIN)",
+        "description": "Delete any product regardless seller. Moderate listings. Access: SUPERADMIN only.",
+        "operationId": "adminDeleteProduct",
+        "x-roles": [
+          "SUPERADMIN"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Product deleted"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Product deleted by SUPERADMIN"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "auth_required": {
+                    "summary": "AUTH_REQUIRED",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - SUPERADMIN only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "forbidden_access": {
+                    "summary": "FORBIDDEN_ACCESS",
+                    "value": {
+                      "success": false,
+                      "message": "Forbidden - SUPERADMIN only",
+                      "error": {
+                        "code": "FORBIDDEN_ACCESS"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "resource_not_found": {
+                    "summary": "RESOURCE_NOT_FOUND",
+                    "value": {
+                      "success": false,
+                      "message": "Product not found",
+                      "error": {
+                        "code": "RESOURCE_NOT_FOUND"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "internal_server_error": {
+                    "summary": "INTERNAL_SERVER_ERROR",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      },
+                      "meta": {
+                        "timestamp": "2024-01-01T12:00:00Z",
+                        "request_id": "req_a1b2c3d4e5f6"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1500,7 +5408,7 @@
   },
   "components": {
     "securitySchemes": {
-      "BearerAuth": {
+      "bearerAuth": {
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT",
@@ -1510,22 +5418,36 @@
     "schemas": {
       "UserRole": {
         "type": "string",
-        "enum": ["SELLER", "BUYER"],
-        "description": "User role"
+        "enum": [
+          "BUYER",
+          "SELLER",
+          "SUPERADMIN"
+        ],
+        "description": "User role. SUPERADMIN is platform owner/admin layer, not cooperative member, full access."
       },
       "ProductCategory": {
         "type": "string",
-        "enum": ["kelapa", "jagung", "turunan"],
+        "enum": [
+          "kelapa",
+          "jagung",
+          "turunan"
+        ],
         "description": "Product category enum"
       },
       "OrderStatus": {
         "type": "string",
-        "enum": ["pending", "paid", "failed"],
+        "enum": [
+          "pending",
+          "paid",
+          "failed"
+        ],
         "description": "Order status flow"
       },
       "Error": {
         "type": "object",
-        "required": ["message"],
+        "required": [
+          "message"
+        ],
         "properties": {
           "message": {
             "type": "string",
@@ -1540,14 +5462,17 @@
               }
             },
             "example": {
-              "email": ["Email is required"]
+              "email": [
+                "Email is required"
+              ]
             }
           },
           "statusCode": {
             "type": "integer",
             "example": 400
           }
-        }
+        },
+        "description": "DEPRECATED: Use ErrorResponse"
       },
       "PaginationMeta": {
         "type": "object",
@@ -1572,7 +5497,12 @@
       },
       "RegisterRequest": {
         "type": "object",
-        "required": ["email", "phone_number", "password", "role"],
+        "required": [
+          "email",
+          "phone_number",
+          "password",
+          "role"
+        ],
         "properties": {
           "email": {
             "type": "string",
@@ -1606,7 +5536,10 @@
       },
       "LoginRequest": {
         "type": "object",
-        "required": ["email", "password"],
+        "required": [
+          "email",
+          "password"
+        ],
         "properties": {
           "email": {
             "type": "string",
@@ -1622,7 +5555,9 @@
       },
       "RefreshRequest": {
         "type": "object",
-        "required": ["refresh_token"],
+        "required": [
+          "refresh_token"
+        ],
         "properties": {
           "refresh_token": {
             "type": "string",
@@ -1632,7 +5567,10 @@
       },
       "AuthResponse": {
         "type": "object",
-        "required": ["access_token", "refresh_token"],
+        "required": [
+          "access_token",
+          "refresh_token"
+        ],
         "properties": {
           "access_token": {
             "type": "string",
@@ -1657,7 +5595,13 @@
       },
       "User": {
         "type": "object",
-        "required": ["id", "email", "phone_number", "role", "created_at"],
+        "required": [
+          "id",
+          "email",
+          "phone_number",
+          "role",
+          "created_at"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -1674,7 +5618,8 @@
             "example": "081234567890"
           },
           "role": {
-            "$ref": "#/components/schemas/UserRole"
+            "$ref": "#/components/schemas/UserRole",
+            "description": "BUYER, SELLER, or SUPERADMIN (platform owner, not cooperative member, full access)"
           },
           "koperasi_id": {
             "type": "string",
@@ -1696,7 +5641,12 @@
       },
       "Koperasi": {
         "type": "object",
-        "required": ["id", "name", "address", "created_at"],
+        "required": [
+          "id",
+          "name",
+          "address",
+          "created_at"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -1726,7 +5676,10 @@
       },
       "KoperasiCreateRequest": {
         "type": "object",
-        "required": ["name", "address"],
+        "required": [
+          "name",
+          "address"
+        ],
         "properties": {
           "name": {
             "type": "string",
@@ -1743,7 +5696,18 @@
       },
       "Product": {
         "type": "object",
-        "required": ["id", "seller_id", "koperasi_id", "name", "category", "price", "unit", "stock", "created_at", "updated_at"],
+        "required": [
+          "id",
+          "seller_id",
+          "koperasi_id",
+          "name",
+          "category",
+          "price",
+          "unit",
+          "stock",
+          "created_at",
+          "updated_at"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -1816,7 +5780,13 @@
       },
       "ProductCreateRequest": {
         "type": "object",
-        "required": ["name", "category", "price", "unit", "stock"],
+        "required": [
+          "name",
+          "category",
+          "price",
+          "unit",
+          "stock"
+        ],
         "properties": {
           "name": {
             "type": "string",
@@ -1894,7 +5864,11 @@
       },
       "CartItem": {
         "type": "object",
-        "required": ["product_id", "quantity", "price_snapshot"],
+        "required": [
+          "product_id",
+          "quantity",
+          "price_snapshot"
+        ],
         "properties": {
           "product_id": {
             "type": "string",
@@ -1925,7 +5899,11 @@
       },
       "Cart": {
         "type": "object",
-        "required": ["id", "buyer_id", "items"],
+        "required": [
+          "id",
+          "buyer_id",
+          "items"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -1967,7 +5945,10 @@
       },
       "AddToCartRequest": {
         "type": "object",
-        "required": ["product_id", "quantity"],
+        "required": [
+          "product_id",
+          "quantity"
+        ],
         "properties": {
           "product_id": {
             "type": "string",
@@ -1983,7 +5964,9 @@
       },
       "UpdateCartItemRequest": {
         "type": "object",
-        "required": ["quantity"],
+        "required": [
+          "quantity"
+        ],
         "properties": {
           "quantity": {
             "type": "integer",
@@ -1994,7 +5977,11 @@
       },
       "OrderItem": {
         "type": "object",
-        "required": ["product_id", "quantity", "price"],
+        "required": [
+          "product_id",
+          "quantity",
+          "price"
+        ],
         "properties": {
           "product_id": {
             "type": "string",
@@ -2024,7 +6011,14 @@
       },
       "Order": {
         "type": "object",
-        "required": ["id", "buyer_id", "total_amount", "status", "items", "created_at"],
+        "required": [
+          "id",
+          "buyer_id",
+          "total_amount",
+          "status",
+          "items",
+          "created_at"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -2060,6 +6054,113 @@
             "type": "string",
             "format": "date-time",
             "example": "2024-01-01T00:00:00Z"
+          }
+        }
+      },
+      "Meta": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-01-01T12:00:00Z",
+            "description": "ISO-8601 datetime"
+          },
+          "request_id": {
+            "type": "string",
+            "example": "req_a1b2c3d4e5f6",
+            "description": "Unique request id"
+          }
+        }
+      },
+      "ErrorCode": {
+        "type": "string",
+        "enum": [
+          "AUTH_REQUIRED",
+          "INVALID_CREDENTIALS",
+          "VALIDATION_ERROR",
+          "FORBIDDEN_ACCESS",
+          "RESOURCE_NOT_FOUND",
+          "CONFLICT_ERROR",
+          "INTERNAL_SERVER_ERROR"
+        ],
+        "description": "Standardized error code"
+      },
+      "ErrorObject": {
+        "type": "object",
+        "required": [
+          "code"
+        ],
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/ErrorCode"
+          },
+          "details": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "example": {
+              "email": [
+                "Email is required",
+                "Email must be valid"
+              ]
+            },
+            "description": "Field-level validation details"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "required": [
+          "success",
+          "message",
+          "error"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": false
+          },
+          "message": {
+            "type": "string",
+            "example": "Human readable error summary"
+          },
+          "error": {
+            "$ref": "#/components/schemas/ErrorObject"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        }
+      },
+      "ApiResponse": {
+        "type": "object",
+        "required": [
+          "success",
+          "message",
+          "data"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "example": "Request successful"
+          },
+          "data": {
+            "type": "object",
+            "description": "Response payload",
+            "nullable": true
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
           }
         }
       }
