@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Koperasi Platform API",
-    "description": "This API is the backend system for a modular cooperative management platform. It supports multiple business domains including authentication, cooperative management, e-commerce, financial transactions, and member operations. Each module is designed as a scalable and independent service under a unified API structure.",
+    "description": "This API is the backend system for a single cooperative management platform. It supports authentication, e-commerce, agricultural equipment rental, financial transactions, and member operations. The platform serves one cooperative. All users belong to the same cooperative. Only cooperative members (SELLER role) are allowed to sell products and rent out agricultural equipment.",
     "version": "1.0.0",
     "contact": {
       "name": "Koperasi Platform Team"
@@ -15,17 +15,13 @@
     },
     {
       "url": "https://api.koperasi.example.com",
-      "description": "Production server"
+      "description": "Production server placeholder; replace with the configured production domain"
     }
   ],
   "tags": [
     {
       "name": "Auth",
       "description": "Authentication and authorization"
-    },
-    {
-      "name": "Koperasi",
-      "description": "Cooperative management"
     },
     {
       "name": "Products",
@@ -46,6 +42,18 @@
     {
       "name": "Users",
       "description": "User management (SUPERADMIN)"
+    },
+    {
+      "name": "Rental",
+      "description": "Agricultural equipment rental management"
+    },
+    {
+      "name": "Dashboard",
+      "description": "Seller dashboard analytics"
+    },
+    {
+      "name": "Payments",
+      "description": "Midtrans Snap payment integration"
     }
   ],
   "paths": {
@@ -55,7 +63,7 @@
           "Auth"
         ],
         "summary": "Register new user",
-        "description": "Register a new user as SELLER or BUYER. SELLER must provide koperasi_id.",
+        "description": "Register a new user as SELLER or BUYER.",
         "operationId": "register",
         "requestBody": {
           "required": true,
@@ -115,9 +123,8 @@
                       "error": {
                         "code": "VALIDATION_ERROR",
                         "details": {
-                          "email": [
-                            "Email is required",
-                            "Email must be valid"
+                          "field": [
+                            "Invalid value"
                           ]
                         }
                       },
@@ -228,9 +235,8 @@
                       "error": {
                         "code": "VALIDATION_ERROR",
                         "details": {
-                          "email": [
-                            "Email is required",
-                            "Email must be valid"
+                          "field": [
+                            "Invalid value"
                           ]
                         }
                       },
@@ -367,9 +373,8 @@
                       "error": {
                         "code": "VALIDATION_ERROR",
                         "details": {
-                          "email": [
-                            "Email is required",
-                            "Email must be valid"
+                          "field": [
+                            "Invalid value"
                           ]
                         }
                       },
@@ -572,778 +577,6 @@
         "description": "Access: BUYER, SELLER, SUPERADMIN."
       }
     },
-    "/api/koperasi": {
-      "get": {
-        "tags": [
-          "Koperasi"
-        ],
-        "summary": "List all koperasi",
-        "operationId": "listKoperasi",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "default": 1
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 100,
-              "default": 10
-            }
-          },
-          {
-            "name": "search",
-            "in": "query",
-            "description": "Search by name",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of koperasi",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "success",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "List of koperasi"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "data": {
-                          "type": "array",
-                          "items": {
-                            "$ref": "#/components/schemas/Koperasi"
-                          }
-                        },
-                        "meta": {
-                          "$ref": "#/components/schemas/PaginationMeta"
-                        }
-                      }
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/Meta"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "examples": {
-                  "internal_server_error": {
-                    "summary": "INTERNAL_SERVER_ERROR",
-                    "value": {
-                      "success": false,
-                      "message": "Internal server error",
-                      "error": {
-                        "code": "INTERNAL_SERVER_ERROR"
-                      },
-                      "meta": {
-                        "timestamp": "2024-01-01T12:00:00Z",
-                        "request_id": "req_a1b2c3d4e5f6"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "x-roles": [
-          "PUBLIC",
-          "BUYER",
-          "SELLER",
-          "SUPERADMIN"
-        ],
-        "description": "Access: PUBLIC (SUPERADMIN also has access)."
-      },
-      "post": {
-        "tags": [
-          "Koperasi"
-        ],
-        "summary": "Create koperasi",
-        "operationId": "createKoperasi",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/KoperasiCreateRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Koperasi created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "success",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Koperasi created"
-                    },
-                    "data": {
-                      "$ref": "#/components/schemas/Koperasi"
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/Meta"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Validation error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "examples": {
-                  "validation_error": {
-                    "summary": "VALIDATION_ERROR",
-                    "value": {
-                      "success": false,
-                      "message": "Validation error",
-                      "error": {
-                        "code": "VALIDATION_ERROR",
-                        "details": {
-                          "email": [
-                            "Email is required",
-                            "Email must be valid"
-                          ]
-                        }
-                      },
-                      "meta": {
-                        "timestamp": "2024-01-01T12:00:00Z",
-                        "request_id": "req_a1b2c3d4e5f6"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "examples": {
-                  "auth_required": {
-                    "summary": "AUTH_REQUIRED",
-                    "value": {
-                      "success": false,
-                      "message": "Unauthorized",
-                      "error": {
-                        "code": "AUTH_REQUIRED"
-                      },
-                      "meta": {
-                        "timestamp": "2024-01-01T12:00:00Z",
-                        "request_id": "req_a1b2c3d4e5f6"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "examples": {
-                  "forbidden_access": {
-                    "summary": "FORBIDDEN_ACCESS",
-                    "value": {
-                      "success": false,
-                      "message": "Forbidden",
-                      "error": {
-                        "code": "FORBIDDEN_ACCESS"
-                      },
-                      "meta": {
-                        "timestamp": "2024-01-01T12:00:00Z",
-                        "request_id": "req_a1b2c3d4e5f6"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "examples": {
-                  "internal_server_error": {
-                    "summary": "INTERNAL_SERVER_ERROR",
-                    "value": {
-                      "success": false,
-                      "message": "Internal server error",
-                      "error": {
-                        "code": "INTERNAL_SERVER_ERROR"
-                      },
-                      "meta": {
-                        "timestamp": "2024-01-01T12:00:00Z",
-                        "request_id": "req_a1b2c3d4e5f6"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "x-roles": [
-          "SUPERADMIN"
-        ],
-        "description": "Access: SUPERADMIN."
-      }
-    },
-    "/api/koperasi/{id}": {
-      "get": {
-        "tags": [
-          "Koperasi"
-        ],
-        "summary": "Get koperasi by ID",
-        "operationId": "getKoperasiById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Koperasi detail",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "success",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Koperasi detail"
-                    },
-                    "data": {
-                      "$ref": "#/components/schemas/Koperasi"
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/Meta"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Koperasi not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "examples": {
-                  "resource_not_found": {
-                    "summary": "RESOURCE_NOT_FOUND",
-                    "value": {
-                      "success": false,
-                      "message": "Koperasi not found",
-                      "error": {
-                        "code": "RESOURCE_NOT_FOUND"
-                      },
-                      "meta": {
-                        "timestamp": "2024-01-01T12:00:00Z",
-                        "request_id": "req_a1b2c3d4e5f6"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "examples": {
-                  "internal_server_error": {
-                    "summary": "INTERNAL_SERVER_ERROR",
-                    "value": {
-                      "success": false,
-                      "message": "Internal server error",
-                      "error": {
-                        "code": "INTERNAL_SERVER_ERROR"
-                      },
-                      "meta": {
-                        "timestamp": "2024-01-01T12:00:00Z",
-                        "request_id": "req_a1b2c3d4e5f6"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "x-roles": [
-          "PUBLIC",
-          "BUYER",
-          "SELLER",
-          "SUPERADMIN"
-        ],
-        "description": "Access: PUBLIC (SUPERADMIN also has access)."
-      },
-      "put": {
-        "tags": [
-          "Koperasi"
-        ],
-        "summary": "Update koperasi",
-        "operationId": "updateKoperasi",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/KoperasiCreateRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Koperasi updated",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "success",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Koperasi updated"
-                    },
-                    "data": {
-                      "$ref": "#/components/schemas/Koperasi"
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/Meta"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Validation error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "examples": {
-                  "validation_error": {
-                    "summary": "VALIDATION_ERROR",
-                    "value": {
-                      "success": false,
-                      "message": "Validation error",
-                      "error": {
-                        "code": "VALIDATION_ERROR",
-                        "details": {
-                          "email": [
-                            "Email is required",
-                            "Email must be valid"
-                          ]
-                        }
-                      },
-                      "meta": {
-                        "timestamp": "2024-01-01T12:00:00Z",
-                        "request_id": "req_a1b2c3d4e5f6"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "examples": {
-                  "auth_required": {
-                    "summary": "AUTH_REQUIRED",
-                    "value": {
-                      "success": false,
-                      "message": "Unauthorized",
-                      "error": {
-                        "code": "AUTH_REQUIRED"
-                      },
-                      "meta": {
-                        "timestamp": "2024-01-01T12:00:00Z",
-                        "request_id": "req_a1b2c3d4e5f6"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "examples": {
-                  "forbidden_access": {
-                    "summary": "FORBIDDEN_ACCESS",
-                    "value": {
-                      "success": false,
-                      "message": "Forbidden",
-                      "error": {
-                        "code": "FORBIDDEN_ACCESS"
-                      },
-                      "meta": {
-                        "timestamp": "2024-01-01T12:00:00Z",
-                        "request_id": "req_a1b2c3d4e5f6"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Koperasi not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "examples": {
-                  "resource_not_found": {
-                    "summary": "RESOURCE_NOT_FOUND",
-                    "value": {
-                      "success": false,
-                      "message": "Koperasi not found",
-                      "error": {
-                        "code": "RESOURCE_NOT_FOUND"
-                      },
-                      "meta": {
-                        "timestamp": "2024-01-01T12:00:00Z",
-                        "request_id": "req_a1b2c3d4e5f6"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "examples": {
-                  "internal_server_error": {
-                    "summary": "INTERNAL_SERVER_ERROR",
-                    "value": {
-                      "success": false,
-                      "message": "Internal server error",
-                      "error": {
-                        "code": "INTERNAL_SERVER_ERROR"
-                      },
-                      "meta": {
-                        "timestamp": "2024-01-01T12:00:00Z",
-                        "request_id": "req_a1b2c3d4e5f6"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "x-roles": [
-          "SUPERADMIN"
-        ],
-        "description": "Access: SUPERADMIN."
-      },
-      "delete": {
-        "tags": [
-          "Koperasi"
-        ],
-        "summary": "Delete koperasi",
-        "operationId": "deleteKoperasi",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Koperasi deleted",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "success",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Koperasi deleted"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "message": {
-                          "type": "string",
-                          "example": "Koperasi deleted successfully"
-                        }
-                      }
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/Meta"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "examples": {
-                  "auth_required": {
-                    "summary": "AUTH_REQUIRED",
-                    "value": {
-                      "success": false,
-                      "message": "Unauthorized",
-                      "error": {
-                        "code": "AUTH_REQUIRED"
-                      },
-                      "meta": {
-                        "timestamp": "2024-01-01T12:00:00Z",
-                        "request_id": "req_a1b2c3d4e5f6"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "examples": {
-                  "forbidden_access": {
-                    "summary": "FORBIDDEN_ACCESS",
-                    "value": {
-                      "success": false,
-                      "message": "Forbidden",
-                      "error": {
-                        "code": "FORBIDDEN_ACCESS"
-                      },
-                      "meta": {
-                        "timestamp": "2024-01-01T12:00:00Z",
-                        "request_id": "req_a1b2c3d4e5f6"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Koperasi not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "examples": {
-                  "resource_not_found": {
-                    "summary": "RESOURCE_NOT_FOUND",
-                    "value": {
-                      "success": false,
-                      "message": "Koperasi not found",
-                      "error": {
-                        "code": "RESOURCE_NOT_FOUND"
-                      },
-                      "meta": {
-                        "timestamp": "2024-01-01T12:00:00Z",
-                        "request_id": "req_a1b2c3d4e5f6"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                },
-                "examples": {
-                  "internal_server_error": {
-                    "summary": "INTERNAL_SERVER_ERROR",
-                    "value": {
-                      "success": false,
-                      "message": "Internal server error",
-                      "error": {
-                        "code": "INTERNAL_SERVER_ERROR"
-                      },
-                      "meta": {
-                        "timestamp": "2024-01-01T12:00:00Z",
-                        "request_id": "req_a1b2c3d4e5f6"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "x-roles": [
-          "SUPERADMIN"
-        ],
-        "description": "Access: SUPERADMIN."
-      }
-    },
     "/api/ecommerce/products": {
       "get": {
         "tags": [
@@ -1358,15 +591,6 @@
             "description": "Filter by category",
             "schema": {
               "$ref": "#/components/schemas/ProductCategory"
-            }
-          },
-          {
-            "name": "koperasi_id",
-            "in": "query",
-            "description": "Filter by koperasi ID",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
             }
           },
           {
@@ -1481,9 +705,8 @@
                       "error": {
                         "code": "VALIDATION_ERROR",
                         "details": {
-                          "email": [
-                            "Email is required",
-                            "Email must be valid"
+                          "field": [
+                            "Invalid value"
                           ]
                         }
                       },
@@ -1537,6 +760,7 @@
           "Products"
         ],
         "summary": "Create product (SELLER only)",
+        "description": "Create a new product. Only verified cooperative members (SELLER) can create products. Access: SELLER, SUPERADMIN.",
         "operationId": "createProduct",
         "security": [
           {
@@ -1601,9 +825,8 @@
                       "error": {
                         "code": "VALIDATION_ERROR",
                         "details": {
-                          "email": [
-                            "Email is required",
-                            "Email must be valid"
+                          "field": [
+                            "Invalid value"
                           ]
                         }
                       },
@@ -1699,8 +922,7 @@
         "x-roles": [
           "SELLER",
           "SUPERADMIN"
-        ],
-        "description": "Access: SELLER, SUPERADMIN."
+        ]
       }
     },
     "/api/ecommerce/products/{id}": {
@@ -1894,9 +1116,8 @@
                       "error": {
                         "code": "VALIDATION_ERROR",
                         "details": {
-                          "email": [
-                            "Email is required",
-                            "Email must be valid"
+                          "field": [
+                            "Invalid value"
                           ]
                         }
                       },
@@ -2552,9 +1773,8 @@
                       "error": {
                         "code": "VALIDATION_ERROR",
                         "details": {
-                          "email": [
-                            "Email is required",
-                            "Email must be valid"
+                          "field": [
+                            "Invalid value"
                           ]
                         }
                       },
@@ -2761,9 +1981,8 @@
                       "error": {
                         "code": "VALIDATION_ERROR",
                         "details": {
-                          "email": [
-                            "Email is required",
-                            "Email must be valid"
+                          "field": [
+                            "Invalid value"
                           ]
                         }
                       },
@@ -3060,7 +2279,7 @@
           "Orders"
         ],
         "summary": "Create order from cart (checkout)",
-        "description": "Checkout current cart. Creates order with simulated payment. Clears cart on success. Access: BUYER, SUPERADMIN.",
+        "description": "Checkout the current cart and create an order in its initial pending state. Order creation does not mean payment succeeded. The cart may contain product items (PRODUCT_PURCHASE) or rental items (EQUIPMENT_RENTAL), and is cleared on success. For Midtrans payments, create the order first, then call the Midtrans payment endpoint; the order is updated after the provider webhook. Access: BUYER, SUPERADMIN.",
         "operationId": "checkout",
         "security": [
           {
@@ -3115,9 +2334,8 @@
                       "error": {
                         "code": "VALIDATION_ERROR",
                         "details": {
-                          "email": [
-                            "Email is required",
-                            "Email must be valid"
+                          "field": [
+                            "Invalid value"
                           ]
                         }
                       },
@@ -3556,7 +2774,7 @@
           "Orders"
         ],
         "summary": "Simulate payment for order",
-        "description": "Transitions order from pending to paid or failed (simulated). Access: BUYER, SUPERADMIN.",
+        "description": "Legacy/manual payment simulation. Transitions an existing pending order to paid or failed; this endpoint is separate from the Midtrans flow. Access: BUYER, SUPERADMIN.",
         "operationId": "payOrder",
         "security": [
           {
@@ -3643,9 +2861,8 @@
                       "error": {
                         "code": "VALIDATION_ERROR",
                         "details": {
-                          "email": [
-                            "Email is required",
-                            "Email must be valid"
+                          "field": [
+                            "Invalid value"
                           ]
                         }
                       },
@@ -4151,11 +3368,6 @@
                   },
                   "is_active": {
                     "type": "boolean"
-                  },
-                  "koperasi_id": {
-                    "type": "string",
-                    "format": "uuid",
-                    "nullable": true
                   }
                 }
               }
@@ -4210,9 +3422,8 @@
                       "error": {
                         "code": "VALIDATION_ERROR",
                         "details": {
-                          "email": [
-                            "Email is required",
-                            "Email must be valid"
+                          "field": [
+                            "Invalid value"
                           ]
                         }
                       },
@@ -5016,14 +4227,14 @@
       }
     },
     "/api/admin/orders/{id}/status": {
-      "patch": {
+      "put": {
         "tags": [
           "Admin",
           "Orders"
         ],
-        "summary": "Override order status (SUPERADMIN only)",
-        "description": "Admin override pending/paid/failed. Access: SUPERADMIN only.",
-        "operationId": "adminOverrideOrderStatus",
+        "summary": "Update order status (SUPERADMIN only)",
+        "description": "Force update order status. Access: SUPERADMIN only.",
+        "operationId": "adminUpdateOrderStatus",
         "x-roles": [
           "SUPERADMIN"
         ],
@@ -5063,7 +4274,7 @@
         },
         "responses": {
           "200": {
-            "description": "Order updated",
+            "description": "Order status updated",
             "content": {
               "application/json": {
                 "schema": {
@@ -5080,7 +4291,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Order updated"
+                      "example": "Order status updated"
                     },
                     "data": {
                       "$ref": "#/components/schemas/Order"
@@ -5107,13 +4318,7 @@
                       "success": false,
                       "message": "Validation error",
                       "error": {
-                        "code": "VALIDATION_ERROR",
-                        "details": {
-                          "email": [
-                            "Email is required",
-                            "Email must be valid"
-                          ]
-                        }
+                        "code": "VALIDATION_ERROR"
                       },
                       "meta": {
                         "timestamp": "2024-01-01T12:00:00Z",
@@ -5238,8 +4443,8 @@
           "Admin",
           "Products"
         ],
-        "summary": "Delete any product (SUPERADMIN)",
-        "description": "Delete any product regardless seller. Moderate listings. Access: SUPERADMIN only.",
+        "summary": "Delete any product (SUPERADMIN only)",
+        "description": "Force delete any product regardless of owner. Access: SUPERADMIN only.",
         "operationId": "adminDeleteProduct",
         "x-roles": [
           "SUPERADMIN"
@@ -5286,7 +4491,7 @@
                       "properties": {
                         "message": {
                           "type": "string",
-                          "example": "Product deleted by SUPERADMIN"
+                          "example": "Product deleted successfully"
                         }
                       }
                     },
@@ -5404,17 +4609,811 @@
           }
         }
       }
+    },
+    "/api/rental/items": {
+      "get": {
+        "tags": [
+          "Rental"
+        ],
+        "summary": "List all rental items",
+        "operationId": "listRentalItems",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Search by equipment name",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pricing_type",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/PricingType"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "created_at",
+                "price_per_day",
+                "name"
+              ],
+              "default": "created_at"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "default": "desc"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of rental items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "List of rental items"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/RentalItem"
+                          }
+                        },
+                        "meta": {
+                          "$ref": "#/components/schemas/PaginationMeta"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-roles": [
+          "PUBLIC",
+          "BUYER",
+          "SELLER",
+          "SUPERADMIN"
+        ]
+      },
+      "post": {
+        "tags": [
+          "Rental"
+        ],
+        "summary": "Create rental item (SELLER only)",
+        "operationId": "createRentalItem",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RentalItemCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Rental item created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Rental item created"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/RentalItem"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - SELLER role required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-roles": [
+          "SELLER",
+          "SUPERADMIN"
+        ]
+      }
+    },
+    "/api/rental/items/{id}": {
+      "get": {
+        "tags": [
+          "Rental"
+        ],
+        "summary": "Get rental item by ID",
+        "operationId": "getRentalItemById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rental item detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Rental item detail"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/RentalItem"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-roles": [
+          "PUBLIC",
+          "BUYER",
+          "SELLER",
+          "SUPERADMIN"
+        ]
+      },
+      "put": {
+        "tags": [
+          "Rental"
+        ],
+        "summary": "Update rental item (SELLER only)",
+        "operationId": "updateRentalItem",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RentalItemUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Rental item updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Rental item updated"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/RentalItem"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - SELLER role required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-roles": [
+          "SELLER",
+          "SUPERADMIN"
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Rental"
+        ],
+        "summary": "Delete rental item (SELLER only)",
+        "operationId": "deleteRentalItem",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rental item deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Rental item deleted"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Rental item deleted successfully"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - SELLER role required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-roles": [
+          "SELLER",
+          "SUPERADMIN"
+        ]
+      }
+    },
+    "/api/dashboard/seller": {
+      "get": {
+        "tags": [
+          "Dashboard"
+        ],
+        "summary": "Get seller dashboard analytics",
+        "operationId": "getSellerDashboard",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Returns aggregated analytics scoped to the authenticated seller only. All data derived from existing Orders and OrderItems.",
+        "responses": {
+          "200": {
+            "description": "Dashboard analytics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Dashboard analytics"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/SellerDashboardResponse"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/Meta"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - SELLER role required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-roles": [
+          "SELLER",
+          "SUPERADMIN"
+        ]
+      }
+    },
+    "/api/payments/midtrans/create": {
+      "post": {
+        "tags": [
+          "Payments"
+        ],
+        "summary": "Create Midtrans Snap payment transaction",
+        "description": "Creates Snap transaction for EXISTING order. order_id is source of truth.",
+        "operationId": "createMidtransPayment",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "x-roles": [
+          "BUYER"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MidtransCreatePaymentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Payment transaction created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MidtransCreatePaymentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "e": {
+                    "summary": "Error",
+                    "value": {
+                      "success": false,
+                      "message": "Validation error",
+                      "error": {
+                        "code": "VALIDATION_ERROR"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "e": {
+                    "summary": "Error",
+                    "value": {
+                      "success": false,
+                      "message": "Unauthorized",
+                      "error": {
+                        "code": "AUTH_REQUIRED"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "e": {
+                    "summary": "Error",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/payments/midtrans/webhook": {
+      "post": {
+        "tags": [
+          "Payments"
+        ],
+        "summary": "Midtrans webhook callback",
+        "description": "Public callback called by Midtrans; no JWT is required. The server must verify signature_key before applying the callback. Supported mappings are settlement to paid, pending to pending, and deny, expire, or cancel to failed.",
+        "operationId": "midtransWebhook",
+        "security": [],
+        "x-roles": [
+          "PUBLIC"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MidtransWebhookRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Webhook processed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MidtransWebhookResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "e": {
+                    "summary": "Error",
+                    "value": {
+                      "success": false,
+                      "message": "Validation error",
+                      "error": {
+                        "code": "VALIDATION_ERROR"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "examples": {
+                  "e": {
+                    "summary": "Error",
+                    "value": {
+                      "success": false,
+                      "message": "Internal server error",
+                      "error": {
+                        "code": "INTERNAL_SERVER_ERROR"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT",
-        "description": "JWT Access Token"
-      }
-    },
     "schemas": {
       "UserRole": {
         "type": "string",
@@ -5423,7 +5422,7 @@
           "SELLER",
           "SUPERADMIN"
         ],
-        "description": "User role. SUPERADMIN is platform owner/admin layer, not cooperative member, full access."
+        "description": "User role. SELLER represents a registered cooperative member with selling privileges. SUPERADMIN is platform owner/admin layer with full access."
       },
       "ProductCategory": {
         "type": "string",
@@ -5462,8 +5461,8 @@
               }
             },
             "example": {
-              "email": [
-                "Email is required"
+              "field": [
+                "Invalid value"
               ]
             }
           },
@@ -5521,12 +5520,6 @@
           },
           "role": {
             "$ref": "#/components/schemas/UserRole"
-          },
-          "koperasi_id": {
-            "type": "string",
-            "format": "uuid",
-            "description": "Required when role is SELLER. Must belong to exactly one koperasi.",
-            "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
           },
           "name": {
             "type": "string",
@@ -5619,78 +5612,12 @@
           },
           "role": {
             "$ref": "#/components/schemas/UserRole",
-            "description": "BUYER, SELLER, or SUPERADMIN (platform owner, not cooperative member, full access)"
-          },
-          "koperasi_id": {
-            "type": "string",
-            "format": "uuid",
-            "nullable": true,
-            "description": "Only for SELLER. Null for BUYER.",
-            "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-          },
-          "koperasi": {
-            "$ref": "#/components/schemas/Koperasi",
-            "nullable": true
+            "description": "BUYER, SELLER (cooperative member), or SUPERADMIN (platform admin, full access)"
           },
           "created_at": {
             "type": "string",
             "format": "date-time",
             "example": "2024-01-01T00:00:00Z"
-          }
-        }
-      },
-      "Koperasi": {
-        "type": "object",
-        "required": [
-          "id",
-          "name",
-          "address",
-          "created_at"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-          },
-          "name": {
-            "type": "string",
-            "example": "Koperasi Tani Sejahtera"
-          },
-          "address": {
-            "type": "string",
-            "example": "Jl. Raya No. 123, Desa Maju, Jawa Timur"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2024-01-01T00:00:00Z"
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "example": "2024-01-02T00:00:00Z"
-          }
-        }
-      },
-      "KoperasiCreateRequest": {
-        "type": "object",
-        "required": [
-          "name",
-          "address"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 255,
-            "example": "Koperasi Tani Sejahtera"
-          },
-          "address": {
-            "type": "string",
-            "minLength": 5,
-            "example": "Jl. Raya No. 123, Desa Maju"
           }
         }
       },
@@ -5699,7 +5626,6 @@
         "required": [
           "id",
           "seller_id",
-          "koperasi_id",
           "name",
           "category",
           "price",
@@ -5715,11 +5641,6 @@
             "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
           },
           "seller_id": {
-            "type": "string",
-            "format": "uuid",
-            "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-          },
-          "koperasi_id": {
             "type": "string",
             "format": "uuid",
             "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
@@ -5757,10 +5678,6 @@
             "nullable": true,
             "description": "Stores only image URL",
             "example": "https://cdn.example.com/images/kelapa.jpg"
-          },
-          "koperasi": {
-            "$ref": "#/components/schemas/Koperasi",
-            "nullable": true
           },
           "seller": {
             "$ref": "#/components/schemas/User",
@@ -5865,14 +5782,16 @@
       "CartItem": {
         "type": "object",
         "required": [
-          "product_id",
           "quantity",
-          "price_snapshot"
+          "price_snapshot",
+          "item_type"
         ],
         "properties": {
           "product_id": {
             "type": "string",
             "format": "uuid",
+            "nullable": true,
+            "description": "Product reference. Present for product items and null for rental items.",
             "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
           },
           "quantity": {
@@ -5894,6 +5813,26 @@
             "type": "integer",
             "description": "quantity * price_snapshot",
             "example": 30000
+          },
+          "rental_item_id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true,
+            "description": "Reference to RentalItem. Null for product cart items.",
+            "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+          },
+          "duration_type": {
+            "$ref": "#/components/schemas/RentalDurationType",
+            "nullable": true,
+            "description": "Rental duration. Null for product cart items."
+          },
+          "item_type": {
+            "type": "string",
+            "enum": [
+              "product",
+              "rental"
+            ],
+            "description": "Type of cart item"
           }
         }
       },
@@ -5946,19 +5885,41 @@
       "AddToCartRequest": {
         "type": "object",
         "required": [
-          "product_id",
           "quantity"
         ],
         "properties": {
           "product_id": {
             "type": "string",
             "format": "uuid",
+            "nullable": true,
+            "description": "Required for product items; omit for rental items.",
             "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
           },
           "quantity": {
             "type": "integer",
             "minimum": 1,
             "example": 2
+          },
+          "rental_item_id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true,
+            "description": "Required when adding rental item. Mutually exclusive with product_id.",
+            "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+          },
+          "duration_type": {
+            "$ref": "#/components/schemas/RentalDurationType",
+            "nullable": true,
+            "description": "Required when adding rental item."
+          },
+          "item_type": {
+            "type": "string",
+            "enum": [
+              "product",
+              "rental"
+            ],
+            "default": "product",
+            "description": "Type of item being added to cart"
           }
         }
       },
@@ -5978,14 +5939,16 @@
       "OrderItem": {
         "type": "object",
         "required": [
-          "product_id",
           "quantity",
-          "price"
+          "price",
+          "item_type"
         ],
         "properties": {
           "product_id": {
             "type": "string",
             "format": "uuid",
+            "nullable": true,
+            "description": "Product reference. Present for product items and null for rental items.",
             "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
           },
           "quantity": {
@@ -6006,6 +5969,25 @@
           "product": {
             "$ref": "#/components/schemas/Product",
             "nullable": true
+          },
+          "rental_item_id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true,
+            "description": "Rental item reference. Present for rental items and null for product items."
+          },
+          "duration_type": {
+            "$ref": "#/components/schemas/RentalDurationType",
+            "nullable": true,
+            "description": "Rental duration. Null for product items."
+          },
+          "item_type": {
+            "type": "string",
+            "enum": [
+              "product",
+              "rental"
+            ],
+            "description": "Identifies whether this order item is a product or rental item."
           }
         }
       },
@@ -6054,6 +6036,10 @@
             "type": "string",
             "format": "date-time",
             "example": "2024-01-01T00:00:00Z"
+          },
+          "order_type": {
+            "$ref": "#/components/schemas/OrderType",
+            "description": "Type of order. Defaults to PRODUCT_PURCHASE for existing orders."
           }
         }
       },
@@ -6105,10 +6091,9 @@
               }
             },
             "example": {
-              "email": [
-                "Email is required",
-                "Email must be valid"
-              ]
+                        "field": [
+                          "Invalid value"
+                        ]
             },
             "description": "Field-level validation details"
           }
@@ -6163,6 +6148,474 @@
             "$ref": "#/components/schemas/Meta"
           }
         }
+      },
+      "OrderType": {
+        "type": "string",
+        "enum": [
+          "PRODUCT_PURCHASE",
+          "EQUIPMENT_RENTAL"
+        ],
+        "description": "Type of order: product purchase or equipment rental"
+      },
+      "PricingType": {
+        "type": "string",
+        "enum": [
+          "per_hour",
+          "per_day",
+          "per_week"
+        ],
+        "description": "Rental pricing type"
+      },
+      "RentalDurationType": {
+        "type": "string",
+        "enum": [
+          "hour",
+          "day",
+          "week"
+        ],
+        "description": "Rental duration type"
+      },
+      "RentalItem": {
+        "type": "object",
+        "required": [
+          "id",
+          "seller_id",
+          "name",
+          "pricing_type",
+          "available_units",
+          "created_at",
+          "updated_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+          },
+          "seller_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Owner seller ID",
+            "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+          },
+          "name": {
+            "type": "string",
+            "example": "Traktor Tani 50HP"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "example": "Traktor tani untuk lahan sawah"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "nullable": true,
+            "description": "Array of image URLs",
+            "example": [
+              "https://cdn.example.com/images/traktor1.jpg"
+            ]
+          },
+          "available_units": {
+            "type": "integer",
+            "minimum": 0,
+            "example": 3
+          },
+          "pricing_type": {
+            "$ref": "#/components/schemas/PricingType"
+          },
+          "price_per_hour": {
+            "type": "integer",
+            "minimum": 0,
+            "nullable": true,
+            "description": "Price per hour in IDR. Null if not applicable.",
+            "example": 25000
+          },
+          "price_per_day": {
+            "type": "integer",
+            "minimum": 0,
+            "nullable": true,
+            "description": "Price per day in IDR. Null if not applicable.",
+            "example": 150000
+          },
+          "price_per_week": {
+            "type": "integer",
+            "minimum": 0,
+            "nullable": true,
+            "description": "Price per week in IDR. Null if not applicable.",
+            "example": 800000
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-01-01T00:00:00Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-01-01T00:00:00Z"
+          }
+        }
+      },
+      "RentalItemCreateRequest": {
+        "type": "object",
+        "required": [
+          "name",
+          "pricing_type",
+          "available_units"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 255,
+            "example": "Traktor Tani 50HP"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1000,
+            "example": "Traktor tani untuk lahan sawah"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "maxItems": 10,
+            "description": "Array of image URLs"
+          },
+          "available_units": {
+            "type": "integer",
+            "minimum": 0,
+            "example": 3
+          },
+          "pricing_type": {
+            "$ref": "#/components/schemas/PricingType"
+          },
+          "price_per_hour": {
+            "type": "integer",
+            "minimum": 0,
+            "nullable": true,
+            "example": 25000
+          },
+          "price_per_day": {
+            "type": "integer",
+            "minimum": 0,
+            "nullable": true,
+            "example": 150000
+          },
+          "price_per_week": {
+            "type": "integer",
+            "minimum": 0,
+            "nullable": true,
+            "example": 800000
+          }
+        }
+      },
+      "RentalItemUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 255,
+            "example": "Traktor Tani 50HP"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1000,
+            "example": "Traktor tani untuk lahan sawah"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "maxItems": 10
+          },
+          "available_units": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "pricing_type": {
+            "$ref": "#/components/schemas/PricingType"
+          },
+          "price_per_hour": {
+            "type": "integer",
+            "minimum": 0,
+            "nullable": true
+          },
+          "price_per_day": {
+            "type": "integer",
+            "minimum": 0,
+            "nullable": true
+          },
+          "price_per_week": {
+            "type": "integer",
+            "minimum": 0,
+            "nullable": true
+          }
+        }
+      },
+      "RentalOrderItem": {
+        "type": "object",
+        "required": [
+          "rental_item_id",
+          "duration_type",
+          "quantity",
+          "price_snapshot"
+        ],
+        "properties": {
+          "rental_item_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Reference to RentalItem",
+            "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+          },
+          "duration_type": {
+            "$ref": "#/components/schemas/RentalDurationType"
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 1
+          },
+          "price_snapshot": {
+            "type": "integer",
+            "description": "Price per unit at time of rental in IDR",
+            "minimum": 0,
+            "example": 150000
+          },
+          "subtotal": {
+            "type": "integer",
+            "description": "price_snapshot * quantity",
+            "example": 150000
+          },
+          "rental_item": {
+            "$ref": "#/components/schemas/RentalItem",
+            "nullable": true
+          }
+        }
+      },
+      "DailySales": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "example": "2024-01-01"
+          },
+          "revenue": {
+            "type": "integer",
+            "description": "Daily revenue in IDR",
+            "example": 450000
+          },
+          "orders_count": {
+            "type": "integer",
+            "example": 3
+          }
+        }
+      },
+      "TopProduct": {
+        "type": "object",
+        "properties": {
+          "product_id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+          },
+          "name": {
+            "type": "string",
+            "example": "Kelapa Bulat Segar"
+          },
+          "total_sold": {
+            "type": "integer",
+            "example": 50
+          },
+          "revenue": {
+            "type": "integer",
+            "description": "Total revenue in IDR",
+            "example": 750000
+          }
+        }
+      },
+      "SellerDashboardResponse": {
+        "type": "object",
+        "required": [
+          "total_revenue",
+          "total_orders",
+          "total_items_sold",
+          "average_order_value"
+        ],
+        "properties": {
+          "total_revenue": {
+            "type": "integer",
+            "description": "Total revenue in IDR",
+            "example": 5000000
+          },
+          "total_orders": {
+            "type": "integer",
+            "example": 30
+          },
+          "total_items_sold": {
+            "type": "integer",
+            "example": 120
+          },
+          "average_order_value": {
+            "type": "number",
+            "format": "double",
+            "description": "Average order value in IDR",
+            "example": 166667
+          },
+          "sales_last_7_days": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DailySales"
+            },
+            "description": "Daily sales breakdown for the last 7 days"
+          },
+          "top_3_best_selling_products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TopProduct"
+            },
+            "maxItems": 3,
+            "description": "Top 3 best-selling products by units sold"
+          }
+        }
+      },
+      "MidtransCreatePaymentRequest": {
+        "type": "object",
+        "required": [
+          "order_id",
+          "gross_amount"
+        ],
+        "properties": {
+          "order_id": {
+            "type": "string",
+            "example": "ORDER-123"
+          },
+          "gross_amount": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 150000
+          },
+          "customer_details": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "item_details": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "MidtransCreatePaymentData": {
+        "type": "object",
+        "required": [
+          "order_id",
+          "snap_token",
+          "redirect_url"
+        ],
+        "properties": {
+          "order_id": {
+            "type": "string",
+            "example": "ORDER-123"
+          },
+          "snap_token": {
+            "type": "string"
+          },
+          "redirect_url": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      },
+      "MidtransCreatePaymentResponse": {
+        "type": "object",
+        "required": [
+          "success",
+          "message",
+          "data"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "example": "Payment transaction created"
+          },
+          "data": {
+            "$ref": "#/components/schemas/MidtransCreatePaymentData"
+          }
+        }
+      },
+      "MidtransWebhookRequest": {
+        "type": "object",
+        "required": [
+          "order_id",
+          "transaction_status",
+          "gross_amount",
+          "signature_key"
+        ],
+        "properties": {
+          "order_id": {
+            "type": "string"
+          },
+          "transaction_status": {
+            "type": "string",
+            "enum": [
+              "settlement",
+              "pending",
+              "deny",
+              "expire",
+              "cancel"
+            ]
+          },
+          "payment_type": {
+            "type": "string"
+          },
+          "gross_amount": {
+            "type": "integer"
+          },
+          "signature_key": {
+            "type": "string"
+          }
+        }
+      },
+      "MidtransWebhookResponse": {
+        "type": "object",
+        "required": [
+          "success",
+          "message"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "example": "Webhook processed"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "JWT access token"
       }
     }
   }
