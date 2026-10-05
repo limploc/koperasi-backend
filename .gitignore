@@ -42,3 +42,8 @@ Thumbs.db
 # NestJS / TypeScript cache
 *.tsbuildinfo
 .nestjs
+/src/generated/prisma
+
+.agents
+.claude
+.windsurf

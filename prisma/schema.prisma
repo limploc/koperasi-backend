@@ -1,0 +1,226 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  BUYER
+  SELLER
+  SUPERADMIN
+}
+
+enum ProductCategory {
+  kelapa
+  jagung
+  turunan
+}
+
+enum OrderStatus {
+  pending
+  paid
+  failed
+}
+
+enum OrderType {
+  PRODUCT_PURCHASE
+  EQUIPMENT_RENTAL
+}
+
+enum PricingType {
+  per_hour
+  per_day
+  per_week
+}
+
+enum RentalDurationType {
+  hour
+  day
+  week
+}
+
+enum CartItemType {
+  product
+  rental
+}
+
+enum PaymentProvider {
+  MIDTRANS
+}
+
+enum PaymentTransactionStatus {
+  pending
+  settlement
+  deny
+  expire
+  cancel
+  failure
+}
+
+model User {
+  id           String   @id @default(uuid()) @db.Uuid
+  email        String   @unique @db.VarChar(255)
+  phone_number String   @unique @db.VarChar(32)
+  password     String   @db.VarChar(255)
+  name         String?  @db.VarChar(255)
+  role         UserRole @default(BUYER)
+  is_active    Boolean  @default(true)
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  products      Product[]     @relation("SellerProducts")
+  rental_items  RentalItem[]  @relation("SellerRentalItems")
+  cart          Cart?
+  orders        Order[]       @relation("BuyerOrders")
+
+  @@index([role])
+  @@index([is_active])
+  @@map("users")
+}
+
+model Product {
+  id               String          @id @default(uuid()) @db.Uuid
+  seller_id        String          @db.Uuid
+  name             String          @db.VarChar(255)
+  category         ProductCategory
+  price            Int             @db.Integer
+  unit             String          @db.VarChar(64)
+  stock            Int             @db.Integer
+  short_description String?         @db.VarChar(500)
+  image_url        String?         @db.VarChar(2048)
+  created_at       DateTime        @default(now())
+  updated_at       DateTime        @updatedAt
+
+  seller     User        @relation("SellerProducts", fields: [seller_id], references: [id], onDelete: Restrict)
+  cart_items CartItem[]  @relation("ProductCartItems")
+  order_items OrderItem[] @relation("ProductOrderItems")
+
+  @@index([seller_id])
+  @@index([category])
+  @@index([name])
+  @@map("products")
+}
+
+model RentalItem {
+  id             String       @id @default(uuid()) @db.Uuid
+  seller_id      String       @db.Uuid
+  name           String       @db.VarChar(255)
+  description    String?      @db.VarChar(1000)
+  images         Json?
+  available_units Int         @db.Integer
+  pricing_type   PricingType
+  price_per_hour Int?         @db.Integer
+  price_per_day  Int?         @db.Integer
+  price_per_week Int?         @db.Integer
+  created_at     DateTime     @default(now())
+  updated_at     DateTime     @updatedAt
+
+  seller      User         @relation("SellerRentalItems", fields: [seller_id], references: [id], onDelete: Restrict)
+  cart_items  CartItem[]   @relation("RentalCartItems")
+  order_items OrderItem[]  @relation("RentalOrderItems")
+
+  @@index([seller_id])
+  @@index([pricing_type])
+  @@index([name])
+  @@map("rental_items")
+}
+
+model Cart {
+  id         String     @id @default(uuid()) @db.Uuid
+  buyer_id   String     @unique @db.Uuid
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+
+  buyer User       @relation(fields: [buyer_id], references: [id], onDelete: Cascade)
+  items CartItem[]
+
+  @@map("carts")
+}
+
+model CartItem {
+  id              String              @id @default(uuid()) @db.Uuid
+  cart_id         String              @db.Uuid
+  product_id      String?             @db.Uuid
+  rental_item_id  String?             @db.Uuid
+  quantity        Int                 @db.Integer
+  price_snapshot  Int                 @db.Integer
+  duration_type   RentalDurationType?
+  item_type       CartItemType        @default(product)
+  created_at      DateTime            @default(now())
+  updated_at      DateTime            @updatedAt
+
+  cart        Cart        @relation(fields: [cart_id], references: [id], onDelete: Cascade)
+  product     Product?    @relation("ProductCartItems", fields: [product_id], references: [id], onDelete: Cascade)
+  rental_item RentalItem? @relation("RentalCartItems", fields: [rental_item_id], references: [id], onDelete: Cascade)
+
+  @@index([product_id])
+  @@index([rental_item_id])
+  @@map("cart_items")
+}
+
+model Order {
+  id           String      @id @default(uuid()) @db.Uuid
+  buyer_id     String      @db.Uuid
+  total_amount Int         @db.Integer
+  status       OrderStatus @default(pending)
+  order_type   OrderType   @default(PRODUCT_PURCHASE)
+  created_at   DateTime    @default(now())
+  updated_at   DateTime    @updatedAt
+
+  buyer    User                 @relation("BuyerOrders", fields: [buyer_id], references: [id], onDelete: Restrict)
+  items    OrderItem[]
+  payments PaymentTransaction[]
+
+  @@index([buyer_id, created_at])
+  @@index([status])
+  @@index([order_type])
+  @@map("orders")
+}
+
+model OrderItem {
+  id              String              @id @default(uuid()) @db.Uuid
+  order_id        String              @db.Uuid
+  product_id      String?             @db.Uuid
+  rental_item_id  String?             @db.Uuid
+  quantity        Int                 @db.Integer
+  price           Int                 @db.Integer
+  price_snapshot  Int?                @db.Integer
+  subtotal        Int                 @db.Integer
+  duration_type   RentalDurationType?
+  item_type       CartItemType        @default(product)
+  created_at      DateTime            @default(now())
+
+  order       Order       @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  product     Product?    @relation("ProductOrderItems", fields: [product_id], references: [id], onDelete: SetNull)
+  rental_item RentalItem? @relation("RentalOrderItems", fields: [rental_item_id], references: [id], onDelete: SetNull)
+
+  @@index([order_id])
+  @@index([product_id])
+  @@index([rental_item_id])
+  @@map("order_items")
+}
+
+model PaymentTransaction {
+  id                 String                   @id @default(uuid()) @db.Uuid
+  order_id           String                   @db.Uuid
+  provider           PaymentProvider          @default(MIDTRANS)
+  provider_order_id  String                   @db.VarChar(255)
+  snap_token         String?                  @db.VarChar(2048)
+  redirect_url       String?                  @db.VarChar(2048)
+  gross_amount       Int                      @db.Integer
+  transaction_status  PaymentTransactionStatus @default(pending)
+  payment_type       String?                  @db.VarChar(64)
+  signature_key      String?                  @db.VarChar(255)
+  raw_response       Json?
+  created_at         DateTime                 @default(now())
+  updated_at         DateTime                 @updatedAt
+
+  order Order @relation(fields: [order_id], references: [id], onDelete: Cascade)
+
+  @@unique([provider, provider_order_id])
+  @@index([order_id])
+  @@index([transaction_status])
+  @@map("payment_transactions")
+}
