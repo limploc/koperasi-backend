@@ -1,6 +1,13 @@
 version: '3.8'
 
 services:
+  api:
+    build: .
+    container_name: nest_api
+    restart: always
+    depends_on:
+      - postgres
+
   postgres:
     image: postgres:15-alpine
     container_name: nest_postgres
