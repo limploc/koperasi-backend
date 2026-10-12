@@ -1,0 +1,21 @@
+services:
+  postgres-test:
+    image: postgres:15-alpine
+    container_name: koprasi_postgres_test
+    environment:
+      POSTGRES_USER: koprasi_test
+      POSTGRES_PASSWORD: koprasi_test
+      POSTGRES_DB: koprasi_test
+    ports:
+      - '55432:5432'
+    volumes:
+      - postgres_test_data:/var/lib/postgresql/data
+
+  redis-test:
+    image: redis:7-alpine
+    container_name: koprasi_redis_test
+    ports:
+      - '56379:6379'
+
+volumes:
+  postgres_test_data:
