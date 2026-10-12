@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 import { AuthService } from './auth.service.js';
 import { RegisterDto } from './dto/register.dto.js';
@@ -22,15 +22,17 @@ export class AuthController {
   }
 
   @Post('login')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(AuthRateLimitGuard)
   async login(@Body() dto: LoginDto) {
     return { success: true, message: 'Login successful', data: await this.auth.login(dto) };
   }
 
   @Post('refresh')
+  @HttpCode(HttpStatus.OK)
   @UseGuards(AuthRateLimitGuard)
   async refresh(@Body() dto: RefreshDto) {
-    return { success: true, message: 'Token refreshed successfully', data: await this.auth.refresh(dto) };
+    return { success: true, message: 'Token refreshed', data: await this.auth.refresh(dto) };
   }
 
   @Get('me')

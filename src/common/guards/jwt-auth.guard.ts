@@ -10,16 +10,20 @@ export class JwtAuthGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest<Request & { user?: AccessTokenPayload }>();
     const header = request.headers.authorization;
-    if (!header?.startsWith('Bearer ')) throw new UnauthorizedException('Unauthorized');
+    if (!header?.startsWith('Bearer ')) {
+      throw new UnauthorizedException({ message: 'Unauthorized', code: 'AUTH_REQUIRED' });
+    }
     try {
       const payload = this.jwt.verify<AccessTokenPayload>(header.slice(7), {
         secret: process.env.JWT_ACCESS_SECRET,
       });
-      if (payload.type !== 'access') throw new Error('invalid token type');
+      if (payload.type !== 'access') {
+        throw new UnauthorizedException({ message: 'Unauthorized', code: 'AUTH_REQUIRED' });
+      }
       request.user = payload;
       return true;
     } catch {
-      throw new UnauthorizedException('Unauthorized');
+      throw new UnauthorizedException({ message: 'Unauthorized', code: 'AUTH_REQUIRED' });
     }
   }
 }

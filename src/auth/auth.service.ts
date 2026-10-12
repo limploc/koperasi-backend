@@ -56,12 +56,12 @@ export class AuthService {
     const user = await this.prisma.user.findUnique({ where: { id: payload.sub } });
     if (!user?.is_active) throw new UnauthorizedException({ message: 'Invalid credentials', code: 'INVALID_CREDENTIALS' });
     await this.redis.getClient().del(key);
-    return this.issueTokens(user, payload.sid);
+    return this.issueTokens(user, randomUUID());
   }
 
   async me(id: string) {
     const user = await this.prisma.user.findUnique({ where: { id } });
-    if (!user?.is_active) throw new UnauthorizedException('Unauthorized');
+    if (!user?.is_active) throw new UnauthorizedException({ message: 'Unauthorized', code: 'AUTH_REQUIRED' });
     return this.mapUser(user);
   }
 

@@ -10,20 +10,38 @@ export class ApiExceptionFilter implements ExceptionFilter {
     const status = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
     const exceptionResponse = exception instanceof HttpException ? exception.getResponse() : undefined;
     const body = typeof exceptionResponse === 'object' && exceptionResponse !== null ? exceptionResponse as Record<string, unknown> : {};
-    const code = status === 400 ? 'VALIDATION_ERROR'
-      : status === 401 ? (body.code ?? 'AUTH_REQUIRED')
+    const code = (typeof body.code === 'string' && body.code)
+      ? body.code
+      : status === 400 ? 'VALIDATION_ERROR'
+      : status === 401 ? 'AUTH_REQUIRED'
       : status === 403 ? 'FORBIDDEN_ACCESS'
+      : status === 404 ? 'RESOURCE_NOT_FOUND'
       : status === 409 ? 'CONFLICT_ERROR'
-      : status === 429 ? 'VALIDATION_ERROR'
       : 'INTERNAL_SERVER_ERROR';
+
     const details = Array.isArray(body.message)
       ? { request: body.message.map(String) }
-      : body.details;
+      : (typeof body.details === 'object' && body.details !== null ? body.details : undefined);
+
+    const message = status >= 500
+      ? 'Internal server error'
+      : (typeof body.message === 'string'
+          ? body.message
+          : (typeof exceptionResponse === 'string'
+              ? exceptionResponse
+              : (exception instanceof Error ? exception.message : 'Request failed')));
+
     response.status(status).json({
       success: false,
-      message: status >= 500 ? 'Internal server error' : (typeof body.message === 'string' ? body.message : 'Request failed'),
-      error: { code, ...(details ? { details } : {}) },
-      meta: { timestamp: new Date().toISOString(), request_id: request.headers['x-request-id'] ?? `req_${randomUUID()}` },
+      message,
+      error: {
+        code,
+        ...(details ? { details } : {}),
+      },
+      meta: {
+        timestamp: new Date().toISOString(),
+        request_id: (request.headers?.['x-request-id'] as string) ?? `req_${randomUUID()}`,
+      },
     });
   }
 }

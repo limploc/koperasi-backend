@@ -27,8 +27,12 @@ describe.skipIf(!hasIsolatedInfrastructure)('Authentication (real integration)',
     process.env.JWT_REFRESH_EXPIRES_IN = '7d';
 
     const { AppModule } = await import('../src/app.module.js');
+    const { ApiExceptionFilter } = await import('../src/common/filters/api-exception.filter.js');
+    const { ValidationPipe } = await import('@nestjs/common');
     const module = await Test.createTestingModule({ imports: [AppModule] }).compile();
     app = module.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }));
+    app.useGlobalFilters(new ApiExceptionFilter());
     await app.init();
     prisma = module.get(PrismaService);
     redis = module.get(RedisService);
@@ -101,7 +105,11 @@ describe.skipIf(!hasIsolatedInfrastructure)('Authentication (real integration)',
     expect(refreshed.body.data.refresh_token).not.toBe(oldRefreshToken);
 
   
-    await request(app.getHttpServer()).post('/api/auth/refresh')
-      .send({ refresh_token: oldRefreshToken }).expect(401);
+    const rejected = await request(app.getHttpServer()).post('/api/auth/refresh')
+      .send({ refresh_token: oldRefreshToken })
+      .expect(401);
+    expect(rejected.body.success).toBe(false);
+    expect(rejected.body.error.code).toBe('AUTH_REQUIRED');
+    expect(rejected.body.meta).toHaveProperty('timestamp');
   });
 });

@@ -13,7 +13,8 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
     try {
       await this.client.connect();
     } catch (error) {
-      console.warn('Gagal terhubung ke Redis saat startup:', error.message);
+      const message = error instanceof Error ? error.message : String(error);
+      console.warn('Gagal terhubung ke Redis saat startup:', message);
     }
   }
 
@@ -24,7 +25,7 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
       } else {
         this.client.disconnect();
       }
-    } catch (error) {
+    } catch {
       this.client.disconnect();
     }
   }
