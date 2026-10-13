@@ -19,6 +19,10 @@ class EnvironmentVariables {
   @IsInt()
   @Min(1)
   PORT?: number;
+
+  @IsOptional()
+  @IsString()
+  CLOUDINARY_URL?: string;
 }
 
 export function validateEnvironment(config: Record<string, unknown>) {

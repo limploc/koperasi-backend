@@ -11,4 +11,5 @@ export default () => ({
     refreshTtlSeconds: Number(process.env.JWT_REFRESH_TTL_SECONDS ?? 604800),
   },
   corsOrigin: process.env.CORS_ORIGIN ?? 'http://localhost:3000',
+  cloudinaryUrl: process.env.CLOUDINARY_URL,
 });

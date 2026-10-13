@@ -7,6 +7,8 @@ import { validateEnvironment } from './config/env.validation.js';
 import { PrismaModule } from './database/prisma.module.js';
 import { RedisModule } from './redis/redis.module.js';
 import { AuthModule } from './auth/auth.module.js';
+import { CloudinaryModule } from './cloudinary/cloudinary.module.js';
+import { ProductsModule } from './products/products.module.js';
 
 @Module({
   imports: [
@@ -14,6 +16,8 @@ import { AuthModule } from './auth/auth.module.js';
     PrismaModule,
     RedisModule,
     AuthModule,
+    CloudinaryModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
