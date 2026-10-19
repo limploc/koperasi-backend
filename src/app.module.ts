@@ -9,6 +9,7 @@ import { RedisModule } from './redis/redis.module.js';
 import { AuthModule } from './auth/auth.module.js';
 import { CloudinaryModule } from './cloudinary/cloudinary.module.js';
 import { ProductsModule } from './products/products.module.js';
+import { OrdersModule } from './orders/orders.module.js';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ProductsModule } from './products/products.module.js';
     AuthModule,
     CloudinaryModule,
     ProductsModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
