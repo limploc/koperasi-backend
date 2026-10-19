@@ -14,6 +14,7 @@ import { CartModule } from './cart/cart.module.js';
 import { AdminModule } from './admin/admin.module.js';
 import { UsersModule } from './users/users.module.js';
 import { RentalModule } from './rental/rental.module.js';
+import { DashboardModule } from './dashboard/dashboard.module.js';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { RentalModule } from './rental/rental.module.js';
     AdminModule,
     UsersModule,
     RentalModule,
+    DashboardModule,
   ],
   controllers: [AppController],
   providers: [AppService],
