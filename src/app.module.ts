@@ -11,6 +11,7 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module.js';
 import { ProductsModule } from './products/products.module.js';
 import { OrdersModule } from './orders/orders.module.js';
 import { CartModule } from './cart/cart.module.js';
+import { AdminModule } from './admin/admin.module.js';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { CartModule } from './cart/cart.module.js';
     ProductsModule,
     OrdersModule,
     CartModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService],
