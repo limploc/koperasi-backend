@@ -32,7 +32,7 @@ const UUID_PIPE = new ParseUUIDPipe({
     }),
 });
 
-@Controller(['api/admin/users', 'api/users'])
+@Controller('api/admin/users')
 export class AdminUsersController {
   constructor(private readonly adminUsersService: AdminUsersService) {}
 
