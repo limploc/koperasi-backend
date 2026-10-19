@@ -9,6 +9,7 @@ import { RedisModule } from './redis/redis.module.js';
 import { AuthModule } from './auth/auth.module.js';
 import { CloudinaryModule } from './cloudinary/cloudinary.module.js';
 import { ProductsModule } from './products/products.module.js';
+import { OrdersModule } from './orders/orders.module.js';
 import { CartModule } from './cart/cart.module.js';
 
 @Module({
@@ -19,6 +20,7 @@ import { CartModule } from './cart/cart.module.js';
     AuthModule,
     CloudinaryModule,
     ProductsModule,
+    OrdersModule,
     CartModule,
   ],
   controllers: [AppController],
