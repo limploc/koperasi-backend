@@ -12,4 +12,9 @@ export default () => ({
   },
   corsOrigin: process.env.CORS_ORIGIN ?? 'http://localhost:3000',
   cloudinaryUrl: process.env.CLOUDINARY_URL,
+  midtrans: {
+    clientKey: process.env.MIDTRANS_CLIENT_KEY,
+    serverKey: process.env.MIDTRANS_SERVER_KEY,
+    isProduction: process.env.MIDTRANS_IS_PRODUCTION === 'true',
+  },
 });

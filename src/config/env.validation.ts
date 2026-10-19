@@ -23,6 +23,18 @@ class EnvironmentVariables {
   @IsOptional()
   @IsString()
   CLOUDINARY_URL?: string;
+
+  @IsOptional()
+  @IsString()
+  MIDTRANS_CLIENT_KEY?: string;
+
+  @IsOptional()
+  @IsString()
+  MIDTRANS_SERVER_KEY?: string;
+
+  @IsOptional()
+  @IsString()
+  MIDTRANS_IS_PRODUCTION?: string;
 }
 
 export function validateEnvironment(config: Record<string, unknown>) {
