@@ -13,6 +13,7 @@ import { OrdersModule } from './orders/orders.module.js';
 import { CartModule } from './cart/cart.module.js';
 import { AdminModule } from './admin/admin.module.js';
 import { UsersModule } from './users/users.module.js';
+import { RentalModule } from './rental/rental.module.js';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { UsersModule } from './users/users.module.js';
     CartModule,
     AdminModule,
     UsersModule,
+    RentalModule,
   ],
   controllers: [AppController],
   providers: [AppService],
