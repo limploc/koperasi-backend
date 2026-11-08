@@ -20,7 +20,7 @@ describe('Products E2E (real integration)', () => {
   let adminToken: string;
 
   beforeAll(async () => {
-    const testDbUrl = process.env.DATABASE_URL_TEST || process.env.DATABASE_URL;
+    const testDbUrl = process.env.DATABASE_URL_TEST ;
     if (!testDbUrl) {
       throw new Error('DATABASE_URL_TEST is not configured.');
     }
