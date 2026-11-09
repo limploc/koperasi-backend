@@ -27,10 +27,11 @@ export class MidtransService {
   private readonly isProduction: boolean;
 
   constructor(private readonly configService: ConfigService) {
-    this.serverKey = this.configService.get<string>('MIDTRANS_SERVER_KEY') ?? '';
-    this.clientKey = this.configService.get<string>('MIDTRANS_CLIENT_KEY');
-    const isProdValue = this.configService.get<string | boolean>('MIDTRANS_IS_PRODUCTION');
-    this.isProduction = isProdValue === true || isProdValue === 'true';
+    this.serverKey = this.configService.get<string>('midtrans.serverKey') ?? '';
+
+    this.clientKey = this.configService.get<string>('midtrans.clientKey');
+
+    this.isProduction = this.configService.get<boolean>('midtrans.isProduction') ?? false;
   }
 
   getSnapBaseUrl(): string {

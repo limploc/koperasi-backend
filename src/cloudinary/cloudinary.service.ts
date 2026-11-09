@@ -12,7 +12,7 @@ export class CloudinaryService {
   private readonly logger = new Logger(CloudinaryService.name);
 
   constructor(private readonly configService: ConfigService) {
-    const cloudinaryUrl = this.configService.get<string>('CLOUDINARY_URL') || process.env.CLOUDINARY_URL;
+    const cloudinaryUrl = this.configService.get<string>('cloudinaryUrl') || process.env.CLOUDINARY_URL;
     if (cloudinaryUrl) {
       cloudinary.config({
         cloudinary_url: cloudinaryUrl,
