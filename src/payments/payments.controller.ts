@@ -22,6 +22,7 @@ export class PaymentsController {
   constructor(private readonly paymentsService: PaymentsService) {}
 
   @Post('create')
+  @HttpCode(HttpStatus.OK)
   @Roles(UserRole.BUYER)
   @UseGuards(JwtAuthGuard, RolesGuard)
   async createPayment(
