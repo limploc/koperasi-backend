@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Petani - Kelola Penjualan Hasil Tani</title>
-  
+  <title>Monitoring Akun Petani Mitra - Koperasi Tani</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Beau+Rivage&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/navbar.css">
@@ -22,270 +26,289 @@
           <div class="logo-dot"></div>
           <div class="logo-dot"></div>
         </div>
-        <span>Luckycharm</span>
+        <span>Koperasi</span>
       </a>
 
-      <nav class="nav-pill-wrapper">
+      <nav class="nav-pill-wrapper" aria-label="Navigasi Pengguna">
         <div class="nav-pill-container">
-          <a href="index.html">Home</a>
-          <a href="toko.html">Products (Toko)</a>
+          <a href="toko.html">Toko Online</a>
           <a href="sewa.html">Sewa Alat</a>
-          <a href="dashboard-petani.html" class="active" aria-current="page">Dashboard Petani</a>
+          <a href="pesanan.html">Pesanan</a>
+          <a href="dashboard-petani.html" class="active" aria-current="page">Dashboard</a>
+          <a href="profil.html">Profil</a>
         </div>
       </nav>
 
       <div class="header-actions">
-        <a href="toko.html" class="btn-header-signup">Lihat Toko Publik &rarr;</a>
-        <a href="login.html" class="btn btn-outline" style="padding: 0.4rem 0.9rem; font-size: 0.8rem;" title="Keluar Akun">Logout</a>
+        <a href="cart.html" class="btn-header-cart" title="Keranjang Belanja">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <span class="cart-counter" style="display: none;">0</span>
+        </a>
+        <a href="login.html" class="btn-header-signup">Logout</a>
+        <button class="mobile-menu-toggle" aria-label="Buka Menu Navigasi" type="button">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- Dashboard Topbar: Profil Petani Mitra -->
-  <div class="dash-header-bar">
-    <div class="container dash-header-content">
-      
-      <div class="farmer-id-box">
-        <div class="farmer-avatar">🌾</div>
-        <div class="farmer-details">
-          <h1>
-            Lapak Tani Pak Joko
-            <span class="farmer-verified-badge">✓ Mitra Terverifikasi</span>
-          </h1>
-          <p>Kelompok Tani Sumber Makmur • Blok Lahan Sukamaju C-12 • Status: <strong style="color: #16A34A;">● Toko Buka</strong></p>
-        </div>
-      </div>
-
-      <div class="dash-actions-bar">
-        <button class="btn btn-dark" onclick="openAddProductModal()">
-          <span>+ Tambah Hasil Panen Baru</span>
-        </button>
-      </div>
-
-    </div>
-  </div>
-
   <!-- Konten Utama Dashboard -->
   <main class="container dash-main">
-    
-    <!-- 1. Empat Kartu Metrik Ringkasan Penjualan -->
-    <div class="dash-metrics-grid">
-      
-      <div class="metric-card">
-        <div class="metric-card-top">
-          <span>Total Penjualan Bulan Ini</span>
-          <div class="metric-icon">💰</div>
-        </div>
-        <div class="metric-value" id="metricRevenue">Rp 0</div>
-        <span class="metric-badge-trend">↑ +18.4% dari bulan lalu</span>
+
+    <!-- 1. Header Halaman Minimalis & Fungsional -->
+    <header class="dash-header-banner">
+      <div class="dash-header-left">
+        <h1>Monitoring Akun <span class="font-tani-accent">Petani</span></h1>
+        <p>Ringkasan akumulasi penjualan panen, evaluasi mutu komoditas, serta pemantauan distribusi logistik koperasi.</p>
       </div>
 
-      <div class="metric-card">
-        <div class="metric-card-top">
-          <span>Pesanan Masuk</span>
-          <div class="metric-icon">📦</div>
-        </div>
-        <div class="metric-value" id="metricOrders">0 Pesanan</div>
-        <span style="font-size: 0.75rem; color: #6B7280;">2 pesanan perlu diproses</span>
-      </div>
-
-      <div class="metric-card">
-        <div class="metric-card-top">
-          <span>Komoditas Aktif</span>
-          <div class="metric-icon">🌱</div>
-        </div>
-        <div class="metric-value" id="metricProducts">0 Produk</div>
-        <span style="font-size: 0.75rem; color: #16A34A;">Tersedia di katalog publik</span>
-      </div>
-
-      <div class="metric-card">
-        <div class="metric-card-top">
-          <span>Rating Lapak Petani</span>
-          <div class="metric-icon">⭐</div>
-        </div>
-        <div class="metric-value" id="metricRating">5.0 / 5.0</div>
-        <span style="font-size: 0.75rem; color: #6B7280;">Berdasarkan ulasan pembeli</span>
-      </div>
-
-    </div>
-
-    <!-- 2. Bagian Tengah: Visualisasi Tren Penjualan & Target Koperasi -->
-    <div class="dash-middle-grid">
-      
-      <!-- Grafik Tren Penjualan Mingguan CSS/SVG -->
-      <div class="dash-box">
-        <div class="dash-box-header">
-          <div>
-            <h3>Tren Pendapatan Penjualan Mingguan</h3>
-            <p style="font-size: 0.85rem; color: #6B7280;">Performa penjualan komoditas 7 hari terakhir</p>
-          </div>
-          <span class="badge-tag"><span class="dot-green"></span> Real-time</span>
-        </div>
-
-        <div class="sales-chart-container">
-          <div class="chart-bar-col">
-            <span class="chart-bar-val">750rb</span>
-            <div class="chart-bar" style="height: 45%;"></div>
-            <span class="chart-bar-label">Sen</span>
-          </div>
-          <div class="chart-bar-col">
-            <span class="chart-bar-val">1.2jt</span>
-            <div class="chart-bar" style="height: 70%;"></div>
-            <span class="chart-bar-label">Sel</span>
-          </div>
-          <div class="chart-bar-col">
-            <span class="chart-bar-val">650rb</span>
-            <div class="chart-bar" style="height: 40%;"></div>
-            <span class="chart-bar-label">Rab</span>
-          </div>
-          <div class="chart-bar-col">
-            <span class="chart-bar-val">900rb</span>
-            <div class="chart-bar" style="height: 55%;"></div>
-            <span class="chart-bar-label">Kam</span>
-          </div>
-          <div class="chart-bar-col">
-            <span class="chart-bar-val">1.5jt</span>
-            <div class="chart-bar" style="height: 85%;"></div>
-            <span class="chart-bar-label">Jum</span>
-          </div>
-          <div class="chart-bar-col">
-            <span class="chart-bar-val">1.8jt</span>
-            <div class="chart-bar" style="height: 95%; background-color: var(--color-primary);"></div>
-            <span class="chart-bar-label">Sab</span>
-          </div>
-          <div class="chart-bar-col">
-            <span class="chart-bar-val">1.6jt</span>
-            <div class="chart-bar" style="height: 88%;"></div>
-            <span class="chart-bar-label">Min</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Kotak Ringkasan Target & Koperasi -->
-      <div class="dash-box" style="display: flex; flex-direction: column; justify-content: space-between;">
-        <div>
-          <h3>Target Penjualan Bulan Ini</h3>
-          <p style="font-size: 0.85rem; color: #6B7280; margin-bottom: 1.5rem;">Target bagi hasil koperasi: Rp 10.000.000</p>
-          
-          <div style="margin-bottom: 1rem;">
-            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.35rem;">
-              <span>Pencapaian:</span>
-              <strong>84.5%</strong>
-            </div>
-            <div style="height: 10px; background: #E5E7EB; border-radius: var(--radius-full); overflow: hidden;">
-              <div style="width: 84.5%; height: 100%; background: var(--color-primary); border-radius: var(--radius-full);"></div>
-            </div>
-          </div>
-
-          <div style="background: #F9FAFB; padding: 1rem; border-radius: var(--radius-md); font-size: 0.825rem; color: #4B5563; line-height: 1.5;">
-            💡 <strong>Info Petani:</strong> Komoditas tomat ceri hidroponik Anda memiliki permintaan tertinggi minggu ini. Pertahankan kualitas kesegaran panen!
-          </div>
-        </div>
-
-        <a href="sewa.html" class="btn btn-outline" style="width: 100%; margin-top: 1rem; text-align: center;">
-          🚜 Butuh Alat? Sewa Alsintan Koperasi
+      <div class="dash-header-actions">
+        <a href="sewa.html" class="dash-btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/>
+            <path d="M15 18H9"/>
+            <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/>
+            <circle cx="17" cy="18" r="2"/>
+            <circle cx="7" cy="18" r="2"/>
+          </svg>
+          <span>Sewa Alsintan</span>
+        </a>
+        <a href="toko.html" class="dash-btn-primary">
+          <span>Lihat Etalase Toko</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+          </svg>
         </a>
       </div>
+    </header>
+    
+    <!-- 2. Tiga Kartu Metrik Kinerja Kemitraan (Subgrid Aligned) -->
+    <section class="dash-metrics-grid" aria-label="Metrik Ringkasan Kemitraan">
+      
+      <!-- Metrik 1 -->
+      <article class="metric-card">
+        <div class="metric-card-top">
+          <span class="metric-title">Akumulasi Penjualan</span>
+          <div class="metric-icon-wrap" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+              <polyline points="16 7 22 7 22 13"/>
+            </svg>
+          </div>
+        </div>
+        <div class="metric-value" id="metricTotalSales">Rp 8.450.000</div>
+        <div class="metric-footer">
+          <span class="metric-pill-positive">+18.4%</span>
+          <span class="metric-subtext">peningkatan panen musim ini</span>
+        </div>
+      </article>
 
-    </div>
+      <!-- Metrik 2 -->
+      <article class="metric-card">
+        <div class="metric-card-top">
+          <span class="metric-title">Transaksi Panen Terjual</span>
+          <div class="metric-icon-wrap" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+              <path d="m3.3 7 8.7 5 8.7-5"/>
+              <path d="M12 22V12"/>
+            </svg>
+          </div>
+        </div>
+        <div class="metric-value" id="metricOrdersCount">5 Transaksi</div>
+        <div class="metric-footer">
+          <span class="metric-pill-positive">100%</span>
+          <span class="metric-subtext">tersalurkan kurir koperasi</span>
+        </div>
+      </article>
 
-    <!-- 3. Tabel Pesanan Masuk (Kelola Status Transaksi Penjualan) -->
-    <div class="dash-box" style="margin-bottom: 2.5rem;">
-      <div class="dash-box-header">
-        <div>
-          <h3>Pesanan Masuk dari Pembeli</h3>
-          <p style="font-size: 0.85rem; color: #6B7280;">Perbarui status pengiriman hasil panen langsung dari tabel ini</p>
+      <!-- Metrik 3 -->
+      <article class="metric-card">
+        <div class="metric-card-top">
+          <span class="metric-title">Rating Mutu Panen</span>
+          <div class="metric-icon-wrap" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
+        </div>
+        <div class="metric-value" id="metricRating">4.95 <span class="metric-unit">/ 5.0</span></div>
+        <div class="metric-footer">
+          <span class="metric-pill-neutral">Grade A</span>
+          <span class="metric-subtext">predikat mitra unggulan</span>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- 3. Informasi Penyetoran Hasil Panen (Minimalist Bento Strip) -->
+    <section class="warehouse-strip-card" aria-label="Informasi Penyetoran Hasil Panen">
+      <div class="warehouse-strip-main">
+        <div class="warehouse-strip-icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 21h18"/>
+            <path d="M5 21V7l8-4v18"/>
+            <path d="M19 21V11l-6-4"/>
+            <path d="M9 9v.01"/><path d="M9 12v.01"/><path d="M9 15v.01"/><path d="M9 18v.01"/>
+          </svg>
+        </div>
+        <div class="warehouse-strip-copy">
+          <h2>Penyetoran &amp; Pendaftaran Komoditas Panen</h2>
+          <p>
+            Penambahan stok panen ke etalase toko dilakukan langsung di <strong>Gudang Penerimaan Koperasi</strong> untuk penimbangan, uji sortir mutu agronom, dan pencatatan otomatis.
+          </p>
         </div>
       </div>
 
-      <div class="table-responsive-wrapper">
+      <div class="warehouse-strip-meta">
+        <div class="warehouse-meta-item">
+          <span class="meta-label">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+            Lokasi Gudang
+          </span>
+          <strong class="meta-val">Desa Sukamaju, Blok C</strong>
+        </div>
+
+        <div class="warehouse-meta-item">
+          <span class="meta-label">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            Jam Operasional
+          </span>
+          <strong class="meta-val">Senin – Sabtu (07.30 – 16.30)</strong>
+        </div>
+
+        <div class="warehouse-meta-item">
+          <span class="meta-label">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            Kontak Kurator
+          </span>
+          <strong class="meta-val">+62 812-3456-7890</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Tabel Monitoring Distribusi Penjualan Panen -->
+    <section class="dash-table-card" aria-labelledby="sales-table-title">
+      
+      <!-- Baris Atas: Judul & Badge Logistik -->
+      <div class="dash-table-top">
+        <div class="table-title-box">
+          <h2 id="sales-table-title">Distribusi Penjualan Panen</h2>
+          <p>Pemrosesan pesanan, pembayaran konsumen, dan pengantaran kurir dikelola penuh oleh Logistik Koperasi.</p>
+        </div>
+
+        <div class="table-admin-badge">
+          <span class="status-dot-live" aria-hidden="true"></span>
+          <span>Dikelola Logistik Admin Koperasi</span>
+        </div>
+      </div>
+
+      <!-- Toolbar Interaktif: Filter Status & Pencarian Cepat -->
+      <div class="dash-table-toolbar">
+        <div class="dash-filter-pills" role="tablist" aria-label="Filter Status Distribusi">
+          <button type="button" class="dash-filter-btn active" data-status="all" onclick="filterDashboardOrders('all', this)">
+            Semua <span class="filter-count" id="countDashAll">5</span>
+          </button>
+          <button type="button" class="dash-filter-btn" data-status="diproses" onclick="filterDashboardOrders('diproses', this)">
+            Diproses <span class="filter-count" id="countDashProcess">1</span>
+          </button>
+          <button type="button" class="dash-filter-btn" data-status="dikirim" onclick="filterDashboardOrders('dikirim', this)">
+            Dikirim <span class="filter-count" id="countDashShipped">1</span>
+          </button>
+          <button type="button" class="dash-filter-btn" data-status="selesai" onclick="filterDashboardOrders('selesai', this)">
+            Selesai <span class="filter-count" id="countDashDone">3</span>
+          </button>
+        </div>
+
+        <div class="dash-search-box">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+          </svg>
+          <input type="search" id="dashOrderSearch" placeholder="Cari invoice, pembeli, komoditas..." aria-label="Cari transaksi panen">
+        </div>
+      </div>
+
+      <!-- Region Tabel Responsif Sesuai Standar Aksesibilitas & Container Query -->
+      <div tabindex="0" role="region" aria-labelledby="sales-table-title" class="table-responsive-wrapper">
         <table class="data-table">
           <thead>
             <tr>
-              <th>No. Pesanan</th>
-              <th>Pembeli & Pembayaran</th>
-              <th>Komoditas Dipesan</th>
-              <th>Total Bayar</th>
-              <th>Tanggal</th>
-              <th>Status</th>
-              <th>Ubah Status</th>
+              <th scope="col">No. Invoice</th>
+              <th scope="col">Konsumen &amp; Pembayaran</th>
+              <th scope="col">Komoditas Panen</th>
+              <th scope="col">Nilai Penjualan</th>
+              <th scope="col">Waktu Transaksi</th>
+              <th scope="col">Status Distribusi</th>
+              <th scope="col">Catatan Logistik</th>
             </tr>
           </thead>
           <tbody id="ordersTableBody">
-            <!-- Dirender oleh dashboard.js -->
+            <!-- Dirender secara dinamis oleh js/dashboard.js -->
           </tbody>
         </table>
       </div>
-    </div>
 
-    <!-- 4. Manajemen Komoditas Hasil Panen Saya -->
-    <div class="dash-box">
-      <div class="dash-box-header">
-        <div>
-          <h3>Daftar Komoditas Hasil Panen Saya</h3>
-          <p style="font-size: 0.85rem; color: #6B7280;">Pantau stok panen yang ditampilkan di etalase toko online</p>
-        </div>
-        <button class="btn btn-dark" style="padding: 0.45rem 1rem; font-size: 0.85rem;" onclick="openAddProductModal()">
-          + Tambah Panen
-        </button>
-      </div>
-
-      <div class="farmer-products-grid" id="farmerProductsGrid">
-        <!-- Dirender oleh dashboard.js -->
-      </div>
-    </div>
+    </section>
 
   </main>
 
-  <!-- =========================================================================
-       NATIVE HTML5 <dialog> MODAL TAMBAH HASIL PANEN BARU
-       ========================================================================= -->
-  <dialog id="addProductModal">
-    <div class="modal-content-box">
-      <button class="modal-close-btn" onclick="document.getElementById('addProductModal').close()">&times;</button>
-      
-      <div style="margin-bottom: 1.5rem;">
-        <span class="badge-tag" style="padding-left:0;"><span class="dot-green"></span> Tambah Hasil Panen</span>
-        <h2 style="font-size: 1.35rem; margin-top: 0.25rem;">Form Komoditas Baru</h2>
-        <p style="font-size: 0.85rem; color: #6B7280;">Produk yang Anda tambahkan akan langsung muncul di katalog toko.</p>
+  <!-- Footer Lengkap & Rapi 3 Kolom -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="site-logo" style="margin-bottom: 0.75rem;">
+            <div class="logo-icon-grid" aria-hidden="true">
+              <div class="logo-dot"></div>
+              <div class="logo-dot"></div>
+              <div class="logo-dot"></div>
+              <div class="logo-dot"></div>
+            </div>
+            <span>Koperasi</span>
+          </div>
+          <p style="font-size: 0.85rem; color: #6B7280; line-height: 1.6; max-width: 320px;">
+            Platform ekosistem agritech koperasi modern untuk memfasilitasi transaksi hasil panen dan sewa alsintan langsung bersama petani mitra.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Layanan Anggota</h4>
+          <ul>
+            <li><a href="toko.html">Katalog Hasil Tani</a></li>
+            <li><a href="sewa.html">Peminjaman Alsintan</a></li>
+            <li><a href="pesanan.html">Pantau Status Pesanan</a></li>
+            <li><a href="profil.html">Pengaturan Akun &amp; Profil</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Bantuan &amp; Kontak</h4>
+          <ul>
+            <li style="color: #6B7280; font-size: 0.85rem;">WhatsApp: +62 812-3456-7890</li>
+            <li style="color: #6B7280; font-size: 0.85rem;">Operasional: Senin - Sabtu (08.00 - 17.00)</li>
+            <li style="color: #6B7280; font-size: 0.85rem;">Gudang Utama: Desa Sukamaju</li>
+          </ul>
+        </div>
       </div>
 
-      <form id="addProductForm">
-        <div class="form-group">
-          <label class="form-label" for="prodNameInput">Nama Komoditas Hasil Panen</label>
-          <input type="text" id="prodNameInput" class="form-input" placeholder="contoh: Jagung Manis Madu Organik" required>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 1rem;">
-          <div class="form-group">
-            <label class="form-label" for="prodPriceInput">Harga Jual (Rp)</label>
-            <input type="number" id="prodPriceInput" class="form-input" placeholder="contoh: 25000" min="1000" step="500" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="prodUnitInput">Satuan</label>
-            <input type="text" id="prodUnitInput" class="form-input" placeholder="kg, ikat, karung" required>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="prodStockInput">Jumlah Stok Panen</label>
-          <input type="number" id="prodStockInput" class="form-input" placeholder="contoh: 50" min="1" required>
-        </div>
-
-        <button type="submit" class="btn btn-dark" style="width: 100%; padding: 0.85rem; margin-top: 0.5rem;">
-          Simpan & Tampilkan ke Toko &rarr;
-        </button>
-      </form>
-    </div>
-  </dialog>
-
-  <footer class="site-footer">
-    <div class="container footer-bottom">
-      <p>&copy; 2025 Luckycharm • Panel Penjualan Petani Mandiri</p>
-      <p>Koperasi Tani Modern Berbasis Gotong Royong</p>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Koperasi Tani Makmur. Seluruh hak cipta dilindungi.</p>
+        <p><a href="dashboard-petani.html" style="color: var(--color-primary); font-weight: 600;">Khusus Petani Mitra: Akses Dashboard &rarr;</a></p>
+      </div>
     </div>
   </footer>
 
+  <!-- Scripts -->
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
   <script src="js/dashboard.js"></script>

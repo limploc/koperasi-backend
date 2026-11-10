@@ -9,7 +9,7 @@
 
 .rent-header-banner {
   background-color: var(--color-bg-subtle);
-  padding: 3.5rem 0 2.5rem 0;
+  padding: 3.75rem 0 3rem 0;
   border-bottom: 1px solid var(--color-border);
   text-align: center;
 }
@@ -19,10 +19,23 @@
   margin-bottom: 0.5rem;
 }
 
+.rent-header-banner h1 .font-tani-accent,
+.rent-header-banner h1 .font-beau-rivage {
+  font-family: var(--font-script, 'Beau Rivage', cursive);
+  color: #16A34A;
+  font-size: 1.45em;
+  font-weight: 400;
+  display: inline-block;
+  margin: 0 0.15rem;
+  vertical-align: -0.06em;
+  line-height: 0.9;
+}
+
 .rent-header-banner p {
   color: #6B7280;
   max-width: 620px;
   margin: 0 auto;
+  line-height: 1.6;
 }
 
 /* Info Bar Keuntungan Sewa Alsintan */
@@ -66,11 +79,11 @@
   line-height: 1.4;
 }
 
-/* Grid Alat Sewa */
+/* Grid Alat Sewa (4 Kolom Rapi di Desktop) */
 .rentals-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.15rem;
   margin-bottom: 5rem;
 }
 
@@ -208,8 +221,22 @@
   color: #111827;
 }
 
+@media (max-width: 1024px) {
+  .rentals-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
+
 @media (max-width: 768px) {
   .rent-benefits-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .rentals-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
   }

@@ -1,0 +1,365 @@
+/**
+ * ==============================================================================
+ * ORDERS TRACKING PAGE STYLES (pesanan.css)
+ * ------------------------------------------------------------------------------
+ * Mengatur tampilan halaman pantau pesanan anggota koperasi:
+ * - Filter tab status pesanan
+ * - Kartu pesanan lengkap dengan badge status, rincian produk, dan tombol bantuan WA
+ * ==============================================================================
+ */
+
+.orders-page-wrapper {
+  padding-top: 2rem;
+  padding-bottom: 5rem;
+  min-height: calc(100vh - var(--header-height));
+}
+
+.orders-header-banner {
+  margin-bottom: 2rem;
+}
+
+.orders-header-banner h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.35rem;
+}
+
+.orders-header-banner p {
+  color: #6B7280;
+  font-size: 0.92rem;
+}
+
+/* Navigasi Kategori Utama Pesanan: Toko Online vs Sewa Alat */
+.orders-type-nav {
+  display: inline-flex;
+  background-color: #F3F4F6;
+  padding: 5px;
+  border-radius: var(--radius-full);
+  margin-bottom: 1.75rem;
+  border: 1px solid #E5E7EB;
+  gap: 4px;
+}
+
+.order-type-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.65rem 1.4rem;
+  border-radius: var(--radius-full);
+  border: none;
+  background: transparent;
+  color: #4B5563;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.order-type-tab:hover {
+  color: #111827;
+}
+
+.order-type-tab.active {
+  background-color: #111827;
+  color: #FFFFFF;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.order-type-tab .type-counter {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  background-color: #E5E7EB;
+  color: #374151;
+  transition: all var(--transition-fast);
+}
+
+.order-type-tab.active .type-counter {
+  background-color: rgba(255, 255, 255, 0.22);
+  color: #FFFFFF;
+}
+
+/* Tab Filter Status Pesanan */
+.orders-filter-bar {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 0.5rem;
+}
+
+.orders-filter-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.order-filter-btn {
+  padding: 0.55rem 1.25rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  border-radius: var(--radius-full);
+  border: 1px solid #E5E7EB;
+  background-color: #FFFFFF;
+  color: #4B5563;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+}
+
+.order-filter-btn:hover {
+  border-color: #9CA3AF;
+  color: #111827;
+}
+
+.order-filter-btn.active {
+  background-color: #111827;
+  color: #FFFFFF;
+  border-color: #111827;
+  font-weight: 600;
+}
+
+/* List Kartu Pesanan */
+.orders-list-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.order-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 18px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  transition: all var(--transition-fast);
+}
+
+.order-card:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+  border-color: #D1D5DB;
+}
+
+/* Header Kartu */
+.order-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.order-id-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.order-code {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.order-date {
+  font-size: 0.82rem;
+  color: #9CA3AF;
+}
+
+/* Badge Status */
+.order-status-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.02em;
+}
+
+.order-status-badge.diproses {
+  background-color: #FEF3C7;
+  color: #B45309;
+}
+
+.order-status-badge.dikirim {
+  background-color: #E0F2FE;
+  color: #0369A1;
+}
+
+.order-status-badge.selesai {
+  background-color: #DCFCE7;
+  color: #15803D;
+}
+
+.order-status-badge.menunggu-acc {
+  background-color: #FEF3C7;
+  color: #B45309;
+}
+
+.order-status-badge.aktif-lahan {
+  background-color: #E0E7FF;
+  color: #4338CA;
+}
+
+/* Tag spesifikasi sewa alsintan */
+.rental-spec-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.rental-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.65rem;
+  background-color: #F3F4F6;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  color: #4B5563;
+  font-weight: 500;
+}
+
+/* Konten Produk di Pesanan */
+.order-items-wrap {
+  padding: 1.25rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.order-prod-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.order-prod-img {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  object-fit: cover;
+  background-color: #F3F4F6;
+  flex-shrink: 0;
+}
+
+.order-prod-details {
+  flex: 1;
+}
+
+.order-prod-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.2rem;
+}
+
+.order-prod-meta {
+  font-size: 0.8rem;
+  color: #6B7280;
+}
+
+.order-prod-price {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Footer Kartu Pesanan */
+.order-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #F1F5F9;
+}
+
+.order-total-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.order-total-label {
+  font-size: 0.78rem;
+  color: #6B7280;
+}
+
+.order-total-amount {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.order-action-links {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.btn-order-wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 8px;
+  background-color: #F0FDF4;
+  color: #166534;
+  border: 1px solid #BBF7D0;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.btn-order-wa:hover {
+  background-color: #DCFCE7;
+  color: #14532D;
+}
+
+.btn-order-reorder {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 1.15rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 8px;
+  background-color: #111827;
+  color: #FFFFFF;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.btn-order-reorder:hover {
+  background-color: #1F2937;
+}
+
+/* Empty State */
+.orders-empty-box {
+  text-align: center;
+  padding: 4.5rem 1.5rem;
+  border: 1px dashed #E5E7EB;
+  border-radius: 16px;
+  background-color: #FAFAFA;
+}
+
+.orders-empty-box h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.orders-empty-box p {
+  color: #6B7280;
+  font-size: 0.88rem;
+  max-width: 420px;
+  margin: 0 auto 1.5rem auto;
+}

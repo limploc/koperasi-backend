@@ -15,7 +15,68 @@ let cart = JSON.parse(localStorage.getItem('koperasi_cart') || '[]');
 document.addEventListener('DOMContentLoaded', () => {
   setupMobileMenu();
   updateCartBadge();
+  syncNavbarRole();
 });
+
+// Sinkronisasi Role User (Pembeli vs Petani) dan Tampilan Navbar
+function syncNavbarRole() {
+  const userRole = localStorage.getItem('koperasi_role') || 'pembeli';
+  const currentPath = window.location.pathname.toLowerCase();
+  
+  // Deteksi apakah sedang berada di landing page (index.html atau root)
+  const isLandingPage = currentPath.endsWith('index.html') || 
+                        currentPath.endsWith('/') || 
+                        currentPath === '' || 
+                        currentPath.endsWith('frontend') || 
+                        currentPath.endsWith('frontend/');
+
+  // 1. Logika Tampilan Menu Dashboard di Navbar Pill
+  const dashLinks = document.querySelectorAll('.nav-pill-container a[href*="dashboard"]');
+  dashLinks.forEach(link => {
+    if (isLandingPage) {
+      // Pada beranda, sembunyikan menu dashboard
+      link.style.display = 'none';
+    } else {
+      // Pada halaman setelah login (toko, sewa, dashboard, profil):
+      // Jika peran adalah 'petani' -> Tampilkan menu Dashboard
+      // Jika peran adalah 'pembeli' -> Sembunyikan menu Dashboard
+      if (userRole === 'petani') {
+        link.style.display = '';
+      } else {
+        link.style.display = 'none';
+      }
+    }
+  });
+
+  // 2. Logika Tombol Kanan Atas (Logout vs Daftar)
+  const authBtns = document.querySelectorAll('.btn-header-signup');
+  authBtns.forEach(btn => {
+    if (isLandingPage) {
+      btn.textContent = 'Daftar';
+      btn.setAttribute('href', 'register.html');
+    } else {
+      // Pada halaman toko dan lainnya setelah login: tombol menjadi 'Logout'
+      btn.textContent = 'Logout';
+      btn.setAttribute('href', 'login.html');
+      btn.onclick = function() {
+        // Reset role ke default saat logout
+        localStorage.removeItem('koperasi_role');
+      };
+    }
+  });
+
+  // 3. Pada Beranda (index.html): Klik Toko Online atau Sewa Alat dialihkan ke Halaman Login
+  if (isLandingPage) {
+    const restrictedLinks = document.querySelectorAll('a[href*="toko.html"], a[href*="sewa.html"]');
+    restrictedLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetHref = link.getAttribute('href') || 'toko.html';
+        window.location.href = `login.html?redirect=${encodeURIComponent(targetHref)}`;
+      });
+    });
+  }
+}
 
 // Setup Mobile Menu Toggle
 function setupMobileMenu() {

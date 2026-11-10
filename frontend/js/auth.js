@@ -1,101 +1,163 @@
 /**
  * ==============================================================================
- * LOGIKA AUTENTIKASI SIMULASI (auth.js)
+ * LOGIKA AUTENTIKASI USER KOPERASI (auth.js)
  * ------------------------------------------------------------------------------
- * Mengatur alur perpindahan role:
- * - Pembeli -> Dialihkan ke Toko Online (toko.html)
- * - Petani -> Dialihkan ke Dashboard Petani (dashboard-petani.html)
- * - Admin -> Simulasi konfirmasi login admin
- * - Tombol shortcut 1-klik untuk presentasi demo
+ * Mendukung tampilan minimalis ala referensi:
+ * - Mode utama: Magic link ke email
+ * - Toggle mode: Masuk menggunakan kata sandi (Pembeli / Petani Mitra)
+ * - Toggle daftar akun baru gratis
+ * - Tombol Single Sign-On (SSO) untuk masuk cepat Pembeli / Petani
  * ==============================================================================
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  const tabUser = document.getElementById('tabUser');
-  const tabAdmin = document.getElementById('tabAdmin');
-  const userSubSelector = document.getElementById('userSubSelector');
   const loginForm = document.getElementById('loginForm');
   const emailInput = document.getElementById('emailInput');
   const passwordInput = document.getElementById('passwordInput');
-  const roleHelpText = document.getElementById('roleHelpText');
+  const passwordSection = document.getElementById('passwordSection');
+  const togglePasswordModeBtn = document.getElementById('togglePasswordModeBtn');
+  const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+  const toggleRegisterBtn = document.getElementById('toggleRegisterBtn');
+  const submitAuthBtn = document.getElementById('submitAuthBtn');
+  const authHeading = document.getElementById('authHeading');
+  const authStatusBanner = document.getElementById('authStatusBanner');
+  const ssoBtn = document.getElementById('ssoBtn');
+  const ssoPanel = document.getElementById('ssoPanel');
+  const termsLink = document.getElementById('termsLink');
+  const privacyLink = document.getElementById('privacyLink');
 
-  let currentTab = 'user'; // 'user' atau 'admin'
+  let usePasswordMode = false;
+  let isRegisterMode = false;
 
-  // Ganti Tab Utama (User vs Admin)
-  if (tabUser && tabAdmin) {
-    tabUser.addEventListener('click', () => {
-      currentTab = 'user';
-      tabUser.classList.add('active');
-      tabAdmin.classList.remove('active');
-      if (userSubSelector) userSubSelector.style.display = 'flex';
-      if (roleHelpText) roleHelpText.textContent = 'Masuk sebagai anggota koperasi (Pembeli atau Petani Mitra).';
-    });
+  const urlParams = new URLSearchParams(window.location.search);
+  const redirectTarget = urlParams.get('redirect');
 
-    tabAdmin.addEventListener('click', () => {
-      currentTab = 'admin';
-      tabAdmin.classList.add('active');
-      tabUser.classList.remove('active');
-      if (userSubSelector) userSubSelector.style.display = 'none';
-      if (roleHelpText) roleHelpText.textContent = 'Masuk sebagai Administrator Pengurus Koperasi.';
-    });
-  }
+  const updateAuthView = () => {
+    if (isRegisterMode) {
+      authHeading.textContent = 'Buat akun Koperasi';
+      toggleRegisterBtn.textContent = 'Sudah punya akun? Masuk';
+      submitAuthBtn.textContent = usePasswordMode ? 'Daftar sekarang' : 'Kirim tautan daftar';
+      passwordInput.setAttribute('autocomplete', 'new-password');
+    } else {
+      authHeading.textContent = 'Halo, selamat datang!';
+      toggleRegisterBtn.textContent = 'Daftar gratis';
+      submitAuthBtn.textContent = usePasswordMode ? 'Masuk sekarang' : 'Kirim tautan masuk';
+      passwordInput.setAttribute('autocomplete', 'current-password');
+    }
 
-  // Handle Form Submit
-  if (loginForm) {
-    loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
+    passwordSection.hidden = !usePasswordMode;
+    passwordInput.disabled = !usePasswordMode;
+    passwordInput.required = usePasswordMode;
+    togglePasswordModeBtn.textContent = usePasswordMode
+      ? 'Masuk menggunakan tautan email'
+      : 'Masuk menggunakan kata sandi';
+  };
 
-      if (currentTab === 'admin') {
-        showToast('✓ Berhasil Masuk sebagai Admin Koperasi');
+  const showStatus = (message) => {
+    if (!authStatusBanner) return;
+    authStatusBanner.textContent = message;
+    authStatusBanner.hidden = false;
+  };
+
+  // Toggle mode kata sandi vs magic link
+  togglePasswordModeBtn?.addEventListener('click', () => {
+    usePasswordMode = !usePasswordMode;
+    updateAuthView();
+    if (usePasswordMode) {
+      passwordInput.focus();
+    } else {
+      emailInput.focus();
+    }
+  });
+
+  // Toggle daftar gratis vs masuk
+  toggleRegisterBtn?.addEventListener('click', () => {
+    isRegisterMode = !isRegisterMode;
+    if (authStatusBanner) authStatusBanner.hidden = true;
+    updateAuthView();
+    emailInput.focus();
+  });
+
+  // Toggle tampilkan/sembunyikan kata sandi
+  togglePasswordBtn?.addEventListener('click', () => {
+    const isHidden = passwordInput.type === 'password';
+    passwordInput.type = isHidden ? 'text' : 'password';
+    togglePasswordBtn.setAttribute('aria-pressed', String(isHidden));
+    togglePasswordBtn.setAttribute(
+      'aria-label',
+      isHidden ? 'Sembunyikan kata sandi' : 'Tampilkan kata sandi'
+    );
+  });
+
+  // Toggle panel Single Sign-On (SSO)
+  ssoBtn?.addEventListener('click', () => {
+    const isOpen = !ssoPanel.hidden;
+    ssoPanel.hidden = isOpen;
+    ssoBtn.setAttribute('aria-expanded', String(!isOpen));
+  });
+
+  // Pilihan masuk cepat SSO
+  document.querySelectorAll('[data-sso-role]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const role = btn.getAttribute('data-sso-role');
+      if (role === 'petani') {
+        localStorage.setItem('koperasi_role', 'petani');
+        showStatus('Berhasil terhubung via SSO Koperasi sebagai Petani Mitra. Mengalihkan ke Dashboard...');
         setTimeout(() => {
-          alert('Mode Simulasi: Anda berhasil login sebagai Admin Koperasi. Silakan kembangkan panel admin sesuai kebutuhan tim Anda.');
-        }, 600);
-        return;
-      }
-
-      // Cek apakah radio Petani atau Pembeli terpilih
-      const isPetani = document.querySelector('input[name="userRole"]:checked')?.value === 'petani';
-
-      if (isPetani) {
-        showToast('✓ Berhasil Masuk! Mengalihkan ke Dashboard Petani...');
-        setTimeout(() => {
-          window.location.href = 'dashboard-petani.html';
-        }, 800);
+          window.location.href = redirectTarget || 'dashboard-petani.html';
+        }, 700);
       } else {
-        showToast('✓ Berhasil Masuk! Selamat berbelanja...');
+        localStorage.setItem('koperasi_role', 'pembeli');
+        showStatus('Berhasil terhubung via SSO Koperasi sebagai Pembeli. Mengalihkan...');
         setTimeout(() => {
-          window.location.href = 'toko.html';
-        }, 800);
+          window.location.href = redirectTarget || 'toko.html';
+        }, 700);
       }
     });
-  }
+  });
+
+  // Link syarat & privasi
+  termsLink?.addEventListener('click', (e) => {
+    e.preventDefault();
+    showStatus('Syarat Layanan: Keanggotaan Koperasi tunduk pada AD/ART Koperasi Tani Makmur.');
+  });
+
+  privacyLink?.addEventListener('click', (e) => {
+    e.preventDefault();
+    showStatus('Kebijakan Privasi: Data email anggota hanya digunakan untuk autentikasi dan layanan koperasi.');
+  });
+
+  // Submit form utama
+  loginForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = emailInput.value.trim();
+    if (!email) {
+      emailInput.focus();
+      return;
+    }
+
+    if (!usePasswordMode) {
+      const actionLabel = isRegisterMode ? 'pendaftaran' : 'masuk';
+      showStatus(`Tautan ${actionLabel} telah dikirim ke ${email}. Silakan periksa kotak masuk email Anda.`);
+      if (typeof showToast === 'function') {
+        showToast(`✓ Tautan masuk dikirim ke ${email}`);
+      }
+      return;
+    }
+
+    const isPetani = document.querySelector('input[name="userRole"]:checked')?.value === 'petani';
+    if (isPetani) {
+      localStorage.setItem('koperasi_role', 'petani');
+      showStatus('Berhasil masuk sebagai Petani Mitra. Mengalihkan ke Dashboard Petani...');
+      setTimeout(() => {
+        window.location.href = redirectTarget || 'dashboard-petani.html';
+      }, 700);
+    } else {
+      localStorage.setItem('koperasi_role', 'pembeli');
+      showStatus('Berhasil masuk ke akun Pembeli. Mengalihkan ke Toko Online Koperasi...');
+      setTimeout(() => {
+        window.location.href = redirectTarget || 'toko.html';
+      }, 700);
+    }
+  });
 });
-
-// Shortcut 1-Klik Isi Data Demo untuk Kemudahan Tim
-function fillDemoUser(type) {
-  const emailInput = document.getElementById('emailInput');
-  const passwordInput = document.getElementById('passwordInput');
-  const radioPetani = document.getElementById('rolePetani');
-  const radioPembeli = document.getElementById('rolePembeli');
-  const tabUser = document.getElementById('tabUser');
-  const tabAdmin = document.getElementById('tabAdmin');
-
-  if (type === 'petani') {
-    tabUser?.click();
-    if (radioPetani) radioPetani.checked = true;
-    if (emailInput) emailInput.value = 'pak.joko@agricharm.id';
-    if (passwordInput) passwordInput.value = 'petani123';
-    showToast('Demo diisi: Petani Pak Joko (Punya Dashboard)');
-  } else if (type === 'pembeli') {
-    tabUser?.click();
-    if (radioPembeli) radioPembeli.checked = true;
-    if (emailInput) emailInput.value = 'ani.pembeli@gmail.com';
-    if (passwordInput) passwordInput.value = 'pembeli123';
-    showToast('Demo diisi: Pembeli Ani (Belanja Produk & Sewa)');
-  } else if (type === 'admin') {
-    tabAdmin?.click();
-    if (emailInput) emailInput.value = 'admin.pusat@koperasi.id';
-    if (passwordInput) passwordInput.value = 'adminrahasia';
-    showToast('Demo diisi: Administrator Koperasi');
-  }
-}

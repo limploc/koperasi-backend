@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AgriCharm - Modern Sustainable Agriculture & Cooperative</title>
+  <title>Koperasi - Pertanian Berkelanjutan & Modern</title>
   
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Beau+Rivage&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
   <!-- CSS Stylesheets Terstruktur -->
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/base.css">
@@ -20,37 +24,28 @@
     <div class="container header-inner">
       
       <!-- Brand Logo (4 Rounded Dots Grid + Brand Name) -->
-      <a href="index.html" class="site-logo" aria-label="Halaman Beranda AgriCharm">
+      <a href="index.html" class="site-logo" aria-label="Halaman Beranda Koperasi">
         <div class="logo-icon-grid" aria-hidden="true">
           <div class="logo-dot"></div>
           <div class="logo-dot"></div>
           <div class="logo-dot"></div>
           <div class="logo-dot"></div>
         </div>
-        <span>Luckycharm</span>
+        <span>Koperasi</span>
       </a>
 
       <!-- Dark Pill Navigation Bar (Tengah) -->
       <nav class="nav-pill-wrapper" aria-label="Navigasi Utama">
         <div class="nav-pill-container">
-          <a href="index.html" class="active" aria-current="page">Home</a>
-          <a href="#about">About Us</a>
-          <a href="#reviews">Reviews</a>
-          <a href="toko.html">Products</a>
+          <a href="index.html" class="active" aria-current="page">Beranda</a>
+          <a href="toko.html">Toko Online</a>
           <a href="sewa.html">Sewa Alat</a>
-          <a href="dashboard-petani.html">Dashboard Petani</a>
         </div>
       </nav>
 
-      <!-- Aksi Kanan: Sign Up / Login & Cart Icon -->
+      <!-- Aksi Kanan: Daftar / Masuk -->
       <div class="header-actions">
-        <a href="toko.html#cart" class="btn-header-cart" title="Keranjang Belanja" aria-label="Lihat Keranjang">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
-          </svg>
-          <span class="cart-counter" style="display: none;">0</span>
-        </a>
-        <a href="login.html" class="btn-header-signup">Sign Up</a>
+        <a href="register.html" class="btn-header-signup">Daftar</a>
         <button class="mobile-menu-toggle" aria-label="Buka Menu Navigasi" type="button">
           <span></span>
           <span></span>
@@ -73,42 +68,47 @@
         <div class="guide-line"></div>
       </div>
 
-      <!-- Sparkle Crosshairs (+) Mengikuti Posisi di Gambar Referensi -->
-      <span class="sparkle-cross cross-1" aria-hidden="true">+</span>
-      <span class="sparkle-cross cross-2" aria-hidden="true">+</span>
-      <span class="sparkle-cross cross-3" aria-hidden="true">+</span>
-      <span class="sparkle-cross cross-4" aria-hidden="true">+</span>
+      <!-- 5 Sparkle 4-Pointed Stars Mengikuti Posisi Persis di Gambar Referensi -->
+      <span class="sparkle-cross cross-1" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 0 C12.7 8.5 15.5 11.3 24 12 C15.5 12.7 12.7 15.5 12 24 C11.3 15.5 8.5 12.7 0 12 C8.5 11.3 11.3 8.5 12 0 Z"/></svg>
+      </span>
+      <span class="sparkle-cross cross-2" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 0 C12.7 8.5 15.5 11.3 24 12 C15.5 12.7 12.7 15.5 12 24 C11.3 15.5 8.5 12.7 0 12 C8.5 11.3 11.3 8.5 12 0 Z"/></svg>
+      </span>
+      <span class="sparkle-cross cross-3" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 0 C12.7 8.5 15.5 11.3 24 12 C15.5 12.7 12.7 15.5 12 24 C11.3 15.5 8.5 12.7 0 12 C8.5 11.3 11.3 8.5 12 0 Z"/></svg>
+      </span>
+      <span class="sparkle-cross cross-4" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 0 C12.7 8.5 15.5 11.3 24 12 C15.5 12.7 12.7 15.5 12 24 C11.3 15.5 8.5 12.7 0 12 C8.5 11.3 11.3 8.5 12 0 Z"/></svg>
+      </span>
+      <span class="sparkle-cross cross-5" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 0 C12.7 8.5 15.5 11.3 24 12 C15.5 12.7 12.7 15.5 12 24 C11.3 15.5 8.5 12.7 0 12 C8.5 11.3 11.3 8.5 12 0 Z"/></svg>
+      </span>
 
       <div class="hero-content">
-        <!-- Badge Tag Hijau -->
-        <div class="hero-tag">
-          <span class="dot"></span>
-          <span>Precision Agriculture</span>
-        </div>
-
         <!-- Judul Besar Hero -->
         <h1 class="hero-title">
-          The Journey To A<br>Perfection.
+          Perjalanan Menuju<br>Kesempurnaan.
         </h1>
 
         <!-- Subtitle Hero -->
         <p class="hero-subtitle">
-          Pioneering Sustainable Agriculture. From Seed To Harvest; We Cultivate Excellence With Passion And Precision.
+          Pelopor Pertanian Berkelanjutan. Dari Benih Hingga Panen, Kami Merawat<br>Kualitas Dengan Sepenuh Hati Dan Ketepatan.
         </p>
 
         <!-- CTA Pill Hitam dengan Panah -->
         <div class="hero-cta">
-          <a href="toko.html" class="btn btn-dark">
-            <span>Explore Our Farms</span>
+          <a href="login.html" class="btn btn-dark">
+            <span>Bergabung Bersama Kami</span>
             <span class="icon-arrow">&rarr;</span>
           </a>
         </div>
       </div>
 
-      <!-- Foto Panorama Ladang Pertanian Luas (Rounded Corners) -->
+      <!-- Foto Panorama Ladang Pertanian Luas Full-Bleed (Edge-to-Edge) -->
       <div class="hero-panorama-wrapper">
         <img 
-          src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1800&q=80" 
+          src="assets/hero-farmland.jpg" 
           alt="Pemandangan udara lahan pertanian hijau nan subur" 
           class="hero-panorama-img"
           loading="eager"
@@ -117,232 +117,66 @@
     </section>
 
     <!-- =========================================================================
-         3. 4-COLUMN STATS / KEY METRICS (Persis Sesuai Gambar)
+         3. BENTO SHOWCASE GRID (Toko Online Hasil Tani & Sewa Alat Koperasi)
          ========================================================================= -->
-    <section class="stats-section">
-      <div class="container">
-        <div class="stats-grid">
-          
-          <div class="stat-item">
-            <span class="stat-number">50+</span>
-            <span class="stat-label">Years Of Experience</span>
-          </div>
-
-          <div class="stat-item">
-            <span class="stat-number">200+</span>
-            <span class="stat-label">Acres Managed</span>
-          </div>
-
-          <div class="stat-item">
-            <span class="stat-number">120,000+</span>
-            <span class="stat-label">Farmers Supported</span>
-          </div>
-
-          <div class="stat-item">
-            <span class="stat-number">$15 Billion</span>
-            <span class="stat-label">Agricultural Impact</span>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- =========================================================================
-         4. EDITORIAL STATEMENT / PHILOSOPHY (2025 & Big Quote Sesuai Gambar)
-         ========================================================================= -->
-    <section class="statement-section" id="about">
-      <div class="container">
-        <div class="statement-grid">
-          
-          <!-- Sisi Kiri: Tahun & Kategori Tag -->
-          <div class="statement-left">
-            <span class="statement-year">2025</span>
-            <div class="statement-tags">
-              <span class="statement-tag-item">Organic Farming</span>
-              <span class="statement-tag-item">Precision Agriculture</span>
-              <span class="statement-tag-item">Sustainable Practices</span>
-            </div>
-          </div>
-
-          <!-- Sisi Kanan: Pernyataan Filosofis Besar -->
-          <div class="statement-right">
-            <blockquote class="statement-quote">
-              “Honoring The Wisdom Of Generations, We Integrate Cutting-Edge Technology To Cultivate Smarter, Greener, And More Abundant Harvests For The Future.”
-            </blockquote>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- =========================================================================
-         5. BENTO SHOWCASE GRID (Partner For A Brighter Harvest Sesuai Gambar)
-         ========================================================================= -->
-    <section class="bento-section">
+    <section class="bento-section" id="about">
       <div class="container">
         <div class="bento-container">
           
-          <!-- Sisi Kiri: Teks & Tombol Aksi -->
+          <!-- Sisi Kiri: Teks Fokus Toko Online & Sewa Alat Koperasi -->
           <div class="bento-text-side">
-            <h2 class="bento-title">Partner For A Brighter Harvest.</h2>
+            <h2 class="bento-title">Toko Hasil <span class="font-tani-accent">Tani</span> & Sewa Alat Koperasi.</h2>
             <p class="bento-desc">
-              Join Our Network To Access Advanced Resources, Expert Insights, And Sustainable Farming Solutions.
+              Belanja hasil panen segar langsung dari petani anggota dengan harga adil, sekaligus sewa alat mesin pertanian (Alsintan) modern untuk mendukung produktivitas lahan Anda.
             </p>
-            <a href="login.html" class="btn btn-dark">
-              <span>Contact Our Team</span>
-              <span class="icon-arrow">&rarr;</span>
-            </a>
           </div>
 
-          <!-- Sisi Kanan: 4 Kartu Foto Kolase -->
+          <!-- Sisi Kanan: 4 Kartu Foto Kolase Landscape 2x2 (Terhubung ke Toko & Sewa Alat) -->
           <div class="bento-photo-grid">
-            <!-- Foto 1: Mesin Alsintan / Robot Pertanian Cerdas -->
-            <div class="bento-card">
+            <!-- Foto 1: Sewa Traktor & Alsintan -->
+            <a href="sewa.html" class="bento-card" aria-label="Lihat Katalog Sewa Traktor di Koperasi">
               <img 
-                src="https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=600&q=80" 
-                alt="Teknologi mesin pertanian modern di lahan sawah" 
+                src="assets/bento-tractor.jpg" 
+                alt="Traktor pertanian modern sedang membajak lahan untuk layanan sewa alsintan koperasi" 
                 loading="lazy"
               >
-            </div>
+            </a>
 
-            <!-- Foto 2: Tangan Petani Merawat Bibit Organik -->
-            <div class="bento-card">
+            <!-- Foto 2: Sewa Drone Penyemprot -->
+            <a href="sewa.html" class="bento-card" aria-label="Lihat Katalog Sewa Drone Penyemprot di Koperasi">
               <img 
-                src="https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=600&q=80" 
-                alt="Proses penanaman bibit tanaman sayuran dengan sarung tangan pelindung" 
+                src="assets/bento-drone.jpg" 
+                alt="Drone penyemprot pertanian beroperasi di atas sawah hijau" 
                 loading="lazy"
               >
-            </div>
+            </a>
 
-            <!-- Foto 3: Hasil Panen Sayuran Segar Berwarna-warni -->
-            <div class="bento-card">
+            <!-- Foto 3: Toko Online Sayuran & Buah Segar -->
+            <a href="toko.html" class="bento-card" aria-label="Buka Toko Online Sayur dan Buah Segar Koperasi">
               <img 
-                src="https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=600&q=80" 
-                alt="Keranjang hasil panen cabai, tomat, dan sayuran segar langsung dari kebun" 
+                src="assets/bento-market.jpg" 
+                alt="Peti kayu berisi cabai merah, tomat, sawi, dan alpukat segar hasil panen petani koperasi" 
                 loading="lazy"
               >
-            </div>
+            </a>
 
-            <!-- Foto 4: Kolaborasi Petani Tersenyum Bersama di Lapangan -->
-            <div class="bento-card">
+            <!-- Foto 4: Toko Online Beras Organik & Bahan Pokok -->
+            <a href="toko.html" class="bento-card" aria-label="Buka Toko Online Beras Organik dan Pangan Koperasi">
               <img 
-                src="https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?auto=format&fit=crop&w=600&q=80" 
-                alt="Sekelompok petani anggota koperasi berdiskusi dan tersenyum di kebun" 
+                src="assets/bento-rice.jpg" 
+                alt="Karung goni beras organik bersama buah dan sayuran segar di toko koperasi" 
                 loading="lazy"
               >
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- =========================================================================
-         6. FITUR INTEGRASI KOPERASI: PREVIEW TOKO & SEWA ALAT
-         ========================================================================= -->
-    <section class="preview-showcase" id="products">
-      <div class="container">
-        
-        <!-- Header Bagian Produk Segar -->
-        <div class="section-header-row">
-          <div>
-            <span class="badge-tag"><span class="dot-green"></span> Pasar Tani Langsung</span>
-            <h2 class="section-title">Hasil Panen Segar Hari Ini</h2>
-            <p class="section-subtitle">Dipanen langsung oleh petani anggota koperasi tanpa melalui perantara tengkulak.</p>
-          </div>
-          <a href="toko.html" class="btn btn-outline">Lihat Semua di Toko &rarr;</a>
-        </div>
-
-        <!-- Grid Produk Mini -->
-        <div class="cards-carousel-grid">
-          
-          <article class="mini-product-card">
-            <div class="mini-card-thumb">
-              <span class="mini-card-badge">Organik</span>
-              <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80" alt="Beras Organik Pandan Wangi">
-            </div>
-            <div class="mini-card-body">
-              <span class="mini-card-category">Beras & Padi</span>
-              <h3 class="mini-card-title">Beras Organik Pandan Wangi</h3>
-              <p style="font-size: 0.8rem; color: #6B7280; margin-bottom: 0.5rem;">Pak Slamet • Desa Sukamaju</p>
-              <div class="mini-card-footer">
-                <span class="mini-card-price">Rp 85.000 <span>/ 5 kg</span></span>
-                <button class="btn btn-dark" style="padding: 0.4rem 0.85rem; font-size: 0.75rem;" onclick="addToCart('PRD-001')">+ Beli</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="mini-product-card">
-            <div class="mini-card-thumb">
-              <span class="mini-card-badge">Petik Pagi</span>
-              <img src="https://images.unsplash.com/photo-1588252303782-cb80119abd6d?auto=format&fit=crop&w=600&q=80" alt="Cabai Rawit Merah Super">
-            </div>
-            <div class="mini-card-body">
-              <span class="mini-card-category">Sayuran Segar</span>
-              <h3 class="mini-card-title">Cabai Rawit Merah Super</h3>
-              <p style="font-size: 0.8rem; color: #6B7280; margin-bottom: 0.5rem;">Bu Ratna • Lereng Gunung</p>
-              <div class="mini-card-footer">
-                <span class="mini-card-price">Rp 45.000 <span>/ kg</span></span>
-                <button class="btn btn-dark" style="padding: 0.4rem 0.85rem; font-size: 0.75rem;" onclick="addToCart('PRD-002')">+ Beli</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="mini-product-card">
-            <div class="mini-card-thumb">
-              <span class="mini-card-badge">Greenhouse</span>
-              <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=600&q=80" alt="Tomat Ceri Hidroponik">
-            </div>
-            <div class="mini-card-body">
-              <span class="mini-card-category">Sayuran Segar</span>
-              <h3 class="mini-card-title">Tomat Ceri Hidroponik</h3>
-              <p style="font-size: 0.8rem; color: #6B7280; margin-bottom: 0.5rem;">Pak Joko • Hidroponik Makmur</p>
-              <div class="mini-card-footer">
-                <span class="mini-card-price">Rp 24.000 <span>/ 500g</span></span>
-                <button class="btn btn-dark" style="padding: 0.4rem 0.85rem; font-size: 0.75rem;" onclick="addToCart('PRD-003')">+ Beli</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="mini-product-card">
-            <div class="mini-card-thumb">
-              <span class="mini-card-badge">Pulen Super</span>
-              <img src="https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?auto=format&fit=crop&w=600&q=80" alt="Alpukat Mentega Super">
-            </div>
-            <div class="mini-card-body">
-              <span class="mini-card-category">Buah Lokal</span>
-              <h3 class="mini-card-title">Alpukat Mentega Super</h3>
-              <p style="font-size: 0.8rem; color: #6B7280; margin-bottom: 0.5rem;">Pak Joko • Kebun Buah</p>
-              <div class="mini-card-footer">
-                <span class="mini-card-price">Rp 35.000 <span>/ kg</span></span>
-                <button class="btn btn-dark" style="padding: 0.4rem 0.85rem; font-size: 0.75rem;" onclick="addToCart('PRD-004')">+ Beli</button>
-              </div>
-            </div>
-          </article>
-
-        </div>
-
-        <!-- Banner Khusus Petani Anggota: Mengarah ke Dashboard Petani -->
-        <div class="farmer-banner">
-          <div class="farmer-banner-text">
-            <span class="badge-tag" style="color: #34D399; padding-left: 0;"><span class="dot-green" style="background-color: #34D399;"></span> Khusus Petani Mitra</span>
-            <h3>Kelola Penjualan Hasil Panen Anda</h3>
-            <p>Petani anggota koperasi dapat memantau pesanan masuk dari pembeli, mengecek total omzet penjualan, dan memperbarui stok panen secara mandiri.</p>
-          </div>
-          <div>
-            <a href="dashboard-petani.html" class="btn" style="background-color: #FFFFFF; color: #111827; font-weight: 600;">
-              <span>Buka Dashboard Petani</span>
-              <span class="icon-arrow">&rarr;</span>
             </a>
           </div>
-        </div>
 
+        </div>
       </div>
     </section>
   </main>
 
   <!-- =========================================================================
-       7. FOOTER
+       6. FOOTER
        ========================================================================= -->
   <footer class="site-footer">
     <div class="container">
@@ -356,31 +190,11 @@
               <div class="logo-dot"></div>
               <div class="logo-dot"></div>
             </div>
-            <span>Luckycharm</span>
+            <span>Koperasi</span>
           </div>
-          <p style="font-size: 0.875rem; color: #6B7280; line-height: 1.6; max-width: 280px;">
+          <p style="font-size: 0.875rem; color: #6B7280; line-height: 1.6; max-width: 320px;">
             Platform ekosistem agritech & koperasi modern untuk memberdayakan petani lokal melalui teknologi dan akses pasar transparan.
           </p>
-        </div>
-
-        <div class="footer-col">
-          <h4>Layanan</h4>
-          <ul>
-            <li><a href="toko.html">Toko Online Hasil Tani</a></li>
-            <li><a href="sewa.html">Sewa Alat Pertanian (Alsintan)</a></li>
-            <li><a href="dashboard-petani.html">Dashboard Penjualan Petani</a></li>
-            <li><a href="login.html">Portal Akun Anggota</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>Kategori Panen</h4>
-          <ul>
-            <li><a href="toko.html?cat=beras">Beras & Padi Organik</a></li>
-            <li><a href="toko.html?cat=sayur">Sayuran Segar Petik</a></li>
-            <li><a href="toko.html?cat=buah">Buah Tropis Pilihan</a></li>
-            <li><a href="toko.html?cat=pupuk">Pupuk & Nutrisi Tanah</a></li>
-          </ul>
         </div>
 
         <div class="footer-col">
@@ -388,15 +202,14 @@
           <ul>
             <li style="color: #6B7280; font-size: 0.875rem;">Jl. Raya Agrowisata No. 88, Desa Sukamaju</li>
             <li style="color: #6B7280; font-size: 0.875rem;">WhatsApp: +62 812-3456-7890</li>
-            <li style="color: #6B7280; font-size: 0.875rem;">Email: kontak@agricharm.id</li>
+            <li style="color: #6B7280; font-size: 0.875rem;">Email: kontak@koperasitani.id</li>
           </ul>
         </div>
 
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; 2025 Luckycharm / Koperasi Tani Makmur. All rights reserved.</p>
-        <p>Template Koperasi Modern • Dibuat Khusus untuk Kemudahan Kustomisasi Tim.</p>
+        <p>&copy; 2025 Koperasi Tani Makmur. Seluruh hak cipta dilindungi.</p>
       </div>
     </div>
   </footer>

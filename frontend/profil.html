@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil Akun & Pesanan - Koperasi Tani</title>
+
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/profil.css">
+</head>
+<body class="dash-page">
+
+  <!-- Header Navigasi Koperasi -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="site-logo">
+        <div class="logo-icon-grid">
+          <div class="logo-dot"></div>
+          <div class="logo-dot"></div>
+          <div class="logo-dot"></div>
+          <div class="logo-dot"></div>
+        </div>
+        <span>Koperasi</span>
+      </a>
+
+      <!-- Dark Pill Navigasi User Login -->
+      <nav class="nav-pill-wrapper" aria-label="Navigasi Pengguna">
+        <div class="nav-pill-container">
+          <a href="toko.html">Toko Online</a>
+          <a href="sewa.html">Sewa Alat</a>
+          <a href="pesanan.html">Pesanan</a>
+          <a href="dashboard-petani.html">Dashboard</a>
+          <a href="profil.html" class="active" aria-current="page">Profil</a>
+        </div>
+      </nav>
+
+      <div class="header-actions">
+        <a href="cart.html" class="btn-header-cart" title="Keranjang Belanja">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <span class="cart-counter" style="display: none;">0</span>
+        </a>
+        <a href="login.html" class="btn-header-signup">Logout</a>
+        <button class="mobile-menu-toggle" aria-label="Buka Menu Navigasi" type="button">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       KONTEN HALAMAN PROFIL (PERSIS SESUAI GAMBAR REFERENSI DESAIN)
+       ========================================================================= -->
+  <main class="container profile-page-wrapper">
+
+    <!-- 1. SIDEBAR KIRI -->
+    <aside class="profile-sidebar" aria-label="Navigasi Profil">
+      
+      <!-- Identitas User (Foto Bulat & Nama ala Gambar Referensi) -->
+      <div class="profile-user-summary">
+        <div class="profile-avatar-wrap">
+          <div class="profile-avatar-img" id="profileUserAvatar">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80" alt="Foto Profil" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">
+          </div>
+        </div>
+        <div class="profile-name-box">
+          <h2 id="profileUserName">Anzhela Pozharum</h2>
+          <span id="profileUserRole">Anggota Pembeli</span>
+        </div>
+      </div>
+
+      <!-- Menu Navigasi Vertikal -->
+      <nav class="profile-nav-menu">
+        <button type="button" class="profile-nav-item active" data-tab="personal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 1 0-16 0"/>
+          </svg>
+          <span>Personal info</span>
+        </button>
+      </nav>
+
+      <!-- Tombol Log Out di Bawah Sesuai Gambar Referensi -->
+      <div class="profile-logout-wrap">
+        <a href="login.html" class="profile-logout-btn" onclick="localStorage.removeItem('koperasi_role')">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          <span>Log out</span>
+        </a>
+      </div>
+
+    </aside>
+
+    <!-- 2. KARTU KONTEN KANAN ELEGAN -->
+    <section class="profile-content-card" aria-label="Konten Profil Pengguna">
+
+      <!-- PERSONAL INFO -->
+      <div id="sectionPersonalInfo" class="profile-tab-panel">
+        <header class="profile-content-header">
+          <h2 class="profile-content-title">Personal info</h2>
+          <p style="font-size: 0.88rem; color: #64748B;">Kelola data kontak, alamat domisili, dan informasi keanggotaan Anda di Koperasi Tani.</p>
+        </header>
+
+        <form class="personal-info-grid" onsubmit="event.preventDefault(); showToast('✓ Informasi pribadi berhasil diperbarui!');">
+          <div class="form-field-group">
+            <label class="form-field-label" for="inputFullName">Nama Lengkap</label>
+            <input type="text" id="inputFullName" class="form-field-input" value="Anzhela Pozharum" required>
+          </div>
+
+          <div class="form-field-group">
+            <label class="form-field-label" for="inputEmail">Alamat Email</label>
+            <input type="email" id="inputEmail" class="form-field-input" value="anzhela.pozharum@gmail.com" required>
+          </div>
+
+          <div class="form-field-group">
+            <label class="form-field-label" for="inputPhone">Nomor Telepon (WhatsApp)</label>
+            <input type="tel" id="inputPhone" class="form-field-input" value="+62 813-2233-4455" required>
+          </div>
+
+          <div class="form-field-group">
+            <label class="form-field-label" for="inputRole">Jenis Keanggotaan</label>
+            <input type="text" id="inputRole" class="form-field-input" value="Anggota Pembeli Umum" disabled>
+          </div>
+
+          <div class="form-field-group full-width">
+            <label class="form-field-label" for="inputAddress">Alamat Pengiriman / Domisili</label>
+            <input type="text" id="inputAddress" class="form-field-input" value="Jl. Sukamaju No. 42, RT 03/RW 04, Desa Sukamaju">
+          </div>
+
+          <div class="personal-info-actions">
+            <button type="submit" class="btn-save-personal">Simpan Perubahan</button>
+          </div>
+        </form>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer Lengkap & Rapi 3 Kolom -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="site-logo" style="margin-bottom: 0.75rem;">
+            <div class="logo-icon-grid" aria-hidden="true">
+              <div class="logo-dot"></div>
+              <div class="logo-dot"></div>
+              <div class="logo-dot"></div>
+              <div class="logo-dot"></div>
+            </div>
+            <span>Koperasi</span>
+          </div>
+          <p style="font-size: 0.85rem; color: #6B7280; line-height: 1.6; max-width: 320px;">
+            Platform ekosistem agritech koperasi modern untuk memfasilitasi transaksi hasil panen dan sewa alsintan langsung bersama petani mitra.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Layanan Anggota</h4>
+          <ul>
+            <li><a href="toko.html">Katalog Hasil Tani</a></li>
+            <li><a href="sewa.html">Peminjaman Alsintan</a></li>
+            <li><a href="pesanan.html">Pantau Status Pesanan</a></li>
+            <li><a href="profil.html">Pengaturan Akun & Profil</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Bantuan & Kontak</h4>
+          <ul>
+            <li style="color: #6B7280; font-size: 0.85rem;">WhatsApp: +62 812-3456-7890</li>
+            <li style="color: #6B7280; font-size: 0.85rem;">Operasional: Senin - Sabtu (08.00 - 17.00)</li>
+            <li style="color: #6B7280; font-size: 0.85rem;">Gudang Utama: Desa Sukamaju</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 Koperasi Tani Makmur. Seluruh hak cipta dilindungi.</p>
+        <p><a href="dashboard-petani.html" style="color: var(--color-primary); font-weight: 600;">Khusus Petani Mitra: Akses Dashboard &rarr;</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/profil.js"></script>
+</body>
+</html>

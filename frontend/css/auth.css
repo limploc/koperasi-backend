@@ -2,188 +2,462 @@
  * ==============================================================================
  * AUTH / LOGIN STYLES (auth.css)
  * ------------------------------------------------------------------------------
- * Mengatur tampilan halaman Login terpadu dengan selektor multi-role:
- * Pembeli, Petani (mitra dengan dashboard), dan Admin Koperasi.
- * Dilengkapi tombol demo 1-klik untuk kemudahan pengujian tim.
+ * Tampilan halaman masuk minimalis bersih mengikuti referensi visual:
+ * - Kartu putih terpusat dengan sudut membulat lembut dan border halus
+ * - Ikon logo kotak lembut di bagian atas tengah
+ * - Input email tunggal + tombol pill hitam utama + toggle kata sandi + SSO
  * ==============================================================================
  */
 
-.auth-wrapper {
-  min-height: calc(100vh - var(--header-height));
-  display: flex;
+body.auth-page {
+  background-color: #FFFFFF;
+  min-block-size: 100dvh;
+}
+
+.visually-hidden {
+  position: absolute;
+  clip-path: inset(50%);
+  overflow: hidden;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  white-space: nowrap;
+}
+
+.auth-back-link {
+  position: fixed;
+  inset-block-start: 1.5rem;
+  inset-inline-start: 1.75rem;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  padding: 3rem 1.5rem;
-  background-color: #FAFBFD;
-  position: relative;
+  gap: 0.45rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #6B7280;
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-full);
+  border: 1px solid #F3F4F6;
+  background-color: #FFFFFF;
+  transition: all var(--transition-fast);
+  z-index: 20;
+}
+
+.auth-back-link:hover {
+  color: #111827;
+  border-color: #E5E7EB;
+  background-color: #F9FAFB;
+}
+
+.auth-back-link:focus-visible {
+  outline: 2px solid #111827;
+  outline-offset: 2px;
+}
+
+.auth-wrapper {
+  min-block-size: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 4.5rem 1.25rem 2.5rem;
+  background-color: #FFFFFF;
 }
 
 .auth-card {
-  width: 100%;
-  max-width: 480px;
-  background: #FFFFFF;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  padding: 2.5rem;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+  inline-size: 100%;
+  max-inline-size: 410px;
+  background-color: #FFFFFF;
+  border: 1px solid #F1F5F9;
+  border-radius: 26px;
+  padding: 2.75rem 2.25rem 2.25rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.03);
+  text-align: center;
 }
 
+/* --- Logo Brand Koperasi di Atas Kartu Auth (Gambar 1) --- */
+.auth-brand-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  font-weight: 800;
+  font-size: 1.35rem;
+  color: #0F172A;
+  letter-spacing: -0.025em;
+  text-decoration: none;
+  margin-block-end: 1.5rem;
+  transition: transform 0.15s ease;
+}
+
+.auth-brand-logo:hover {
+  transform: scale(1.02);
+}
+
+.auth-brand-logo .logo-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 7.5px);
+  grid-template-rows: repeat(2, 7.5px);
+  gap: 3.5px;
+}
+
+.auth-brand-logo .logo-dot {
+  background-color: #0F172A;
+  border-radius: 2.5px;
+}
+
+/* --- Judul & Subjudul --- */
 .auth-header {
-  text-align: center;
-  margin-bottom: 2rem;
+  margin-block-end: 1.75rem;
 }
 
 .auth-header h1 {
-  font-size: 1.75rem;
+  font-size: 1.55rem;
   font-weight: 700;
-  color: #111827;
-  letter-spacing: -0.02em;
-  margin-bottom: 0.5rem;
+  color: #0F172A;
+  letter-spacing: -0.025em;
+  margin-block-end: 0.45rem;
 }
 
 .auth-header p {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   color: #6B7280;
 }
 
-/* Tab Pemilih Role Utama (User vs Admin) */
-.role-tabs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  background: #F3F4F6;
-  padding: 4px;
-  border-radius: var(--radius-full);
-  margin-bottom: 1.75rem;
-}
-
-.role-tab-btn {
-  padding: 0.55rem;
-  font-size: 0.85rem;
+.auth-inline-link {
   font-weight: 600;
-  color: #6B7280;
-  border-radius: var(--radius-full);
-  text-align: center;
-  transition: all var(--transition-fast);
-}
-
-.role-tab-btn.active {
-  background: #FFFFFF;
   color: #111827;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+  padding: 0.15rem 0.25rem;
+  border-radius: 6px;
 }
 
-/* Sub-Selector Khusus User (Petani vs Pembeli) */
-.user-type-selector {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+.auth-inline-link:hover {
+  text-decoration: underline;
+}
+
+.auth-inline-link:focus-visible {
+  outline: 2px solid #111827;
+  outline-offset: 2px;
+}
+
+/* --- Banner Status --- */
+.auth-status-banner {
+  margin-block-end: 1rem;
   padding: 0.75rem 1rem;
-  background: #F9FAFB;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border-subtle);
-}
-
-.user-radio-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.85rem;
+  border-radius: 12px;
+  background-color: #F0FDF4;
+  border: 1px solid #BBF7D0;
+  color: #166534;
+  font-size: 0.82rem;
   font-weight: 500;
-  color: #374151;
-  cursor: pointer;
-}
-
-.user-radio-label input[type="radio"] {
-  accent-color: var(--color-primary);
-}
-
-/* Form Fields */
-.form-group {
-  margin-bottom: 1.25rem;
+  line-height: 1.45;
   text-align: left;
 }
 
-.form-label {
-  display: block;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #374151;
-  margin-bottom: 0.4rem;
+/* --- Form Fields --- */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
-.form-input {
-  width: 100%;
+.auth-field {
+  position: relative;
+}
+
+.auth-input {
+  inline-size: 100%;
+  min-block-size: 48px;
   padding: 0.75rem 1rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  font-size: 0.9rem;
-  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  font-size: max(1rem, 0.92rem);
+  color: #111827;
+  background-color: #FFFFFF;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.auth-input::placeholder {
+  color: #9CA3AF;
+  font-size: 0.88rem;
+}
+
+.auth-input:focus {
+  outline: none;
+  border-color: #111827;
+  box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.06);
+}
+
+.auth-input:focus-visible {
+  outline: 2px solid #111827;
+  outline-offset: 1px;
+}
+
+.auth-input:user-invalid {
+  border-color: #DC2626;
+}
+
+.auth-password-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.auth-password-section[hidden] {
+  display: none;
+}
+
+.auth-input-password {
+  padding-inline-end: 2.85rem;
+}
+
+.auth-eye-btn {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: 0.6rem;
+  transform: translateY(-50%);
+  inline-size: 36px;
+  block-size: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  color: #6B7280;
+}
+
+.auth-eye-btn:hover {
+  color: #111827;
+  background-color: #F3F4F6;
+}
+
+.auth-eye-btn:focus-visible {
+  outline: 2px solid #111827;
+  outline-offset: 2px;
+}
+
+/* --- Pilihan Peran Saat Mode Kata Sandi --- */
+.auth-role-fieldset {
+  border: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 0;
+}
+
+.auth-role-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-block-size: 40px;
+  border: 1px solid #E5E7EB;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  background-color: #FAFAFA;
   transition: all var(--transition-fast);
 }
 
-.form-input:focus {
-  outline: none;
+.auth-role-option:has(input:checked) {
   border-color: #111827;
-  box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.05);
+  background-color: #F9FAFB;
+  color: #111827;
+  font-weight: 600;
 }
 
-.form-options {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 0.85rem;
-  margin-bottom: 1.5rem;
+.auth-role-option input {
+  accent-color: #111827;
 }
 
-.form-options label {
+/* --- Halaman Pilih Role (pilih-role.html) --- */
+.role-choice-grid {
   display: flex;
-  align-items: center;
-  gap: 0.4rem;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-block: 1.5rem 1.75rem;
+}
+
+.role-choice-card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.95rem;
+  padding: 1.15rem;
+  border-radius: 16px;
+  border: 1.5px solid #E5E7EB;
+  background-color: #FFFFFF;
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.role-choice-card:hover {
+  border-color: #9CA3AF;
+  background-color: #F9FAFB;
+}
+
+.role-choice-card:has(input:checked) {
+  border-color: #111827;
+  background-color: #F8FAFC;
+  box-shadow: 0 0 0 1px #111827;
+}
+
+.role-choice-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+  padding: 0.5rem;
+  border-radius: 12px;
+  background-color: #F1F5F9;
+  flex-shrink: 0;
+}
+
+.role-choice-info h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111827;
+  margin-block-end: 0.2rem;
+}
+
+.role-choice-info p {
+  font-size: 0.8rem;
   color: #6B7280;
+  line-height: 1.45;
+}
+
+.role-choice-radio {
+  margin-inline-start: auto;
+  accent-color: #111827;
+  inline-size: 18px;
+  block-size: 18px;
   cursor: pointer;
 }
 
-.form-options a {
-  color: var(--color-primary);
+/* --- Tombol Utama Hitam Pill --- */
+.auth-btn-primary {
+  inline-size: 100%;
+  min-block-size: 48px;
+  margin-block-start: 0.1rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-full);
+  background-color: #000000;
+  color: #FFFFFF;
+  font-size: 0.9rem;
   font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
 }
 
-/* Kotak Shortcut Demo untuk Tim */
-.demo-shortcuts {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px dashed var(--color-border);
+.auth-btn-primary:hover {
+  background-color: #1F2937;
 }
 
-.demo-title {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #9CA3AF;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.75rem;
-  text-align: center;
+.auth-btn-primary:focus-visible {
+  outline: 2px solid #111827;
+  outline-offset: 3px;
 }
 
-.demo-btn-group {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.5rem;
+/* --- Link Teks Masuk Kata Sandi --- */
+.auth-mode-switch {
+  margin-block-start: 0.35rem;
 }
 
-.btn-demo {
-  padding: 0.45rem 0.5rem;
-  background: #F3F4F6;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  font-size: 0.72rem;
+.auth-text-action {
+  font-size: 0.84rem;
   font-weight: 600;
-  color: #374151;
-  text-align: center;
-  transition: all var(--transition-fast);
+  color: #111827;
+  padding: 0.35rem 0.6rem;
+  border-radius: 8px;
+  display: inline-block;
 }
 
-.btn-demo:hover {
-  background: #E5E7EB;
+.auth-text-action:hover {
+  background-color: #F3F4F6;
+}
+
+.auth-text-action:focus-visible {
+  outline: 2px solid #111827;
+  outline-offset: 2px;
+}
+
+/* --- Divider "atau" --- */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-block: 1.35rem;
+  color: #9CA3AF;
+  font-size: 0.8rem;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  block-size: 1px;
+  background-color: #F1F5F9;
+}
+
+/* --- Tombol Masuk / Daftar lewat Google --- */
+.auth-btn-google {
+  inline-size: 100%;
+  min-block-size: 48px;
+  padding: 0.75rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid #E5E7EB;
+  background-color: #FFFFFF;
   color: #111827;
+  font-size: 0.88rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.auth-btn-google:hover {
+  background-color: #F9FAFB;
+  border-color: #D1D5DB;
+}
+
+.auth-btn-google:focus-visible {
+  outline: 2px solid #111827;
+  outline-offset: 2px;
+}
+
+.google-icon {
+  flex-shrink: 0;
+}
+
+/* --- Catatan Legal Bawah --- */
+.auth-legal {
+  margin-block-start: 1.75rem;
+  font-size: 0.75rem;
+  line-height: 1.55;
+  color: #9CA3AF;
+}
+
+.auth-legal a {
+  color: #6B7280;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.auth-legal a:hover {
+  color: #111827;
+}
+
+@media (max-width: 520px) {
+  .auth-back-link {
+    inset-block-start: 1rem;
+    inset-inline-start: 1rem;
+  }
+
+  .auth-card {
+    padding: 2.25rem 1.5rem 1.85rem;
+    border-radius: 22px;
+  }
 }

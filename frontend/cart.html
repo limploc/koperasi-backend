@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keranjang Belanja - Koperasi Tani</title>
+  
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/cart.css">
+</head>
+<body>
+
+  <!-- Header Navigasi Koperasi -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="site-logo">
+        <div class="logo-icon-grid">
+          <div class="logo-dot"></div>
+          <div class="logo-dot"></div>
+          <div class="logo-dot"></div>
+          <div class="logo-dot"></div>
+        </div>
+        <span>Koperasi</span>
+      </a>
+
+      <nav class="nav-pill-wrapper" aria-label="Navigasi Pengguna">
+        <div class="nav-pill-container">
+          <a href="toko.html">Toko Online</a>
+          <a href="sewa.html">Sewa Alat</a>
+          <a href="pesanan.html">Pesanan</a>
+          <a href="dashboard-petani.html">Dashboard</a>
+          <a href="profil.html">Profil</a>
+        </div>
+      </nav>
+
+      <div class="header-actions">
+        <a href="cart.html" class="btn-header-cart" title="Keranjang Belanja">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <span class="cart-counter" style="display: none;">0</span>
+        </a>
+        <a href="login.html" class="btn-header-signup">Logout</a>
+        <button class="mobile-menu-toggle" aria-label="Buka Menu Navigasi" type="button">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Konten Halaman Keranjang -->
+  <main class="container cart-page-wrapper">
+    
+    <!-- Tombol Kembali -->
+    <a href="toko.html" class="cart-back-btn">&larr; Kembali Belanja</a>
+
+    <!-- Judul Halaman Bahasa Indonesia -->
+    <h1 class="cart-page-title">KERANJANG BELANJA</h1>
+
+    <!-- Tampilan Jika Keranjang Kosong -->
+    <div id="cartEmptyState" class="cart-empty-box" style="display: none;">
+      <h3>Keranjang Anda Masih Kosong</h3>
+      <p>Belum ada produk hasil tani yang ditambahkan. Silakan jelajahi katalog panen segar koperasi.</p>
+      <a href="toko.html" class="btn btn-dark">Mulai Belanja &rarr;</a>
+    </div>
+
+    <!-- Tampilan Konten Keranjang 2 Kolom -->
+    <div id="cartContentSection" class="cart-grid-layout">
+      
+      <!-- Kolom Kiri: Tabel Produk di Keranjang (Terpisah Toko Online & Sewa Alat) -->
+      <section class="cart-items-column" aria-label="Daftar Produk di Keranjang">
+        
+        <!-- BAGIAN 1: PRODUK HASIL TANI -->
+        <div class="cart-section-box" id="cartProduceSection">
+          <div class="cart-section-header">
+            <div class="cart-section-title">
+              <span class="cart-section-icon">🛒</span>
+              <h3>Produk Hasil Tani</h3>
+            </div>
+            <span class="cart-section-badge" id="produceItemCount">0 Produk</span>
+          </div>
+
+          <div class="cart-table-container" id="produceItemsContainer">
+            <!-- Item produk hasil tani dirender dinamis oleh cart.js -->
+          </div>
+        </div>
+
+        <!-- BAGIAN 2: SEWA ALAT PERTANIAN (ALSINTAN) -->
+        <div class="cart-section-box" id="cartRentalSection">
+          <div class="cart-section-header">
+            <div class="cart-section-title">
+              <span class="cart-section-icon">🚜</span>
+              <h3>Penyewaan Alat Pertanian (Alsintan)</h3>
+            </div>
+            <span class="cart-section-badge rental" id="rentalItemCount">0 Unit</span>
+          </div>
+
+          <div class="cart-table-container" id="rentalItemsContainer">
+            <!-- Item sewa alat dirender dinamis oleh cart.js -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Kolom Kanan: Ringkasan Total (RINGKASAN BELANJA) -->
+      <aside class="cart-totals-column" aria-label="Ringkasan Total Belanja">
+        <h2 class="cart-totals-heading">RINGKASAN BELANJA</h2>
+
+        <div class="cart-summary-line" id="rowProduceSubtotal">
+          <span>Subtotal Hasil Tani</span>
+          <span class="summary-val" id="produceSubtotalDisplay">Rp 0</span>
+        </div>
+
+        <div class="cart-summary-line" id="rowRentalSubtotal">
+          <span>Subtotal Sewa Alsintan</span>
+          <span class="summary-val" id="rentalSubtotalDisplay">Rp 0</span>
+        </div>
+
+        <div class="cart-summary-line">
+          <span>Pengiriman & Antar Lahan</span>
+          <span class="summary-val text-green">Gratis Ongkir</span>
+        </div>
+
+        <div class="cart-summary-line">
+          <span>Biaya Layanan Koperasi</span>
+          <span class="summary-val">Rp 0</span>
+        </div>
+
+        <div class="cart-summary-divider"></div>
+
+        <div class="cart-summary-total">
+          <span>Total Pembayaran</span>
+          <span id="cartGrandTotalDisplay">Rp 0</span>
+        </div>
+
+        <button type="button" class="btn-proceed-checkout" onclick="proceedToCheckout()">
+          LANJUT KE PEMBAYARAN
+        </button>
+
+        <a href="toko.html" class="link-continue-shopping">&larr; Lanjut Belanja</a>
+      </aside>
+
+    </div>
+
+  </main>
+
+  <!-- =========================================================================
+       MODAL SUKSES CHECKOUT ELEGAN (SUCCESSFUL UI)
+       ========================================================================= -->
+  <dialog id="successCheckoutModal" class="checkout-success-dialog">
+    <div class="success-modal-content">
+      <div class="success-icon-badge" aria-hidden="true">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+
+      <h2 class="success-title">Pesanan Berhasil Dibuat!</h2>
+      <p class="success-desc">
+        Terima kasih telah berbelanja komoditas segar langsung dari petani anggota Koperasi Tani Makmur.
+      </p>
+
+      <div class="order-receipt-card">
+        <div class="receipt-row">
+          <span>Nomor Pesanan:</span>
+          <strong id="receiptOrderId">#KOP-2026-9812</strong>
+        </div>
+        <div class="receipt-row">
+          <span>Total Pembayaran:</span>
+          <strong id="receiptTotalAmount" class="receipt-price">Rp 0</strong>
+        </div>
+        <div class="receipt-row">
+          <span>Metode Pengiriman:</span>
+          <span style="color: #15803D; font-weight: 600;">Gratis Ongkir (Diantar Langsung)</span>
+        </div>
+        <div class="receipt-row">
+          <span>Estimasi Tiba:</span>
+          <span>1 - 2 Hari Kerja</span>
+        </div>
+      </div>
+
+      <p class="success-whatsapp-note">
+        📱 Petugas Koperasi akan segera menghubungi WhatsApp Anda untuk konfirmasi pengantaran hasil tani.
+      </p>
+
+      <div class="success-action-btns">
+        <a href="pesanan.html" class="btn-success-track">Pantau di Halaman Pesanan &rarr;</a>
+        <a href="toko.html" class="btn-success-shop">Kembali Belanja</a>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Footer Lengkap & Rapi -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="site-logo" style="margin-bottom: 0.75rem;">
+            <div class="logo-icon-grid" aria-hidden="true">
+              <div class="logo-dot"></div>
+              <div class="logo-dot"></div>
+              <div class="logo-dot"></div>
+              <div class="logo-dot"></div>
+            </div>
+            <span>Koperasi</span>
+          </div>
+          <p style="font-size: 0.85rem; color: #6B7280; line-height: 1.6; max-width: 320px;">
+            Platform ekosistem agritech koperasi modern untuk memfasilitasi transaksi hasil panen dan sewa alsintan langsung bersama petani mitra.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Layanan Anggota</h4>
+          <ul>
+            <li><a href="toko.html">Katalog Hasil Tani</a></li>
+            <li><a href="sewa.html">Peminjaman Alsintan</a></li>
+            <li><a href="pesanan.html">Pantau Status Pesanan</a></li>
+            <li><a href="profil.html">Pengaturan Akun & Profil</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Bantuan & Kontak</h4>
+          <ul>
+            <li style="color: #6B7280; font-size: 0.85rem;">WhatsApp: +62 812-3456-7890</li>
+            <li style="color: #6B7280; font-size: 0.85rem;">Operasional: Senin - Sabtu (08.00 - 17.00)</li>
+            <li style="color: #6B7280; font-size: 0.85rem;">Gudang Utama: Desa Sukamaju</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 Koperasi Tani Makmur. Seluruh hak cipta dilindungi.</p>
+        <p><a href="dashboard-petani.html" style="color: var(--color-primary); font-weight: 600;">Khusus Petani Mitra: Akses Dashboard &rarr;</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+</html>

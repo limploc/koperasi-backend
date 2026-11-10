@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detail Produk Hasil Tani - Koperasi Tani</title>
+  
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/detail.css">
+</head>
+<body>
+
+  <!-- Header Navigasi Koperasi -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="site-logo">
+        <div class="logo-icon-grid">
+          <div class="logo-dot"></div>
+          <div class="logo-dot"></div>
+          <div class="logo-dot"></div>
+          <div class="logo-dot"></div>
+        </div>
+        <span>Koperasi</span>
+      </a>
+
+      <nav class="nav-pill-wrapper" aria-label="Navigasi Pengguna">
+        <div class="nav-pill-container">
+          <a href="toko.html" class="active">Toko Online</a>
+          <a href="sewa.html">Sewa Alat</a>
+          <a href="pesanan.html">Pesanan</a>
+          <a href="dashboard-petani.html">Dashboard</a>
+          <a href="profil.html">Profil</a>
+        </div>
+      </nav>
+
+      <div class="header-actions">
+        <a href="cart.html" class="btn-header-cart" title="Keranjang Belanja">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <span class="cart-counter" style="display: none;">0</span>
+        </a>
+        <a href="login.html" class="btn-header-signup">Logout</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Konten Utama Detail Produk -->
+  <main class="container detail-page-wrapper">
+    
+    <!-- Link Kembali -->
+    <a href="toko.html" class="detail-back-link">&larr; Kembali ke Katalog Toko</a>
+
+    <!-- Layout 2 Kolom Sesuai Gambar Referensi Desain -->
+    <div class="product-detail-layout" id="productDetailMain">
+      
+      <!-- KOLOM KIRI: GALERI 4 THUMBNAIL VERTIKAL & SHOWCASE GAMBAR -->
+      <div class="detail-gallery-wrapper">
+        <!-- 4 Thumbnail Berjejer Vertikal di Sisi Kiri -->
+        <div class="gallery-thumbs-col" id="galleryThumbs">
+          <!-- Diisi otomatis oleh detail-produk.js -->
+        </div>
+
+        <!-- Showcase Gambar Utama di Tengah -->
+        <div class="main-image-stage">
+          <img src="" alt="Showcase Produk" id="mainShowcaseImg" loading="lazy">
+          
+          <!-- Tombol Zoom Expand Sesuai Gambar -->
+          <button type="button" class="btn-zoom-expand" title="Perbesar Gambar" onclick="toggleZoomImage()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <polyline points="9 21 3 21 3 15"></polyline>
+              <line x1="21" y1="3" x2="14" y2="10"></line>
+              <line x1="3" y1="21" x2="10" y2="14"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- KOLOM KANAN: DETAIL INFORMASI, EDITION, DAN TOMBOL BELI -->
+      <div class="detail-info-col">
+        
+        <!-- Breadcrumbs (Products • Category) -->
+        <div class="detail-breadcrumbs">
+          <a href="toko.html">Toko Online</a>
+          <span>&bull;</span>
+          <span id="productCategoryBreadcrumb">Hasil Tani</span>
+        </div>
+
+        <!-- Judul H1 Besar Produk -->
+        <h1 class="detail-product-title" id="productTitle">Memuat Komoditas...</h1>
+
+        <!-- Rating Bintang & Review Count -->
+        <div class="detail-rating-row">
+          <div class="detail-stars">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <span class="detail-rating-val" id="productRatingVal">4.9</span>
+          <span class="detail-review-count" id="productReviewCount">(184 ulasan petani & konsumen)</span>
+        </div>
+
+        <!-- Harga Utama & Harga Coret -->
+        <div class="detail-price-row">
+          <span class="detail-price-main" id="productPriceDisplay">Rp 0</span>
+          <span class="detail-price-orig" id="productOrigPriceDisplay">Rp 0</span>
+        </div>
+
+        <!-- Deskripsi Singkat & Toggle Read More -->
+        <div class="detail-desc-box">
+          <p id="productDescText"></p>
+          <button type="button" class="detail-desc-toggle" id="btnToggleDesc" onclick="toggleProductDescription()">+ Baca Selengkapnya</button>
+        </div>
+
+        <!-- Pilihan Edition / Varian Kemasan -->
+        <div class="detail-edition-section">
+          <span class="detail-edition-label">Pilihan Ukuran Kemasan</span>
+          <div class="detail-edition-pills" id="editionPillsContainer">
+            <!-- Diisi otomatis oleh detail-produk.js -->
+          </div>
+        </div>
+
+        <!-- Tombol Aksi Utama "Buy It Now" (ala Gambar 1) -->
+        <button type="button" class="btn-buy-it-now" id="btnBuyItNow" onclick="detailBuyNow()">
+          Beli Sekarang
+        </button>
+
+        <!-- Tombol Tambah ke Keranjang Sekunder -->
+        <button type="button" class="btn-add-to-cart-secondary" onclick="detailAddToCart()">
+          + Tambahkan ke Keranjang
+        </button>
+
+        <!-- 4 Badges Fitur Koperasi (Grid 2x2 ala Gambar 1) -->
+        <div class="detail-features-grid">
+          <div class="detail-feature-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span>Estimasi Tiba: 1 - 2 Hari</span>
+          </div>
+
+          <div class="detail-feature-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="14" height="10" x="1" y="5" rx="2" /><path d="M15 9h4l3 3v3h-7V9z" /><circle cx="5.5" cy="17.5" r="2.5" /><circle cx="17.5" cy="17.5" r="2.5" />
+            </svg>
+            <span>Gratis Ongkir se-Kabupaten</span>
+          </div>
+
+          <div class="detail-feature-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <span>Jaminan Mutu Grade A</span>
+          </div>
+
+          <div class="detail-feature-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+            </svg>
+            <span>Pendampingan Petugas Koperasi</span>
+          </div>
+        </div>
+
+        <!-- Accordions Garansi & Pengiriman Sesuai Gambar 1 -->
+        <div class="detail-accordions-wrap">
+          <div class="detail-accordion-item">
+            <button type="button" class="detail-accordion-btn" onclick="toggleAccordion(this)">
+              <span>Garansi Mutu & Asal Usul Petani Mitra</span>
+              <span class="accordion-plus-icon">+</span>
+            </button>
+            <div class="detail-accordion-content">
+              Komoditas dipanen langsung dari lahan binaan petani anggota Koperasi Tani Makmur. Telah lolos kurasi sortir mutu fisik oleh tim agronom gudang. Jika produk yang diterima tidak segar atau rusak saat pengantaran, kami memberikan garansi penggantian barang 100% tanpa biaya tambahan.
+            </div>
+          </div>
+
+          <div class="detail-accordion-item">
+            <button type="button" class="detail-accordion-btn" onclick="toggleAccordion(this)">
+              <span>Pengiriman & Kebijakan Penerimaan</span>
+              <span class="accordion-plus-icon">+</span>
+            </button>
+            <div class="detail-accordion-content">
+              Pesanan diantar langsung oleh kurir armada logistik koperasi pada hari yang sama atau maksimal 1-2 hari kerja. Pengantaran bebas ongkos kirim ke seluruh alamat wilayah binaan desa Sukamaju dan sekitarnya.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer Lengkap & Rapi 3 Kolom -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="site-logo" style="margin-bottom: 0.75rem;">
+            <div class="logo-icon-grid" aria-hidden="true">
+              <div class="logo-dot"></div>
+              <div class="logo-dot"></div>
+              <div class="logo-dot"></div>
+              <div class="logo-dot"></div>
+            </div>
+            <span>Koperasi</span>
+          </div>
+          <p style="font-size: 0.85rem; color: #6B7280; line-height: 1.6; max-width: 320px;">
+            Platform ekosistem agritech koperasi modern untuk memfasilitasi transaksi hasil panen dan sewa alsintan langsung bersama petani mitra.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Layanan Anggota</h4>
+          <ul>
+            <li><a href="toko.html">Katalog Hasil Tani</a></li>
+            <li><a href="sewa.html">Peminjaman Alsintan</a></li>
+            <li><a href="pesanan.html">Pantau Status Pesanan</a></li>
+            <li><a href="profil.html">Pengaturan Akun & Profil</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Bantuan & Kontak</h4>
+          <ul>
+            <li style="color: #6B7280; font-size: 0.85rem;">WhatsApp: +62 812-3456-7890</li>
+            <li style="color: #6B7280; font-size: 0.85rem;">Operasional: Senin - Sabtu (08.00 - 17.00)</li>
+            <li style="color: #6B7280; font-size: 0.85rem;">Gudang Utama: Desa Sukamaju</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 Koperasi Tani Makmur. Seluruh hak cipta dilindungi.</p>
+        <p><a href="dashboard-petani.html" style="color: var(--color-primary); font-weight: 600;">Khusus Petani Mitra: Akses Dashboard &rarr;</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/detail-produk.js"></script>
+</body>
+</html>

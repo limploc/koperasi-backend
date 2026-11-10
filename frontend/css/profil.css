@@ -1,0 +1,521 @@
+/**
+ * ==============================================================================
+ * PROFILE PAGE STYLES (profil.css) - SESUAI REFERENSI DESAIN
+ * ------------------------------------------------------------------------------
+ * Mengatur tata letak halaman profil:
+ * - Left Sidebar: Avatar, Nama Pengguna, Menu Navigasi Vertikal (Personal info,
+ *   My orders, My requests, Log out)
+ * - Right Content Card: Kartu elegan dengan judul berkelas, pill filter pesanan,
+ *   dan accordion daftar pesanan lengkap dengan rincian produk, kuantitas, harga.
+ * ==============================================================================
+ */
+
+.profile-page-wrapper {
+  padding-top: 2.5rem;
+  padding-bottom: 5rem;
+  min-height: calc(100vh - var(--header-height));
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 2.75rem;
+  align-items: flex-start;
+}
+
+/* =============================================================================
+   1. SIDEBAR KIRI
+   ============================================================================= */
+.profile-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-top: 0.5rem;
+}
+
+/* Identitas User di Sidebar */
+.profile-user-summary {
+  display: flex;
+  align-items: center;
+  gap: 1.15rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.profile-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.profile-avatar-img {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #E2E8F0;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+}
+
+.profile-name-box h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0F172A;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.profile-name-box span {
+  font-size: 0.78rem;
+  color: #64748B;
+  font-weight: 500;
+}
+
+/* Menu Navigasi Vertikal */
+.profile-nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.profile-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: none;
+  background: transparent;
+  color: #475569;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  width: 100%;
+}
+
+.profile-nav-item svg {
+  color: #64748B;
+  flex-shrink: 0;
+  transition: color var(--transition-fast);
+}
+
+.profile-nav-item:hover {
+  background-color: #F1F5F9;
+  color: #0F172A;
+}
+
+.profile-nav-item:hover svg {
+  color: #0F172A;
+}
+
+.profile-nav-item.active {
+  background-color: #E2E8F0;
+  color: #0F172A;
+  font-weight: 700;
+}
+
+.profile-nav-item.active svg {
+  color: #0F172A;
+}
+
+.profile-logout-wrap {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #E2E8F0;
+}
+
+.profile-logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 1rem;
+  border-radius: 10px;
+  color: #64748B;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.profile-logout-btn:hover {
+  background-color: #FEF2F2;
+  color: #DC2626;
+}
+
+.profile-logout-btn:hover svg {
+  color: #DC2626;
+}
+
+/* =============================================================================
+   2. CONTENT CARD KANAN (KARTU UTAMA ELEGAN)
+   ============================================================================= */
+.profile-content-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 28px;
+  padding: 2.5rem 2.75rem;
+  box-shadow: 0 4px 30px -4px rgba(15, 23, 42, 0.03);
+  min-height: 540px;
+}
+
+.profile-content-header {
+  margin-bottom: 1.75rem;
+}
+
+.profile-content-title {
+  font-family: var(--font-serif);
+  font-size: 1.95rem;
+  font-weight: 700;
+  color: #0F172A;
+  letter-spacing: -0.01em;
+  margin-bottom: 1.25rem;
+}
+
+/* Row Filter Pills (Semua, Diproses, Selesai, Dibatalkan) */
+.orders-filter-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-bottom: 2rem;
+}
+
+.orders-filter-left {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filter-pill-btn {
+  padding: 0.45rem 1.25rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  border: 1px solid #CBD5E1;
+  background-color: #FFFFFF;
+  color: #334155;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.filter-pill-btn:hover {
+  border-color: #0F172A;
+  color: #0F172A;
+}
+
+.filter-pill-btn.active {
+  background-color: #1E293B;
+  color: #FFFFFF;
+  border-color: #1E293B;
+}
+
+.filter-pill-btn.canceled {
+  border-color: #CBD5E1;
+  color: #64748B;
+}
+
+/* Legenda Kolom Tabel Pesanan ala Gambar 4 */
+.order-table-legend {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 40px;
+  align-items: center;
+  padding: 0.5rem 1.5rem 0.75rem 1.5rem;
+  border-bottom: 1px solid #E2E8F0;
+  margin-bottom: 0.85rem;
+}
+
+.order-legend-col {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #64748B;
+  letter-spacing: 0.05em;
+}
+
+/* =============================================================================
+   3. ACCORDION / DAFTAR PESANAN SESUAI GAMBAR
+   ============================================================================= */
+.order-accordion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.order-accordion-item {
+  border: 1px solid #E2E8F0;
+  border-radius: 18px;
+  background-color: #FFFFFF;
+  overflow: hidden;
+  transition: all var(--transition-fast);
+}
+
+.order-accordion-item:hover {
+  border-color: #CBD5E1;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+}
+
+/* Header Baris Pesanan (Order Number | Cost | Order Status + Chevron) */
+.order-accordion-header {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 40px;
+  align-items: center;
+  padding: 1.15rem 1.5rem;
+  cursor: pointer;
+  background-color: #FFFFFF;
+  user-select: none;
+  transition: background-color var(--transition-fast);
+}
+
+.order-accordion-header:hover {
+  background-color: #F8FAFC;
+}
+
+.order-col-header {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #64748B;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.2rem;
+}
+
+.order-col-val {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.order-col-val.number {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.order-col-val.cost {
+  color: #0F172A;
+}
+
+.order-status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.order-status-indicator .status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #F59E0B;
+}
+
+.order-status-indicator.selesai .status-dot {
+  background-color: #22C55E;
+}
+
+.order-status-indicator.diproses .status-dot {
+  background-color: #F59E0B;
+}
+
+.order-status-indicator.dikirim .status-dot {
+  background-color: #3B82F6;
+}
+
+.order-chevron {
+  display: grid;
+  place-items: center;
+  color: #64748B;
+  transition: transform 0.25s ease;
+}
+
+.order-accordion-item.open .order-chevron {
+  transform: rotate(180deg);
+}
+
+/* Rincian Produk di Bawah Accordion */
+.order-accordion-body {
+  padding: 1.25rem 1.5rem 1.5rem 1.5rem;
+  background-color: #FAFBFD;
+  border-top: 1px solid #F1F5F9;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.order-item-card {
+  display: grid;
+  grid-template-columns: 54px 1.5fr 1fr 1fr;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0.85rem 1rem;
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+}
+
+.order-item-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  object-fit: cover;
+  background-color: #F1F5F9;
+  border: 1px solid #E2E8F0;
+}
+
+.order-item-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #0F172A;
+  line-height: 1.35;
+}
+
+.order-item-qty {
+  font-size: 0.82rem;
+  color: #64748B;
+}
+
+.order-item-qty strong {
+  color: #0F172A;
+}
+
+.order-item-price {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #0F172A;
+  text-align: right;
+}
+
+/* Empty State untuk Pesanan */
+.profile-empty-orders {
+  text-align: center;
+  padding: 4rem 1.5rem;
+  background-color: #FAFBFD;
+  border-radius: 16px;
+  border: 1px dashed #CBD5E1;
+}
+
+.profile-empty-orders h4 {
+  font-size: 1.15rem;
+  color: #0F172A;
+  margin-bottom: 0.4rem;
+}
+
+.profile-empty-orders p {
+  font-size: 0.85rem;
+  color: #64748B;
+  margin-bottom: 1.25rem;
+}
+
+/* =============================================================================
+   4. KONTEN TAB "PERSONAL INFO" (DATA PRIBADI)
+   ============================================================================= */
+.personal-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.form-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.form-field-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-field-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.form-field-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #CBD5E1;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  color: #0F172A;
+  background-color: #FFFFFF;
+  transition: all var(--transition-fast);
+  outline: none;
+}
+
+.form-field-input:focus {
+  border-color: #0F172A;
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08);
+}
+
+.form-field-input:disabled {
+  background-color: #F8FAFC;
+  color: #64748B;
+  cursor: not-allowed;
+}
+
+.personal-info-actions {
+  grid-column: 1 / -1;
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn-save-personal {
+  padding: 0.75rem 1.75rem;
+  background-color: #0F172A;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-save-personal:hover {
+  background-color: #1E293B;
+  transform: translateY(-1px);
+}
+
+/* =============================================================================
+   5. RESPONSIVITAS MOBILE
+   ============================================================================= */
+@media (max-width: 900px) {
+  .order-table-legend {
+    display: none;
+  }
+  .profile-page-wrapper {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .profile-content-card {
+    padding: 1.75rem 1.5rem;
+  }
+  .order-accordion-header {
+    grid-template-columns: 1fr 1fr 40px;
+  }
+  .order-col-header.status,
+  .order-status-indicator {
+    display: none;
+  }
+  .order-item-card {
+    grid-template-columns: 50px 1fr;
+    gap: 0.75rem;
+  }
+  .order-item-price {
+    text-align: left;
+    grid-column: 2;
+  }
+}
+
+@media (max-width: 600px) {
+  .personal-info-grid {
+    grid-template-columns: 1fr;
+  }
+}

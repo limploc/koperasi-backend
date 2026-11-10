@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pilih Peran Akun - Koperasi</title>
+
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+<body class="auth-page">
+
+  <a href="register.html" class="auth-back-link">
+    <span aria-hidden="true">&larr;</span>
+    <span>Kembali ke Pendaftaran</span>
+  </a>
+
+  <main class="auth-wrapper">
+    <section class="auth-card" aria-labelledby="roleHeading">
+
+      <!-- Logo Brand Koperasi (Gambar 1) -->
+      <a href="index.html" class="auth-brand-logo" title="Kembali ke Beranda">
+        <div class="logo-icon-grid" aria-hidden="true">
+          <div class="logo-dot"></div>
+          <div class="logo-dot"></div>
+          <div class="logo-dot"></div>
+          <div class="logo-dot"></div>
+        </div>
+        <span>Koperasi</span>
+      </a>
+
+      <!-- Judul & Subjudul -->
+      <header class="auth-header">
+        <h1 id="roleHeading">Pilih Peran Akun</h1>
+        <p>Pilih jenis keanggotaan Anda di Koperasi untuk melanjutkan.</p>
+      </header>
+
+      <!-- Pilihan Role: Pembeli atau Petani Mitra -->
+      <div class="role-choice-grid">
+        
+        <!-- Pilihan 1: Pembeli -->
+        <label class="role-choice-card" for="roleChoicePembeli">
+          <input
+            type="radio"
+            name="selectedRole"
+            id="roleChoicePembeli"
+            value="pembeli"
+            class="role-choice-radio"
+            checked
+          >
+          <div class="role-choice-icon" aria-hidden="true">🛒</div>
+          <div class="role-choice-info">
+            <h3>Pembeli (User Umum)</h3>
+            <p>Beli komoditas panen segar berkualitas langsung dari petani anggota koperasi.</p>
+          </div>
+        </label>
+
+        <!-- Pilihan 2: Petani Mitra -->
+        <label class="role-choice-card" for="roleChoicePetani">
+          <input
+            type="radio"
+            name="selectedRole"
+            id="roleChoicePetani"
+            value="petani"
+            class="role-choice-radio"
+          >
+          <div class="role-choice-icon" aria-hidden="true">🌾</div>
+          <div class="role-choice-info">
+            <h3>Petani Mitra Koperasi</h3>
+            <p>Pasarkan hasil panen Anda, pantau transaksi masuk, dan manfaatkan armada alat tani.</p>
+          </div>
+        </label>
+
+      </div>
+
+      <!-- Tombol Masuk ke Toko -->
+      <a href="toko.html" id="btnMasukToko" class="auth-btn-primary">
+        Masuk ke Toko &rarr;
+      </a>
+
+      <!-- Tautan Akses Khusus Dashboard Petani -->
+      <div class="auth-mode-switch" style="margin-top: 0.85rem;">
+        <a href="dashboard-petani.html" id="linkDirectPetani" class="auth-text-action" style="font-weight: 500; font-size: 0.8rem; color: #6B7280;">
+          Petani? Anda juga dapat langsung ke Dashboard Petani &rarr;
+        </a>
+      </div>
+
+    </section>
+  </main>
+
+  <script>
+    // Inisialisasi awal role pilihan
+    const radioPembeli = document.getElementById('roleChoicePembeli');
+    const radioPetani = document.getElementById('roleChoicePetani');
+    const btnMasuk = document.getElementById('btnMasukToko');
+    const linkDirectPetani = document.getElementById('linkDirectPetani');
+
+    function applyRole(role) {
+      localStorage.setItem('koperasi_role', role);
+    }
+
+    if (radioPembeli && radioPetani && btnMasuk) {
+      // Set default sesuai radio checked saat load
+      applyRole(radioPetani.checked ? 'petani' : 'pembeli');
+
+      radioPembeli.addEventListener('change', () => {
+        if (radioPembeli.checked) {
+          btnMasuk.href = 'toko.html';
+          btnMasuk.textContent = 'Masuk ke Toko →';
+          applyRole('pembeli');
+        }
+      });
+
+      radioPetani.addEventListener('change', () => {
+        if (radioPetani.checked) {
+          btnMasuk.href = 'toko.html';
+          btnMasuk.textContent = 'Lanjut Masuk ke Toko →';
+          applyRole('petani');
+        }
+      });
+
+      btnMasuk.addEventListener('click', () => {
+        const role = radioPetani.checked ? 'petani' : 'pembeli';
+        applyRole(role);
+      });
+    }
+
+    linkDirectPetani?.addEventListener('click', () => {
+      applyRole('petani');
+    });
+  </script>
+
+</body>
+</html>

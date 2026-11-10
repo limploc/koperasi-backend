@@ -10,15 +10,10 @@
  */
 
 .site-header {
-  position: sticky;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background-color: transparent;
   z-index: 100;
-  border-bottom: 1px solid rgba(229, 231, 235, 0.5);
   height: var(--header-height);
   display: flex;
   align-items: center;
@@ -35,9 +30,9 @@
 .site-logo {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   color: #111827;
   letter-spacing: -0.02em;
 }
@@ -46,7 +41,7 @@
   display: grid;
   grid-template-columns: repeat(2, 6px);
   grid-template-rows: repeat(2, 6px);
-  gap: 3px;
+  gap: 2.5px;
 }
 
 .logo-dot {
@@ -62,20 +57,20 @@
 }
 
 .nav-pill-container {
-  background-color: #111827;
-  padding: 0.35rem 0.5rem;
+  background-color: #0F172A;
+  padding: 0.25rem;
   border-radius: var(--radius-full);
   display: flex;
   align-items: center;
-  gap: 0.25rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  gap: 0.15rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
 }
 
 .nav-pill-container a {
   color: #D1D5DB;
-  font-size: 0.825rem;
-  font-weight: 500;
-  padding: 0.45rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 400;
+  padding: 0.4rem 1.05rem;
   border-radius: var(--radius-full);
   transition: all var(--transition-fast);
   white-space: nowrap;
@@ -85,33 +80,36 @@
   color: #FFFFFF;
 }
 
-/* Item Aktif pada Pill (Home) */
-.nav-pill-container a.active {
-  background-color: #1F2937;
-  color: #FFFFFF;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+/* Item Aktif pada Pill (Home): Putih bersih teks gelap persis referensi */
+.nav-pill-container a.active,
+.nav-pill-container a[aria-current="page"] {
+  background-color: #FFFFFF;
+  color: #111827;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
 /* --- Tombol Aksi Kanan --- */
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.65rem;
 }
 
 .btn-header-signup {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 500;
-  padding: 0.45rem 1.25rem;
+  padding: 0.42rem 1.15rem;
   border-radius: var(--radius-full);
-  border: 1px solid var(--color-border);
+  border: 1px solid #9CA3AF;
   color: #111827;
+  background-color: #FFFFFF;
   transition: all var(--transition-fast);
 }
 
 .btn-header-signup:hover {
   background-color: var(--color-bg-subtle);
-  border-color: #9CA3AF;
+  border-color: #111827;
 }
 
 .btn-header-cart {

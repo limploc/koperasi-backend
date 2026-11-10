@@ -43,6 +43,7 @@
   /* --- TIPOGRAFI --- */
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --font-serif: 'Playfair Display', Georgia, Cambria, 'Times New Roman', serif;
+  --font-script: 'Beau Rivage', cursive;
   
   /* Ukuran Font Responsif (Fluid Typography) */
   --text-xs: 0.75rem;     /* 12px */

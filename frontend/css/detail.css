@@ -1,0 +1,462 @@
+/**
+ * ==============================================================================
+ * DETAIL PRODUK & ALAT STYLES (detail.css)
+ * ------------------------------------------------------------------------------
+ * Mengikuti referensi desain persis seperti gambar yang diunggah pengguna:
+ * - 4 Thumbnail Vertikal di sebelah kiri showcase gambar besar
+ * - Expand Zoom Icon di sudut kanan bawah gambar utama
+ * - Breadcrumbs, Judul H1 besar, Rating Bintang, Harga tebal
+ * - Deskripsi + Toggle Read More
+ * - Pilihan Edition / Varian berjejer rapi
+ * - Tombol Aksi Utama "Buy It Now" bulat besar warna lime-green
+ * - 4 Badges Fitur Koperasi (Estimasi Tiba, Free Shipping, Garansi, Chat Support)
+ * - Accordion Informasi Garansi & Pengiriman
+ * ==============================================================================
+ */
+
+.detail-page-wrapper {
+  padding-top: 1.5rem;
+  padding-bottom: 5rem;
+  min-height: calc(100vh - var(--header-height));
+  background-color: #FFFFFF;
+}
+
+.detail-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #4B5563;
+  margin-bottom: 2rem;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.detail-back-link:hover {
+  color: #111827;
+}
+
+/* Layout 2 Kolom: Kiri Galeri & Kanan Info Produk */
+.product-detail-layout {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+/* =============================================================================
+   1. KOLOM KIRI: GALERI THUMBNAIL VERTIKAL & SHOWCASE GAMBAR
+   ============================================================================= */
+.detail-gallery-wrapper {
+  display: grid;
+  grid-template-columns: 78px 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+/* Strip 4 Thumbnail Vertikal */
+.gallery-thumbs-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.thumb-btn {
+  width: 76px;
+  height: 76px;
+  border-radius: 12px;
+  border: 1.5px solid #E5E7EB;
+  background-color: #F9FAFB;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 4px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.thumb-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.thumb-btn:hover {
+  border-color: #9CA3AF;
+  transform: translateY(-1px);
+}
+
+.thumb-btn.active {
+  border-color: #111827;
+  border-width: 2px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Panggung Gambar Utama Showcase */
+.main-image-stage {
+  position: relative;
+  background-color: #F8FAFC;
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #F1F5F9;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+}
+
+.main-image-stage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.25s ease, transform 0.3s ease;
+}
+
+.main-image-stage:hover img {
+  transform: scale(1.02);
+}
+
+/* Ikon Expand Zoom di Sudut Kanan Bawah Sesuai Gambar */
+.btn-zoom-expand {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(4px);
+  border: 1px solid #E5E7EB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+  color: #111827;
+}
+
+.btn-zoom-expand:hover {
+  background: #FFFFFF;
+  transform: scale(1.1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+/* =============================================================================
+   2. KOLOM KANAN: DETAIL INFORMASI & AKSI PEMBELIAN
+   ============================================================================= */
+.detail-info-col {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Breadcrumbs (Products • Category) */
+.detail-breadcrumbs {
+  font-size: 0.82rem;
+  color: #6B7280;
+  margin-bottom: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.detail-breadcrumbs a {
+  color: #6B7280;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.detail-breadcrumbs a:hover {
+  color: #111827;
+}
+
+/* Judul Produk Besar */
+.detail-product-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  margin-bottom: 0.85rem;
+}
+
+/* Rating Bintang & Review Count */
+.detail-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.85rem;
+}
+
+.detail-stars {
+  display: flex;
+  gap: 2px;
+  color: #F59E0B;
+}
+
+.detail-rating-val {
+  font-weight: 700;
+  color: #111827;
+}
+
+.detail-review-count {
+  color: #6B7280;
+}
+
+/* Harga Utama & Harga Coret */
+.detail-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 1.35rem;
+}
+
+.detail-price-main {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.03em;
+}
+
+.detail-price-orig {
+  font-size: 1.1rem;
+  color: #9CA3AF;
+  text-decoration: line-through;
+  font-weight: 500;
+}
+
+/* Deskripsi & Toggle Read More */
+.detail-desc-box {
+  color: #4B5563;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  margin-bottom: 1.75rem;
+}
+
+.detail-desc-toggle {
+  color: #111827;
+  font-weight: 700;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-top: 0.35rem;
+  display: inline-block;
+  font-size: 0.85rem;
+  text-decoration: underline;
+}
+
+/* Pilihan Varian / Edition */
+.detail-edition-section {
+  margin-bottom: 2rem;
+}
+
+.detail-edition-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #374151;
+  text-transform: capitalize;
+  margin-bottom: 0.65rem;
+  display: block;
+}
+
+.detail-edition-pills {
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.edition-pill-btn {
+  padding: 0.55rem 1.45rem;
+  border-radius: 9999px;
+  border: 1.5px solid #D1D5DB;
+  background: #FFFFFF;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.edition-pill-btn:hover {
+  border-color: #111827;
+  color: #111827;
+}
+
+.edition-pill-btn.active {
+  border-color: #111827;
+  background: #111827;
+  color: #FFFFFF;
+}
+
+/* Tombol CTA Besar "Buy It Now" (ala Gambar 1) */
+.btn-buy-it-now {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 1.05rem 2rem;
+  background-color: #CCF844; /* Warna lime-green khas gambar referensi */
+  color: #0F172A;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(204, 248, 68, 0.45);
+  margin-bottom: 0.75rem;
+}
+
+.btn-buy-it-now:hover {
+  background-color: #B8EE24;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(204, 248, 68, 0.55);
+}
+
+.btn-add-to-cart-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.85rem 2rem;
+  background-color: #F8FAFC;
+  color: #111827;
+  font-size: 0.92rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  border: 1px solid #E2E8F0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 2rem;
+}
+
+.btn-add-to-cart-secondary:hover {
+  background-color: #F1F5F9;
+  border-color: #CBD5E1;
+}
+
+/* 4 Fitur Koperasi (Grid 2x2 ala Gambar 1) */
+.detail-features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.15rem 1.5rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid #F1F5F9;
+  border-bottom: 1px solid #F1F5F9;
+  margin-bottom: 1.5rem;
+}
+
+.detail-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.82rem;
+  color: #4B5563;
+  font-weight: 500;
+}
+
+.detail-feature-item svg {
+  color: #64748B;
+  flex-shrink: 0;
+}
+
+/* Accordions (Warranty + / Shipping & Delivery +) */
+.detail-accordions-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-accordion-item {
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.detail-accordion-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.15rem 0;
+  background: none;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111827;
+  cursor: pointer;
+  text-align: left;
+}
+
+.accordion-plus-icon {
+  font-size: 1.35rem;
+  color: #9CA3AF;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.detail-accordion-item.open .accordion-plus-icon {
+  transform: rotate(45deg);
+  color: #111827;
+}
+
+.detail-accordion-content {
+  display: none;
+  padding: 0 0 1.25rem 0;
+  font-size: 0.875rem;
+  color: #6B7280;
+  line-height: 1.6;
+}
+
+.detail-accordion-item.open .detail-accordion-content {
+  display: block;
+}
+
+/* Responsive */
+@media (max-width: 960px) {
+  .product-detail-layout {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .detail-gallery-wrapper {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .gallery-thumbs-col {
+    flex-direction: row;
+    order: 2;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+
+  .thumb-btn {
+    width: 68px;
+    height: 68px;
+    flex-shrink: 0;
+  }
+
+  .main-image-stage {
+    order: 1;
+  }
+
+  .detail-product-title {
+    font-size: 1.75rem;
+  }
+
+  .detail-price-main {
+    font-size: 1.85rem;
+  }
+
+  .detail-features-grid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+}

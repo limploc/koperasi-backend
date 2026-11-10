@@ -15,22 +15,21 @@ document.addEventListener('DOMContentLoaded', () => {
   renderProducts();
   setupFilterButtons();
   setupSearchAndSort();
-  setupCartDialog();
   checkUrlParams();
 });
 
-// Cek apakah ada query string kategori (misal: toko.html?cat=beras)
+// Cek apakah ada query string kategori (misal: toko.html?cat=jagung)
 function checkUrlParams() {
   const urlParams = new URLSearchParams(window.location.search);
   const catParam = urlParams.get('cat');
   if (catParam) {
-    const catBtn = document.querySelector(`.cat-btn[data-cat="${catParam}"]`);
+    const catBtn = document.querySelector(`.cat-tab-btn[data-cat="${catParam}"], .cat-btn[data-cat="${catParam}"]`);
     if (catBtn) catBtn.click();
   }
 
-  // Jika hash adalah #cart, langsung buka dialog cart
+  // Jika hash adalah #cart, langsung alihkan ke cart.html
   if (window.location.hash === '#cart') {
-    openCartModal();
+    window.location.href = 'cart.html';
   }
 }
 
@@ -65,36 +64,57 @@ function renderProducts() {
     return;
   }
 
-  grid.innerHTML = filtered.map(item => `
-    <article class="product-card">
-      <div class="product-image-container" onclick="openProductDetail('${item.id}')">
-        <span class="product-tag">${item.isOrganic ? 'Organik' : item.freshness}</span>
-        <img src="${item.image}" alt="${item.name}" loading="lazy">
-      </div>
-      <div class="product-content">
-        <div class="product-meta">
-          <span class="product-cat">${item.categoryName}</span>
-          <span class="product-rating">★ ${item.rating} (${item.sold})</span>
+  grid.innerHTML = filtered.map(item => {
+    const origPrice = item.originalPrice || Math.round(item.price * 1.3 / 1000) * 1000;
+    return `
+      <article class="product-card">
+        <div class="product-image-container" onclick="goToProductDetail('${item.id}')">
+          <img src="${item.image}" alt="${item.name}" loading="lazy">
         </div>
-        <h3 class="product-name" onclick="openProductDetail('${item.id}')">${item.name}</h3>
-        <p class="product-farmer">Petani: ${item.farmer}</p>
-        
-        <div class="product-action-row">
-          <div class="product-price">
-            ${formatRupiah(item.price)} <span>/ ${item.unit}</span>
+        <div class="product-content">
+          <div class="product-price-row">
+            <span class="price-current">${formatRupiah(item.price)}</span>
+            <span class="price-original">${formatRupiah(origPrice)}</span>
           </div>
-          <button class="btn btn-dark" style="padding: 0.5rem 1rem;" onclick="addToCart('${item.id}')">
-            + Keranjang
-          </button>
+
+          <div class="product-title-row">
+            <h3 class="product-name" onclick="goToProductDetail('${item.id}')" title="${item.name}">${item.name}</h3>
+            <div class="product-rating-box">
+              <svg class="star-rating-icon" width="12" height="12" viewBox="0 0 24 24" fill="#F59E0B" aria-hidden="true">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+              <span>${item.rating}</span>
+            </div>
+          </div>
+
+          <p class="product-description" onclick="goToProductDetail('${item.id}')">
+            ${item.description} <span class="see-more-link">Selengkapnya</span>
+          </p>
+
+          <div class="product-action-buttons">
+            <button class="btn-buy-now" type="button" onclick="buyNow('${item.id}')">Beli Sekarang</button>
+            <button class="btn-add-cart" type="button" onclick="addToCart('${item.id}')">+ Keranjang</button>
+          </div>
         </div>
-      </div>
-    </article>
-  `).join('');
+      </article>
+    `;
+  }).join('');
 }
 
-// Setup Tombol Filter Kategori
+// Navigasi ke Halaman Detail Produk Baru
+function goToProductDetail(productId) {
+  window.location.href = `detail-produk.html?id=${productId}`;
+}
+
+// Beli Sekarang: Tambahkan ke Keranjang dan Langsung Arahkan ke Halaman cart.html
+function buyNow(productId) {
+  addToCart(productId, 1);
+  window.location.href = 'cart.html';
+}
+
+// Setup Tombol Filter Kategori (Minimalis Centered Tabs)
 function setupFilterButtons() {
-  const catButtons = document.querySelectorAll('.cat-btn');
+  const catButtons = document.querySelectorAll('.cat-tab-btn, .cat-btn');
   catButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       catButtons.forEach(b => b.classList.remove('active'));
@@ -131,7 +151,7 @@ function resetFilters() {
   currentSort = 'popular';
   const searchInput = document.getElementById('searchInput');
   if (searchInput) searchInput.value = '';
-  const firstCat = document.querySelector('.cat-btn[data-cat="all"]');
+  const firstCat = document.querySelector('.cat-tab-btn[data-cat="all"], .cat-btn[data-cat="all"]');
   if (firstCat) firstCat.click();
 }
 
@@ -146,8 +166,8 @@ function openProductDetail(productId) {
     <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 1.5rem; align-items: start;">
       <img src="${product.image}" alt="${product.name}" style="width: 100%; border-radius: var(--radius-lg); object-fit: cover; aspect-ratio: 1/1;">
       <div>
-        <span class="badge-tag" style="padding-left:0;"><span class="dot-green"></span> ${product.categoryName}</span>
-        <h2 style="font-size: 1.5rem; margin: 0.5rem 0 0.25rem 0;">${product.name}</h2>
+        <div style="font-size: 0.8rem; font-weight: 700; color: #0A7337; text-transform: uppercase; margin-bottom: 0.25rem;">${product.categoryName}</div>
+        <h2 style="font-size: 1.5rem; margin: 0 0 0.25rem 0;">${product.name}</h2>
         <p style="color: #6B7280; font-size: 0.85rem; margin-bottom: 1rem;">Mitra: ${product.farmer}</p>
         
         <div style="font-size: 1.5rem; font-weight: 800; color: #111827; margin-bottom: 1rem;">
@@ -163,95 +183,17 @@ function openProductDetail(productId) {
           <div style="margin-top: 0.25rem;">📦 <strong>Sisa Stok:</strong> ${product.stock} ${product.unit}</div>
         </div>
 
-        <button class="btn btn-dark" style="width: 100%; padding: 0.75rem;" onclick="addToCart('${product.id}'); document.getElementById('productDetailModal').close();">
-          + Tambahkan ke Keranjang
-        </button>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin-top: 1rem;">
+          <button class="btn-buy-now" style="padding: 0.75rem;" onclick="buyNow('${product.id}'); document.getElementById('productDetailModal').close();">
+            Beli Sekarang
+          </button>
+          <button class="btn-add-cart" style="padding: 0.75rem;" onclick="addToCart('${product.id}'); document.getElementById('productDetailModal').close();">
+            + Keranjang
+          </button>
+        </div>
       </div>
     </div>
   `;
 
   modal.showModal();
-}
-
-// Setup Cart Dialog
-function setupCartDialog() {
-  const modal = document.getElementById('cartModal');
-  if (!modal) return;
-
-  // Tutup dialog saat klik di luar kotak (backdrop click)
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) modal.close();
-  });
-}
-
-function openCartModal() {
-  const modal = document.getElementById('cartModal');
-  const itemsContainer = document.getElementById('cartItemsContainer');
-  const totalDisplay = document.getElementById('cartTotalDisplay');
-  if (!modal || !itemsContainer) return;
-
-  if (cart.length === 0) {
-    itemsContainer.innerHTML = `
-      <div style="text-align: center; padding: 2.5rem 1rem; color: #6B7280;">
-        <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">Keranjang Anda masih kosong.</p>
-        <p style="font-size: 0.85rem;">Pilih hasil panen segar favorit Anda dari katalog toko.</p>
-      </div>
-    `;
-    if (totalDisplay) totalDisplay.textContent = formatRupiah(0);
-  } else {
-    let grandTotal = 0;
-    itemsContainer.innerHTML = cart.map((item, idx) => {
-      const subtotal = item.price * item.qty;
-      grandTotal += subtotal;
-      return `
-        <div class="cart-item-row">
-          <img src="${item.image}" alt="${item.name}" class="cart-item-img">
-          <div class="cart-item-info">
-            <h4 class="cart-item-title">${item.name}</h4>
-            <div class="cart-item-price">${formatRupiah(item.price)} / ${item.unit}</div>
-          </div>
-          <div class="cart-qty-control">
-            <button class="cart-qty-btn" onclick="updateItemQty(${idx}, -1)">-</button>
-            <span style="font-size: 0.9rem; font-weight: 600; min-width: 20px; text-align: center;">${item.qty}</span>
-            <button class="cart-qty-btn" onclick="updateItemQty(${idx}, 1)">+</button>
-          </div>
-          <button style="color: #EF4444; font-size: 1.1rem; padding: 0 4px;" title="Hapus" onclick="removeCartItem(${idx})">&times;</button>
-        </div>
-      `;
-    }).join('');
-
-    if (totalDisplay) totalDisplay.textContent = formatRupiah(grandTotal);
-  }
-
-  modal.showModal();
-}
-
-function updateItemQty(index, change) {
-  if (!cart[index]) return;
-  cart[index].qty += change;
-  if (cart[index].qty <= 0) {
-    cart.splice(index, 1);
-  }
-  localStorage.setItem('koperasi_cart', JSON.stringify(cart));
-  updateCartBadge();
-  openCartModal(); // Refresh tampilan modal
-}
-
-function removeCartItem(index) {
-  cart.splice(index, 1);
-  localStorage.setItem('koperasi_cart', JSON.stringify(cart));
-  updateCartBadge();
-  openCartModal();
-}
-
-function checkoutSimulasi() {
-  if (cart.length === 0) {
-    alert('Keranjang masih kosong!');
-    return;
-  }
-  alert('Simulasi Checkout Berhasil!\nTotal pesanan Anda telah dicatat. Tim dapat menghubungkan ini ke payment gateway atau WhatsApp Koperasi.');
-  cart = [];
-  localStorage.removeItem('koperasi_cart');
-  updateCartBadge();
-  document.getElementById('cartModal')?.close();
 }
