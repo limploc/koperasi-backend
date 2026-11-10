@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Petani - Kelola Penjualan Hasil Tani</title>
+  
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body class="dash-page">
+
+  <!-- Header Navigasi Koperasi -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="site-logo">
+        <div class="logo-icon-grid">
+          <div class="logo-dot"></div>
+          <div class="logo-dot"></div>
+          <div class="logo-dot"></div>
+          <div class="logo-dot"></div>
+        </div>
+        <span>Luckycharm</span>
+      </a>
+
+      <nav class="nav-pill-wrapper">
+        <div class="nav-pill-container">
+          <a href="index.html">Home</a>
+          <a href="toko.html">Products (Toko)</a>
+          <a href="sewa.html">Sewa Alat</a>
+          <a href="dashboard-petani.html" class="active" aria-current="page">Dashboard Petani</a>
+        </div>
+      </nav>
+
+      <div class="header-actions">
+        <a href="toko.html" class="btn-header-signup">Lihat Toko Publik &rarr;</a>
+        <a href="login.html" class="btn btn-outline" style="padding: 0.4rem 0.9rem; font-size: 0.8rem;" title="Keluar Akun">Logout</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Dashboard Topbar: Profil Petani Mitra -->
+  <div class="dash-header-bar">
+    <div class="container dash-header-content">
+      
+      <div class="farmer-id-box">
+        <div class="farmer-avatar">🌾</div>
+        <div class="farmer-details">
+          <h1>
+            Lapak Tani Pak Joko
+            <span class="farmer-verified-badge">✓ Mitra Terverifikasi</span>
+          </h1>
+          <p>Kelompok Tani Sumber Makmur • Blok Lahan Sukamaju C-12 • Status: <strong style="color: #16A34A;">● Toko Buka</strong></p>
+        </div>
+      </div>
+
+      <div class="dash-actions-bar">
+        <button class="btn btn-dark" onclick="openAddProductModal()">
+          <span>+ Tambah Hasil Panen Baru</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Konten Utama Dashboard -->
+  <main class="container dash-main">
+    
+    <!-- 1. Empat Kartu Metrik Ringkasan Penjualan -->
+    <div class="dash-metrics-grid">
+      
+      <div class="metric-card">
+        <div class="metric-card-top">
+          <span>Total Penjualan Bulan Ini</span>
+          <div class="metric-icon">💰</div>
+        </div>
+        <div class="metric-value" id="metricRevenue">Rp 0</div>
+        <span class="metric-badge-trend">↑ +18.4% dari bulan lalu</span>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-card-top">
+          <span>Pesanan Masuk</span>
+          <div class="metric-icon">📦</div>
+        </div>
+        <div class="metric-value" id="metricOrders">0 Pesanan</div>
+        <span style="font-size: 0.75rem; color: #6B7280;">2 pesanan perlu diproses</span>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-card-top">
+          <span>Komoditas Aktif</span>
+          <div class="metric-icon">🌱</div>
+        </div>
+        <div class="metric-value" id="metricProducts">0 Produk</div>
+        <span style="font-size: 0.75rem; color: #16A34A;">Tersedia di katalog publik</span>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-card-top">
+          <span>Rating Lapak Petani</span>
+          <div class="metric-icon">⭐</div>
+        </div>
+        <div class="metric-value" id="metricRating">5.0 / 5.0</div>
+        <span style="font-size: 0.75rem; color: #6B7280;">Berdasarkan ulasan pembeli</span>
+      </div>
+
+    </div>
+
+    <!-- 2. Bagian Tengah: Visualisasi Tren Penjualan & Target Koperasi -->
+    <div class="dash-middle-grid">
+      
+      <!-- Grafik Tren Penjualan Mingguan CSS/SVG -->
+      <div class="dash-box">
+        <div class="dash-box-header">
+          <div>
+            <h3>Tren Pendapatan Penjualan Mingguan</h3>
+            <p style="font-size: 0.85rem; color: #6B7280;">Performa penjualan komoditas 7 hari terakhir</p>
+          </div>
+          <span class="badge-tag"><span class="dot-green"></span> Real-time</span>
+        </div>
+
+        <div class="sales-chart-container">
+          <div class="chart-bar-col">
+            <span class="chart-bar-val">750rb</span>
+            <div class="chart-bar" style="height: 45%;"></div>
+            <span class="chart-bar-label">Sen</span>
+          </div>
+          <div class="chart-bar-col">
+            <span class="chart-bar-val">1.2jt</span>
+            <div class="chart-bar" style="height: 70%;"></div>
+            <span class="chart-bar-label">Sel</span>
+          </div>
+          <div class="chart-bar-col">
+            <span class="chart-bar-val">650rb</span>
+            <div class="chart-bar" style="height: 40%;"></div>
+            <span class="chart-bar-label">Rab</span>
+          </div>
+          <div class="chart-bar-col">
+            <span class="chart-bar-val">900rb</span>
+            <div class="chart-bar" style="height: 55%;"></div>
+            <span class="chart-bar-label">Kam</span>
+          </div>
+          <div class="chart-bar-col">
+            <span class="chart-bar-val">1.5jt</span>
+            <div class="chart-bar" style="height: 85%;"></div>
+            <span class="chart-bar-label">Jum</span>
+          </div>
+          <div class="chart-bar-col">
+            <span class="chart-bar-val">1.8jt</span>
+            <div class="chart-bar" style="height: 95%; background-color: var(--color-primary);"></div>
+            <span class="chart-bar-label">Sab</span>
+          </div>
+          <div class="chart-bar-col">
+            <span class="chart-bar-val">1.6jt</span>
+            <div class="chart-bar" style="height: 88%;"></div>
+            <span class="chart-bar-label">Min</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kotak Ringkasan Target & Koperasi -->
+      <div class="dash-box" style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <h3>Target Penjualan Bulan Ini</h3>
+          <p style="font-size: 0.85rem; color: #6B7280; margin-bottom: 1.5rem;">Target bagi hasil koperasi: Rp 10.000.000</p>
+          
+          <div style="margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.35rem;">
+              <span>Pencapaian:</span>
+              <strong>84.5%</strong>
+            </div>
+            <div style="height: 10px; background: #E5E7EB; border-radius: var(--radius-full); overflow: hidden;">
+              <div style="width: 84.5%; height: 100%; background: var(--color-primary); border-radius: var(--radius-full);"></div>
+            </div>
+          </div>
+
+          <div style="background: #F9FAFB; padding: 1rem; border-radius: var(--radius-md); font-size: 0.825rem; color: #4B5563; line-height: 1.5;">
+            💡 <strong>Info Petani:</strong> Komoditas tomat ceri hidroponik Anda memiliki permintaan tertinggi minggu ini. Pertahankan kualitas kesegaran panen!
+          </div>
+        </div>
+
+        <a href="sewa.html" class="btn btn-outline" style="width: 100%; margin-top: 1rem; text-align: center;">
+          🚜 Butuh Alat? Sewa Alsintan Koperasi
+        </a>
+      </div>
+
+    </div>
+
+    <!-- 3. Tabel Pesanan Masuk (Kelola Status Transaksi Penjualan) -->
+    <div class="dash-box" style="margin-bottom: 2.5rem;">
+      <div class="dash-box-header">
+        <div>
+          <h3>Pesanan Masuk dari Pembeli</h3>
+          <p style="font-size: 0.85rem; color: #6B7280;">Perbarui status pengiriman hasil panen langsung dari tabel ini</p>
+        </div>
+      </div>
+
+      <div class="table-responsive-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>No. Pesanan</th>
+              <th>Pembeli & Pembayaran</th>
+              <th>Komoditas Dipesan</th>
+              <th>Total Bayar</th>
+              <th>Tanggal</th>
+              <th>Status</th>
+              <th>Ubah Status</th>
+            </tr>
+          </thead>
+          <tbody id="ordersTableBody">
+            <!-- Dirender oleh dashboard.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 4. Manajemen Komoditas Hasil Panen Saya -->
+    <div class="dash-box">
+      <div class="dash-box-header">
+        <div>
+          <h3>Daftar Komoditas Hasil Panen Saya</h3>
+          <p style="font-size: 0.85rem; color: #6B7280;">Pantau stok panen yang ditampilkan di etalase toko online</p>
+        </div>
+        <button class="btn btn-dark" style="padding: 0.45rem 1rem; font-size: 0.85rem;" onclick="openAddProductModal()">
+          + Tambah Panen
+        </button>
+      </div>
+
+      <div class="farmer-products-grid" id="farmerProductsGrid">
+        <!-- Dirender oleh dashboard.js -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- =========================================================================
+       NATIVE HTML5 <dialog> MODAL TAMBAH HASIL PANEN BARU
+       ========================================================================= -->
+  <dialog id="addProductModal">
+    <div class="modal-content-box">
+      <button class="modal-close-btn" onclick="document.getElementById('addProductModal').close()">&times;</button>
+      
+      <div style="margin-bottom: 1.5rem;">
+        <span class="badge-tag" style="padding-left:0;"><span class="dot-green"></span> Tambah Hasil Panen</span>
+        <h2 style="font-size: 1.35rem; margin-top: 0.25rem;">Form Komoditas Baru</h2>
+        <p style="font-size: 0.85rem; color: #6B7280;">Produk yang Anda tambahkan akan langsung muncul di katalog toko.</p>
+      </div>
+
+      <form id="addProductForm">
+        <div class="form-group">
+          <label class="form-label" for="prodNameInput">Nama Komoditas Hasil Panen</label>
+          <input type="text" id="prodNameInput" class="form-input" placeholder="contoh: Jagung Manis Madu Organik" required>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label class="form-label" for="prodPriceInput">Harga Jual (Rp)</label>
+            <input type="number" id="prodPriceInput" class="form-input" placeholder="contoh: 25000" min="1000" step="500" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="prodUnitInput">Satuan</label>
+            <input type="text" id="prodUnitInput" class="form-input" placeholder="kg, ikat, karung" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="prodStockInput">Jumlah Stok Panen</label>
+          <input type="number" id="prodStockInput" class="form-input" placeholder="contoh: 50" min="1" required>
+        </div>
+
+        <button type="submit" class="btn btn-dark" style="width: 100%; padding: 0.85rem; margin-top: 0.5rem;">
+          Simpan & Tampilkan ke Toko &rarr;
+        </button>
+      </form>
+    </div>
+  </dialog>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <p>&copy; 2025 Luckycharm • Panel Penjualan Petani Mandiri</p>
+      <p>Koperasi Tani Modern Berbasis Gotong Royong</p>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

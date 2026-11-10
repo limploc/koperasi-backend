@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toko Online Hasil Tani - Luckycharm Koperasi</title>
+  
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/toko.css">
+</head>
+<body>
+
+  <!-- Header Navigasi -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="site-logo">
+        <div class="logo-icon-grid">
+          <div class="logo-dot"></div>
+          <div class="logo-dot"></div>
+          <div class="logo-dot"></div>
+          <div class="logo-dot"></div>
+        </div>
+        <span>Luckycharm</span>
+      </a>
+
+      <nav class="nav-pill-wrapper">
+        <div class="nav-pill-container">
+          <a href="index.html">Home</a>
+          <a href="toko.html" class="active" aria-current="page">Products</a>
+          <a href="sewa.html">Sewa Alat</a>
+          <a href="dashboard-petani.html">Dashboard Petani</a>
+        </div>
+      </nav>
+
+      <div class="header-actions">
+        <button class="btn-header-cart" title="Keranjang Belanja" onclick="openCartModal()" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <span class="cart-counter" style="display: none;">0</span>
+        </button>
+        <a href="login.html" class="btn-header-signup">Sign Up</a>
+        <button class="mobile-menu-toggle" aria-label="Buka Menu Navigasi" type="button">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Banner Judul Toko -->
+  <section class="store-header-banner">
+    <div class="container">
+      <span class="badge-tag"><span class="dot-green"></span> Pasar Tani Koperasi</span>
+      <h1>Katalog Hasil Tani Segar</h1>
+      <p>Beli langsung dari petani mitra koperasi. Kualitas panen terjamin, harga wajar dan adil bagi produsen maupun konsumen.</p>
+    </div>
+  </section>
+
+  <!-- Konten Utama Toko -->
+  <main class="container">
+    <!-- Toolbar: Filter Kategori, Search, dan Sort -->
+    <div class="store-toolbar">
+      
+      <!-- Filter Kategori Tombol Pill -->
+      <div class="filter-categories">
+        <button class="cat-btn active" data-cat="all">Semua Panen</button>
+        <button class="cat-btn" data-cat="beras">🌾 Beras & Padi</button>
+        <button class="cat-btn" data-cat="sayur">🥬 Sayuran Segar</button>
+        <button class="cat-btn" data-cat="buah">🥑 Buah Lokal</button>
+        <button class="cat-btn" data-cat="pupuk">🌱 Pupuk Organik</button>
+      </div>
+
+      <!-- Search & Sort Row -->
+      <div class="search-sort-row">
+        <div class="search-box">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+          </svg>
+          <input type="text" id="searchInput" placeholder="Cari beras, cabai, nama petani...">
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="font-size: 0.85rem; color: #6B7280;">Urutkan:</span>
+          <select id="sortSelect" class="sort-select">
+            <option value="popular">Paling Populer</option>
+            <option value="price-low">Harga Terendah</option>
+            <option value="price-high">Harga Tertinggi</option>
+          </select>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Grid Produk (Dirender dinamis oleh toko.js) -->
+    <div class="products-grid" id="productsGrid">
+      <!-- Produk akan di-render di sini oleh JavaScript -->
+    </div>
+  </main>
+
+  <!-- =========================================================================
+       NATIVE HTML5 <dialog> DETAIL PRODUK
+       ========================================================================= -->
+  <dialog id="productDetailModal">
+    <div class="modal-content-box">
+      <button class="modal-close-btn" onclick="document.getElementById('productDetailModal').close()">&times;</button>
+      <div id="productModalBody">
+        <!-- Konten detail produk akan diisi oleh openProductDetail() -->
+      </div>
+    </div>
+  </dialog>
+
+  <!-- =========================================================================
+       NATIVE HTML5 <dialog> KERANJANG BELANJA
+       ========================================================================= -->
+  <dialog id="cartModal">
+    <div class="modal-content-box">
+      <button class="modal-close-btn" onclick="document.getElementById('cartModal').close()">&times;</button>
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <h2 style="font-size: 1.35rem; font-weight: 700;">Keranjang Belanja</h2>
+      </div>
+
+      <div class="cart-items-list" id="cartItemsContainer">
+        <!-- Item keranjang dirender oleh toko.js -->
+      </div>
+
+      <div class="cart-total-box">
+        <span style="font-weight: 600; color: #6B7280;">Total Belanja:</span>
+        <span class="cart-total-amount" id="cartTotalDisplay">Rp 0</span>
+      </div>
+
+      <div style="margin-top: 1.5rem; display: flex; gap: 0.75rem;">
+        <button class="btn btn-outline" style="flex: 1;" onclick="document.getElementById('cartModal').close()">Lanjut Belanja</button>
+        <button class="btn btn-dark" style="flex: 1.5;" onclick="checkoutSimulasi()">Checkout Sekarang &rarr;</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <p>&copy; 2025 Luckycharm • Pasar Tani Koperasi Modern</p>
+      <p><a href="dashboard-petani.html" style="color: var(--color-primary); font-weight: 600;">Petani Mitra? Akses Dashboard Penjualan Anda &rarr;</a></p>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/toko.js"></script>
+</body>
+</html>

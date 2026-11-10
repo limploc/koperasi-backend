@@ -1,0 +1,326 @@
+/**
+ * ==============================================================================
+ * DASHBOARD KHUSUS PETANI (dashboard.css)
+ * ------------------------------------------------------------------------------
+ * Khusus untuk petani mitra mengelola data penjualan hasil panen & produk:
+ * - Header profil lapak petani
+ * - Kartu metrik pendapatan & penjualan
+ * - Mini grafik tren penjualan mingguan (CSS/SVG)
+ * - Tabel transaksi pesanan masuk responsif
+ * - Manajemen produk panen & modal tambah hasil panen
+ * ==============================================================================
+ */
+
+.dash-page {
+  background-color: #F8FAFC;
+  min-height: 100vh;
+}
+
+/* Dashboard Topbar */
+.dash-header-bar {
+  background: #FFFFFF;
+  border-bottom: 1px solid var(--color-border);
+  padding: 1.5rem 0;
+}
+
+.dash-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.farmer-id-box {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.farmer-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #111827;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.farmer-details h1 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #111827;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.farmer-verified-badge {
+  background: #DCFCE7;
+  color: #166534;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.farmer-details p {
+  font-size: 0.85rem;
+  color: #6B7280;
+}
+
+.dash-actions-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Main Dashboard Container */
+.dash-main {
+  padding: 2.5rem 0 5rem 0;
+}
+
+/* Metric Cards Grid */
+.dash-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.metric-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.metric-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #6B7280;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.metric-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: #F3F4F6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.metric-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.02em;
+}
+
+.metric-badge-trend {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #16A34A;
+}
+
+/* Section: Tren Grafik & Ringkasan Penjualan */
+.dash-middle-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.dash-box {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 1.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.dash-box-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.dash-box-header h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Grafik Batang Penjualan Mingguan CSS Murni */
+.sales-chart-container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 180px;
+  padding: 1.5rem 0.5rem 0 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+  gap: 0.75rem;
+}
+
+.chart-bar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  height: 100%;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.chart-bar {
+  width: 100%;
+  max-width: 36px;
+  background: #111827;
+  border-radius: 6px 6px 0 0;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.chart-bar:hover {
+  background: var(--color-primary);
+}
+
+.chart-bar-label {
+  font-size: 0.75rem;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+.chart-bar-val {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+/* Tabel Transaksi Pesanan */
+.table-responsive-wrapper {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: left;
+  font-size: 0.875rem;
+}
+
+.data-table th {
+  background: #F9FAFB;
+  padding: 0.85rem 1rem;
+  font-weight: 600;
+  color: #4B5563;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.data-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+  color: #374151;
+  vertical-align: middle;
+}
+
+.data-table tr:hover td {
+  background-color: #F8FAFC;
+}
+
+/* Status Badges */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.status-pill.menunggu {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.status-pill.diproses {
+  background: #DBEAFE;
+  color: #1E40AF;
+}
+
+.status-pill.dikirim {
+  background: #E0E7FF;
+  color: #3730A3;
+}
+
+.status-pill.selesai {
+  background: #DCFCE7;
+  color: #166534;
+}
+
+/* Grid Manajemen Produk Petani */
+.farmer-products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.farmer-prod-item {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.farmer-prod-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.farmer-prod-price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+@media (max-width: 1024px) {
+  .dash-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dash-middle-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .dash-metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  .dash-header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

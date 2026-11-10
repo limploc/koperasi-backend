@@ -1,0 +1,203 @@
+/**
+ * ==============================================================================
+ * NAVBAR & HEADER STYLES (navbar.css)
+ * ------------------------------------------------------------------------------
+ * Mengikuti referensi visual:
+ * - Logo di kiri dengan ikon 4-persegi rounded.
+ * - Navigasi tengah berbentuk dark pill (kapsul hitam).
+ * - Tombol Sign Up / Masuk di kanan berbentuk pill outline.
+ * ==============================================================================
+ */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 100;
+  border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* --- Logo Brand --- */
+.site-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: #111827;
+  letter-spacing: -0.02em;
+}
+
+.logo-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 6px);
+  grid-template-rows: repeat(2, 6px);
+  gap: 3px;
+}
+
+.logo-dot {
+  background-color: #111827;
+  border-radius: 2px;
+}
+
+/* --- Dark Pill Navigation Bar (Tengah) --- */
+.nav-pill-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-pill-container {
+  background-color: #111827;
+  padding: 0.35rem 0.5rem;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.nav-pill-container a {
+  color: #D1D5DB;
+  font-size: 0.825rem;
+  font-weight: 500;
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.nav-pill-container a:hover {
+  color: #FFFFFF;
+}
+
+/* Item Aktif pada Pill (Home) */
+.nav-pill-container a.active {
+  background-color: #1F2937;
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* --- Tombol Aksi Kanan --- */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btn-header-signup {
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.45rem 1.25rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  color: #111827;
+  transition: all var(--transition-fast);
+}
+
+.btn-header-signup:hover {
+  background-color: var(--color-bg-subtle);
+  border-color: #9CA3AF;
+}
+
+.btn-header-cart {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #111827;
+  transition: all var(--transition-fast);
+}
+
+.btn-header-cart:hover {
+  background-color: var(--color-bg-subtle);
+}
+
+.cart-counter {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  font-size: 0.7rem;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mobile Toggle Hamburger */
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  width: 32px;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.mobile-menu-toggle span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #111827;
+  border-radius: 2px;
+  transition: transform 0.2s ease;
+}
+
+/* --- Responsif Mobile Menu --- */
+@media (max-width: 900px) {
+  .nav-pill-wrapper {
+    display: none; /* Disembunyikan saat layar kecil, dibuka lewat drawer */
+  }
+
+  .mobile-menu-toggle {
+    display: flex;
+  }
+
+  .site-header.menu-open .nav-pill-wrapper {
+    display: flex;
+    position: absolute;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    background-color: #FFFFFF;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .site-header.menu-open .nav-pill-container {
+    flex-direction: column;
+    width: 100%;
+    border-radius: var(--radius-lg);
+    padding: 0.75rem;
+  }
+
+  .site-header.menu-open .nav-pill-container a {
+    width: 100%;
+    text-align: center;
+    padding: 0.75rem;
+  }
+}

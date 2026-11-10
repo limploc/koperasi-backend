@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sewa Alat Mesin Pertanian (Alsintan) - Luckycharm Koperasi</title>
+  
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/sewa.css">
+</head>
+<body>
+
+  <!-- Header Navigasi -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="site-logo">
+        <div class="logo-icon-grid">
+          <div class="logo-dot"></div>
+          <div class="logo-dot"></div>
+          <div class="logo-dot"></div>
+          <div class="logo-dot"></div>
+        </div>
+        <span>Luckycharm</span>
+      </a>
+
+      <nav class="nav-pill-wrapper">
+        <div class="nav-pill-container">
+          <a href="index.html">Home</a>
+          <a href="toko.html">Products</a>
+          <a href="sewa.html" class="active" aria-current="page">Sewa Alat</a>
+          <a href="dashboard-petani.html">Dashboard Petani</a>
+        </div>
+      </nav>
+
+      <div class="header-actions">
+        <a href="toko.html#cart" class="btn-header-cart" title="Keranjang Belanja">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <span class="cart-counter" style="display: none;">0</span>
+        </a>
+        <a href="login.html" class="btn-header-signup">Sign Up</a>
+        <button class="mobile-menu-toggle" aria-label="Buka Menu Navigasi" type="button">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Banner Judul Sewa -->
+  <section class="rent-header-banner">
+    <div class="container">
+      <span class="badge-tag"><span class="dot-green"></span> Mekanisasi Pertanian Modern</span>
+      <h1>Peminjaman Alsintan Koperasi</h1>
+      <p>Tingkatkan efisiensi olah tanah, perawatan, dan panen dengan armada alat mesin pertanian koperasi berbiaya sewa terjangkau.</p>
+    </div>
+  </section>
+
+  <main class="container">
+    
+    <!-- Info Keuntungan Sewa di Koperasi -->
+    <div class="rent-benefits-row">
+      <div class="benefit-item">
+        <div class="benefit-icon">🚜</div>
+        <div>
+          <h4>Kondisi Mesin Prima</h4>
+          <p>Seluruh unit dirawat berkala oleh mekanik resmi koperasi sebelum diserahterimakan.</p>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon">👨‍🌾</div>
+        <div>
+          <h4>Tersedia Operator Ahli</h4>
+          <p>Dapat menyewa unit beserta operator terlatih untuk hasil olah tanah maksimal.</p>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon">💰</div>
+        <div>
+          <h4>Tarif Subsidi Anggota</h4>
+          <p>Biaya sewa 30-40% lebih terjangkau dibandingkan sewa komersial swasta.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grid Katalog Alat Sewa -->
+    <div class="rentals-grid" id="rentalsGrid">
+      <!-- Dirender oleh sewa.js -->
+    </div>
+
+  </main>
+
+  <!-- =========================================================================
+       NATIVE HTML5 <dialog> KALKULATOR SEWA ALAT
+       ========================================================================= -->
+  <dialog id="rentalCalcModal">
+    <div class="modal-content-box">
+      <button class="modal-close-btn" onclick="document.getElementById('rentalCalcModal').close()">&times;</button>
+      <div id="rentalCalcBody">
+        <!-- Konten kalkulator dirender dinamis oleh renderCalculatorContent() -->
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <p>&copy; 2025 Luckycharm • Unit Layanan Alsintan Koperasi</p>
+      <p><a href="dashboard-petani.html" style="color: var(--color-primary); font-weight: 600;">Petani Anggota? Masuk ke Dashboard Penjualan &rarr;</a></p>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/sewa.js"></script>
+</body>
+</html>

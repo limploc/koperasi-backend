@@ -1,0 +1,353 @@
+/**
+ * ==============================================================================
+ * TOKO ONLINE / MARKETPLACE STYLES (toko.css)
+ * ------------------------------------------------------------------------------
+ * Mengatur filter kategori, grid katalog produk, native dialog detail,
+ * dan drawer keranjang belanja.
+ * ==============================================================================
+ */
+
+.store-header-banner {
+  background-color: var(--color-bg-subtle);
+  padding: 3.5rem 0 2.5rem 0;
+  border-bottom: 1px solid var(--color-border);
+  text-align: center;
+}
+
+.store-header-banner h1 {
+  font-size: 2.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.store-header-banner p {
+  color: #6B7280;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Toolbar: Filter Kategori & Search */
+.store-toolbar {
+  padding: 2rem 0 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.filter-categories {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scrollbar-width: none;
+}
+
+.filter-categories::-webkit-scrollbar {
+  display: none;
+}
+
+.cat-btn {
+  padding: 0.5rem 1.15rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background: #FFFFFF;
+  color: #4B5563;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+}
+
+.cat-btn:hover {
+  border-color: #9CA3AF;
+  color: #111827;
+}
+
+.cat-btn.active {
+  background: #111827;
+  color: #FFFFFF;
+  border-color: #111827;
+}
+
+.search-sort-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.search-box {
+  position: relative;
+  flex: 1;
+  min-width: 260px;
+  max-width: 420px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 0.65rem 1rem 0.65rem 2.4rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: 0.875rem;
+  background: #FFFFFF;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: #111827;
+}
+
+.search-box .search-icon {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9CA3AF;
+  pointer-events: none;
+}
+
+.sort-select {
+  padding: 0.65rem 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: 0.875rem;
+  background: #FFFFFF;
+  color: #374151;
+  cursor: pointer;
+}
+
+/* Grid Katalog Produk */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 2rem 0 5rem 0;
+}
+
+.product-card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: #D1D5DB;
+}
+
+.product-image-container {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+  background-color: #F3F4F6;
+  cursor: pointer;
+}
+
+.product-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image-container img {
+  transform: scale(1.04);
+}
+
+.product-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(17, 24, 39, 0.85);
+  color: #FFFFFF;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  backdrop-filter: blur(4px);
+}
+
+.product-content {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.product-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+}
+
+.product-cat {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-transform: uppercase;
+}
+
+.product-rating {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #D97706;
+}
+
+.product-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.4rem;
+  cursor: pointer;
+}
+
+.product-farmer {
+  font-size: 0.825rem;
+  color: #6B7280;
+  margin-bottom: 1rem;
+}
+
+.product-action-row {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.product-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.product-price span {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #6B7280;
+}
+
+/* --- Native HTML5 <dialog> Modal Detail & Cart Drawer --- */
+dialog {
+  border: none;
+  border-radius: var(--radius-xl);
+  padding: 0;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  max-width: 600px;
+  width: 90%;
+  margin: auto;
+}
+
+dialog::backdrop {
+  background: rgba(17, 24, 39, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.modal-content-box {
+  padding: 2rem;
+  position: relative;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #F3F4F6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: #4B5563;
+}
+
+.modal-close-btn:hover {
+  background: #E5E7EB;
+  color: #111827;
+}
+
+/* Cart Dialog */
+#cartModal {
+  max-width: 520px;
+}
+
+.cart-items-list {
+  max-height: 350px;
+  overflow-y: auto;
+  margin: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cart-item-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.cart-item-img {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+}
+
+.cart-item-info {
+  flex: 1;
+}
+
+.cart-item-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.cart-item-price {
+  font-size: 0.85rem;
+  color: #6B7280;
+}
+
+.cart-qty-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cart-qty-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+  background: #F3F4F6;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-total-box {
+  border-top: 2px dashed var(--color-border);
+  padding-top: 1.25rem;
+  margin-top: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-total-amount {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #111827;
+}

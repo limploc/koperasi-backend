@@ -1,0 +1,77 @@
+/**
+ * ==============================================================================
+ * DESIGN TOKENS (variables.css)
+ * ------------------------------------------------------------------------------
+ * File ini adalah pusat konfigurasi tema.
+ * Tim Anda dapat mengubah warna utama, font, radius sudut, dan bayangan 
+ * hanya dengan mengedit nilai variabel CSS di bawah ini.
+ * ==============================================================================
+ */
+
+:root {
+  /* --- PALET WARNA (Sesuai Desain Referensi: Minimalis, Bersih, Agritech Elegan) --- */
+  --color-bg: #FFFFFF;
+  --color-bg-subtle: #F9FAFB;
+  --color-bg-card: #FFFFFF;
+  --color-bg-dark-pill: #111827; /* Dark pill container untuk menu tengah */
+  --color-text-dark-pill: #F9FAFB;
+
+  /* Warna Teks */
+  --color-text-main: #111827;    /* Slate Charcoal hitam pekat untuk judul */
+  --color-text-muted: #4B5563;   /* Abu-abu elegan untuk deskripsi & subtitle */
+  --color-text-subtle: #9CA3AF;  /* Abu-abu terang untuk metadata & caption */
+  --color-text-inverse: #FFFFFF;
+
+  /* Warna Aksen & Brand */
+  --color-primary: #15803D;      /* Vibrant Farm Emerald Green */
+  --color-primary-dark: #166534; /* Darker Forest */
+  --color-primary-light: #DCFCE7;/* Soft Sage Tint */
+  --color-accent-amber: #D97706; /* Terracotta / Amber untuk highlight harga & status */
+  --color-accent-blue: #2563EB;
+
+  /* Border & Garis Panduan */
+  --color-border: #E5E7EB;
+  --color-border-subtle: #F3F4F6;
+  --color-grid-line: rgba(229, 231, 235, 0.6); /* Garis putus-putus vertikal dekoratif */
+
+  /* Status Colors */
+  --color-status-success: #16A34A;
+  --color-status-warning: #D97706;
+  --color-status-info: #0284C7;
+  --color-status-danger: #DC2626;
+
+  /* --- TIPOGRAFI --- */
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, Cambria, 'Times New Roman', serif;
+  
+  /* Ukuran Font Responsif (Fluid Typography) */
+  --text-xs: 0.75rem;     /* 12px */
+  --text-sm: 0.875rem;    /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-lg: 1.125rem;    /* 18px */
+  --text-xl: 1.25rem;     /* 20px */
+  --text-2xl: 1.5rem;     /* 24px */
+  --text-3xl: 1.875rem;   /* 30px */
+  --text-4xl: 2.25rem;    /* 36px */
+  --text-5xl: clamp(2.5rem, 5vw, 3.75rem); /* Hero title fluid */
+
+  /* --- ELEVASI & BAYANGAN (SHADOWS) --- */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  /* --- RADIUS SUDUT (BORDER RADIUS) --- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px; /* Pill shape untuk tombol & navigasi tengah */
+
+  /* --- SPACING & CONTAINER --- */
+  --max-width-container: 1240px;
+  --header-height: 80px;
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
